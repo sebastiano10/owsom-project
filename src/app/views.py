@@ -1,17 +1,15 @@
 from flask import Flask, render_template
-
-
-app = Flask(__name__)
+from app import app
 
 
 @app.route('/')
 def index():
-    """app.logger.debug('Now on ' + url_for('index'))"""
+    app.logger.debug('Now on ' + url_for('index'))
     return render_template('index.html')
     
 @app.route('/storage')
 def storage():
-    """app.logger.debug('Now on ' + url_for('index'))"""
+    app.logger.debug('Now on ' + url_for('index'))
     return render_template('store.html')
     
 @app.route('/store', methods=['POST'])
