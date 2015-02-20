@@ -1,122 +1,136 @@
-{% extends "base.html" %}
+{% extends "index.html" %}
 
 {% block owsom_content %}
 
 	<h1>Enter data on scales</h1>
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Publication type<br>
-				<small>What type of publication did you use?</small></h3>
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="publicationTypes" id="publicationType1" value="option1">Journal article
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="publicationTypes" id="publicationType2" value="option2">Book chapter
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="publicationTypes" id="publicationType2" value="option3">Book
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Authors<br>
-				<small>What are the last names and initials of the publication authors?</small></h3>
-				<p>(please provide author names in the following format: e.g. <code>Goldberg, L. R.</code>)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="author1" placeholder="Please enter your data here">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" id="author2" placeholder="Please enter your data here">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" id="author3" placeholder="Please enter your data here">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" id="author4" placeholder="Please enter your data here">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" id="author5" placeholder="Please enter your data here">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" id="author6" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Publication year<br>
-				<small>What is the year of the publication?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="pubYear" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Publication title<br>
-				<small>What is the title of the publication you used?</small></h3>
-				<p>(depending on the type of publication, please provide the title of the article, book chapter or book)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="pubTitle" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Journal name<br>
-				<small>What is the name of the journal in which the article was published?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="journalName" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Journal title<br>
-				<small>What is the DOI of the publication you used?</small></h3>
-				<p>(the DOI is a digital object identifier, which is commonly displayed in the journal article webpage)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="journalDOI" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Book title<br>
-				<small>What is the title of the book where you found the book chapter?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="bookTitle" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Book ISBN<br>
-				<small>What is the ISBN for the book you used?</small></h3>
-				<p>(the ISBN is an unique identifier, which is commonly printed on the back of the book cover)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="bookISBN" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
+    <div class="row" id="doi-row">
+      <div class='col-md-6'>
+        <div class="form-group">
+          <label for="#doi-input">DOI <small>Please provide the DOI of the publication</small></label>
+          <input type="text" class="form-control" id="doi-input" placeholder="e.g. 10.1037/rmh0000008">
+        </div>
+        <button id="doi-button" class="btn btn-default">Submit</button>
+      </div>
+      <div class='col-md-6' id='publication-details-col'>
+      </div>
+    </div>
+    
+    
+    
+    <!-- <div class="row">
+      <div class="col-lg-6">
+        <h3>Publication type<br>
+        <small>What type of publication did you use?</small></h3>
+        <div class="radio-inline">
+          <label class="radio-inline">
+            <input type="radio" name="publicationTypes" id="publicationType1" value="option1">Journal article
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="publicationTypes" id="publicationType2" value="option2">Book chapter
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="publicationTypes" id="publicationType2" value="option3">Book
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Authors<br>
+        <small>What are the last names and initials of the publication authors?</small></h3>
+        <p>(please provide author names in the following format: e.g. <code>Goldberg, L. R.</code>)</p>
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="author1" placeholder="Please enter your data here">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="author2" placeholder="Please enter your data here">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="author3" placeholder="Please enter your data here">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="author4" placeholder="Please enter your data here">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="author5" placeholder="Please enter your data here">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="author6" placeholder="Please enter your data here">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Publication year<br>
+        <small>What is the year of the publication?</small></h3>
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="pubYear" placeholder="Please enter your data here">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Publication title<br>
+        <small>What is the title of the publication you used?</small></h3>
+        <p>(depending on the type of publication, please provide the title of the article, book chapter or book)</p>
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="pubTitle" placeholder="Please enter your data here">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Journal name<br>
+        <small>What is the name of the journal in which the article was published?</small></h3>
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="journalName" placeholder="Please enter your data here">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Journal title<br>
+        <small>What is the DOI of the publication you used?</small></h3>
+        <p>(the DOI is a digital object identifier, which is commonly displayed in the journal article webpage)</p>
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="journalDOI" placeholder="Please enter your data here">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Book title<br>
+        <small>What is the title of the book where you found the book chapter?</small></h3>
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="bookTitle" placeholder="Please enter your data here">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Book ISBN<br>
+        <small>What is the ISBN for the book you used?</small></h3>
+        <p>(the ISBN is an unique identifier, which is commonly printed on the back of the book cover)</p>
+        <form role="form">
+          <div class="form-group">
+            <input type="text" class="form-control" id="bookISBN" placeholder="Please enter your data here">
+          </div>
+        </form>
+      </div>
+    </div> -->
 		<div class="row">
 			<div class="col-lg-6">
 				<h3>Publication studies<br>
