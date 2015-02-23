@@ -9,6 +9,15 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<http://dx.doi.org/10.1016/j.janxdis.2006.12.005>
+  rdf:type owsom:Paper ;
+  owsom:hasAuthor "Olatunji, B. O. and Cisler, J. M. and Deacon, B. J. and Connolly, K. and Lohr, J. M."^^xsd:string ;
+  owsom:hasJournalName "Journal of Anxiety Disorders"^^xsd:string ;
+  owsom:journalDOI "doi:10.1016/j.janxdis.2006.12.005"^^xsd:string ;
+  owsom:publicationTitle " Journal of Anxiety Disorders  Volume 21, Issue 7, 2007, Pages 918–930 Cover image The Disgust Propensity and Sensitivity Scale-Revised: Psychometric properties and specificity in relation to anxiety disorder symptoms"^^xsd:string ;
+  owsom:publicationType "Journal article"^^xsd:string ;
+  owsom:publicationYear 2007 ;
+.
 owsom:
   rdf:type owl:Ontology ;
   owl:imports dc: ;
@@ -32,15 +41,6 @@ owsom:CoVariance
   rdf:type owl:Class ;
   rdfs:subClassOf owl:Thing ;
 .
-owsom:DPSSRPaper
-  rdf:type owsom:Paper ;
-  owsom:hasAuthor "Olatunji, B. O. and Cisler, J. M. and Deacon, B. J. and Connolly, K. and Lohr, J. M."^^xsd:string ;
-  owsom:hasJournalName "Journal of Anxiety Disorders"^^xsd:string ;
-  owsom:journalDOI "doi:10.1016/j.janxdis.2006.12.005"^^xsd:string ;
-  owsom:publicationTitle " Journal of Anxiety Disorders  Volume 21, Issue 7, 2007, Pages 918–930 Cover image The Disgust Propensity and Sensitivity Scale-Revised: Psychometric properties and specificity in relation to anxiety disorder symptoms"^^xsd:string ;
-  owsom:publicationType "Journal article"^^xsd:string ;
-  owsom:publicationYear 2007 ;
-.
 owsom:DPSSRScale
   rdf:type owsom:Scale ;
   rdfs:label "Disgust Propensity and Sensitivity Scale-Revised (DPSS-R)"^^xsd:string ;
@@ -55,7 +55,7 @@ owsom:DPSSRScale
 owsom:DPSSRStudy
   rdf:type owsom:Study ;
   rdfs:label "DPSSR study"^^xsd:string ;
-  owsom:describedIn owsom:DPSSRPaper ;
+  owsom:describedIn <http://dx.doi.org/10.1016/j.janxdis.2006.12.005> ;
   owsom:femalePercentage "50%"^^xsd:string ;
   owsom:hasCountryOfConduct "U.S.A."^^xsd:string ;
   owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust. / Disgust Sensitivity is defined as the emotional impact of those symptoms."^^xsd:string ;
