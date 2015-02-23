@@ -32,10 +32,6 @@ owsom:CoVariance
   rdf:type owl:Class ;
   rdfs:subClassOf owl:Thing ;
 .
-owsom:DPSSRDefinition
-  rdf:type owsom:Definition ;
-  dc:description "Disgust propensity is defined as the frequency of experiencing disgust. / Disgust Sensitivity is defined as the emotional impact of those symptoms." ;
-.
 owsom:DPSSRPaper
   rdf:type owsom:Paper ;
   owsom:hasAuthor "Olatunji, B. O. and Cisler, J. M. and Deacon, B. J. and Connolly, K. and Lohr, J. M."^^xsd:string ;
@@ -48,32 +44,25 @@ owsom:DPSSRPaper
 owsom:DPSSRScale
   rdf:type owsom:Scale ;
   rdfs:label "Disgust Propensity and Sensitivity Scale-Revised (DPSS-R)"^^xsd:string ;
-  owsom:belongsToScaleType owsom:LikertScales ;
   owsom:hasConcept "Disgust Propensity and Sensitivity"^^xsd:string ;
+  owsom:hasDefinition "(definition of this scale)"^^xsd:string ;
   owsom:hasDimension owsom:DisgustProspensity ;
   owsom:hasDimension owsom:DisgustSensivity ;
   owsom:hasOriginality owsom:Revised ;
   owsom:hasScaleReliability ".90"^^xsd:float ;
-  owsom:scaleDefinition owsom:DPSSRDefinition ;
+  owsom:hasScaleType owsom:LikertScale ;
 .
 owsom:DPSSRStudy
   rdf:type owsom:Study ;
   rdfs:label "DPSSR study"^^xsd:string ;
+  owsom:describedIn owsom:DPSSRPaper ;
   owsom:femalePercentage "50%"^^xsd:string ;
   owsom:hasCountryOfConduct "U.S.A."^^xsd:string ;
+  owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust. / Disgust Sensitivity is defined as the emotional impact of those symptoms."^^xsd:string ;
   owsom:hasFactorAnalysisType owsom:PCA ;
   owsom:hasMeanAge "19.17"^^xsd:float ;
   owsom:hasSampleSize 340 ;
-.
-owsom:DatatypeProperty_1
-  rdf:type rdfs:Datatype ;
-  rdfs:domain owsom:Anchor ;
-  rdfs:label "extremely uncharacterized"^^xsd:string ;
-.
-owsom:Definition
-  rdf:type owl:Class ;
-  dc:description "definitionText"^^xsd:string ;
-  rdfs:subClassOf owl:Thing ;
+  owsom:hasScale owsom:DPSSRScale ;
 .
 owsom:Dimension
   rdf:type owl:Class ;
@@ -95,27 +84,29 @@ owsom:DisgustProspensity
   rdf:type owsom:Dimension ;
   rdfs:label "Disgust Propensity"^^xsd:string ;
   owsom:chronbachAlpha ".84"^^xsd:float ;
-  owsom:hasItems owsom:DisgustAvoidance ;
-  owsom:hasItems owsom:ExperienceDisgust ;
-  owsom:hasItems owsom:FaceScrewup ;
-  owsom:hasItems owsom:IllnessCausing ;
-  owsom:hasItems owsom:Repulsed ;
-  owsom:hasItems owsom:SomethingDisgusting ;
-  owsom:hasItems owsom:StomachTurn ;
-  owsom:hasItems owsom:SwallowThing ;
+  owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust"^^xsd:string ;
+  owsom:hasItem owsom:DisgustAvoidance ;
+  owsom:hasItem owsom:ExperienceDisgust ;
+  owsom:hasItem owsom:FaceScrewup ;
+  owsom:hasItem owsom:IllnessCausing ;
+  owsom:hasItem owsom:Repulsed ;
+  owsom:hasItem owsom:SomethingDisgusting ;
+  owsom:hasItem owsom:StomachTurn ;
+  owsom:hasItem owsom:SwallowThing ;
 .
 owsom:DisgustSensivity
   rdf:type owsom:Dimension ;
   rdfs:label "Disgust Sensivity"^^xsd:string ;
   owsom:chronbachAlpha ".83"^^xsd:float ;
-  owsom:hasItems owsom:DisgustEmbarrassement ;
-  owsom:hasItems owsom:DisgustedEasily ;
-  owsom:hasItems owsom:FaintScare ;
-  owsom:hasItems owsom:FeelingDisgust ;
-  owsom:hasItems owsom:IntenseDisgustFeeling ;
-  owsom:hasItems owsom:NauseousScare ;
-  owsom:hasItems owsom:PassOutWorry ;
-  owsom:hasItems owsom:VomitWorry ;
+  owsom:hasDefinition "Disgust Sensitivity is defined as the emotional impact of those symptoms"^^xsd:string ;
+  owsom:hasItem owsom:DisgustEmbarrassement ;
+  owsom:hasItem owsom:DisgustedEasily ;
+  owsom:hasItem owsom:FaintScare ;
+  owsom:hasItem owsom:FeelingDisgust ;
+  owsom:hasItem owsom:IntenseDisgustFeeling ;
+  owsom:hasItem owsom:NauseousScare ;
+  owsom:hasItem owsom:PassOutWorry ;
+  owsom:hasItem owsom:VomitWorry ;
 .
 owsom:DisgustedEasily
   rdf:type owsom:Item ;
@@ -169,7 +160,7 @@ owsom:FeelingDisgust
   owsom:hasFactorLoading ".84"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
-owsom:GuttmanScales
+owsom:GuttmanScale
   rdf:type owsom:ScaleType ;
   rdfs:label "Guttman scales"^^xsd:string ;
 .
@@ -195,9 +186,9 @@ owsom:Item
   rdfs:label "itemName"^^xsd:string ;
   rdfs:subClassOf owl:Thing ;
 .
-owsom:LikertScales
+owsom:LikertScale
   rdf:type owsom:ScaleType ;
-  rdfs:label "Likert scales"^^xsd:string ;
+  rdfs:label "Likert scale"^^xsd:string ;
   owsom:hasPoints 5 ;
 .
 owsom:NauseousScare
@@ -250,9 +241,9 @@ owsom:ScaleType
   rdfs:label "name"^^xsd:string ;
   rdfs:subClassOf owl:Thing ;
 .
-owsom:SemanticDifferentialScales
+owsom:SemanticDifferentialScale
   rdf:type owsom:ScaleType ;
-  rdfs:label "Semantic differential scales"^^xsd:string ;
+  rdfs:label "Semantic differential scale"^^xsd:string ;
 .
 owsom:SomethingDisgusting
   rdf:type owsom:Item ;
@@ -287,11 +278,6 @@ owsom:always
   rdf:type owsom:Anchor ;
   rdfs:label "always"^^xsd:string ;
 .
-owsom:belongsToScaleType
-  rdf:type owl:ObjectProperty ;
-  rdfs:domain owsom:Scale ;
-  rdfs:range owsom:ScaleType ;
-.
 owsom:bookISBN
   rdf:type owl:DatatypeProperty ;
   rdfs:domain owsom:Paper ;
@@ -313,20 +299,19 @@ owsom:consistsOfItems
   rdfs:domain owsom:CoVariance ;
   rdfs:range owsom:Item ;
 .
-owsom:containsScale
+owsom:definedIn
   rdf:type owl:ObjectProperty ;
-  rdfs:domain owsom:ScaleOriginality ;
-  rdfs:range owsom:Scale ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Paper ;
 .
-owsom:dimensionDefinition
+owsom:describedIn
   rdf:type owl:ObjectProperty ;
-  rdfs:domain owsom:Dimension ;
-  rdfs:range owsom:Definition ;
+  rdfs:domain owsom:Study ;
+  rdfs:range owsom:Paper ;
 .
 owsom:facetDefinition
   rdf:type owl:ObjectProperty ;
   rdfs:domain owsom:Facet ;
-  rdfs:range owsom:Definition ;
 .
 owsom:femalePercentage
   rdf:type owl:DatatypeProperty ;
@@ -366,6 +351,18 @@ owsom:hasCountryOfConduct
   rdfs:domain owsom:Study ;
   rdfs:range xsd:string ;
 .
+owsom:hasDefinition
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain [
+      rdf:type owl:Class ;
+      owl:unionOf (
+          owsom:Dimension
+          owsom:Study
+          owsom:Scale
+        ) ;
+    ] ;
+  rdfs:range xsd:string ;
+.
 owsom:hasDimension
   rdf:type owl:ObjectProperty ;
   rdfs:domain owsom:Scale ;
@@ -386,13 +383,7 @@ owsom:hasFactorLoading
   rdfs:domain owsom:Item ;
   rdfs:range xsd:float ;
 .
-owsom:hasFemaleParticipants
-  rdf:type owl:DatatypeProperty ;
-  rdfs:domain owsom:Study ;
-  rdfs:label "641"^^xsd:string ;
-  rdfs:range xsd:integer ;
-.
-owsom:hasItems
+owsom:hasItem
   rdf:type owl:ObjectProperty ;
   rdfs:domain owsom:Dimension ;
   rdfs:range owsom:Item ;
@@ -401,12 +392,6 @@ owsom:hasJournalName
   rdf:type owl:DatatypeProperty ;
   rdfs:domain owsom:Paper ;
   rdfs:range xsd:string ;
-.
-owsom:hasMaleParticipants
-  rdf:type owl:DatatypeProperty ;
-  rdfs:domain owsom:Study ;
-  rdfs:label "641"^^xsd:string ;
-  rdfs:range xsd:integer ;
 .
 owsom:hasMeanAge
   rdf:type owl:DatatypeProperty ;
@@ -442,13 +427,18 @@ owsom:hasSampleType
 .
 owsom:hasScale
   rdf:type owl:ObjectProperty ;
-  rdfs:domain owsom:Instruction ;
+  rdfs:domain owsom:Study ;
   rdfs:range owsom:Scale ;
 .
 owsom:hasScaleReliability
   rdf:type owl:DatatypeProperty ;
   rdfs:domain owsom:Scale ;
   rdfs:range xsd:float ;
+.
+owsom:hasScaleType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:ScaleType ;
 .
 owsom:hasStudy
   rdf:type rdf:Property ;
@@ -497,20 +487,10 @@ owsom:publicationYear
   rdfs:label "Buss & Perry"^^xsd:string ;
   rdfs:range xsd:integer ;
 .
-owsom:refersToPaper
-  rdf:type owl:ObjectProperty ;
-  rdfs:domain owsom:Study ;
-  rdfs:range owsom:Paper ;
-.
-owsom:scaleDefinition
+owsom:usedIn
   rdf:type owl:ObjectProperty ;
   rdfs:domain owsom:Scale ;
-  rdfs:range owsom:Definition ;
-.
-owsom:studyDefinition
-  rdf:type owl:ObjectProperty ;
-  rdfs:domain owsom:Study ;
-  rdfs:range owsom:Definition ;
+  rdfs:range owsom:Study ;
 .
 owsom:value1
   rdf:type owl:DatatypeProperty ;
