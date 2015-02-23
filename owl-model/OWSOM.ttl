@@ -441,7 +441,7 @@ owsom:hasScaleType
   rdfs:range owsom:ScaleType ;
 .
 owsom:hasStudy
-  rdf:type rdf:Property ;
+  rdf:type owl:ObjectProperty ;
   rdfs:domain owsom:Instruction ;
   rdfs:label "has study"^^xsd:string ;
   rdfs:range owsom:Study ;
