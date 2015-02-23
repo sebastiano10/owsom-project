@@ -2,17 +2,25 @@
 
 {% block owsom_content %}
 
-	<h1>Enter data on scales</h1>
 	<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Enter data on scales</h2>
+        <hr/>
+      </div>
+    </div>
+    
     <div class="row" id="doi-row">
       <div class='col-md-6'>
         <div class="form-group">
-          <label for="#doi-input">DOI <small>Please provide the DOI of the publication</small></label>
+          <label for="#doi-input">DOI <small>Please provide the DOI of the publication you will be entering into the system</small></label>
           <input type="text" class="form-control" id="doi-input" placeholder="e.g. 10.1037/rmh0000008">
         </div>
-        <button id="doi-button" class="btn btn-default">Submit</button>
+        <!-- <button id="doi-button" class="btn btn-default">Submit</button> -->
       </div>
-      <div class='col-md-6' id='publication-details-col'>
+      <div class='col-md-6'>
+        <div class="well" style="display: none;" id='publication-details-col'>
+        </div>
       </div>
     </div>
     

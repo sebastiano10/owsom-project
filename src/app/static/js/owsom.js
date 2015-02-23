@@ -1,9 +1,11 @@
 $(function(){
   // This is called when the page is fully loaded
   
-  // Add a 'click handler' to the doi-button 
-  $('#doi-button').on('click', function(){
+  // Add a 'change handler' to the doi-input 
+  $('#doi-input').on('change', function(){
     var doi = $('#doi-input').val();
+    
+    $('#publication-details-col').hide();
     
     if(doi == ''){
       doi = '10.1037/rmh0000008';
@@ -50,5 +52,6 @@ function show_publication(publication){
   details_div.append(' ('+ publication.issued['date-parts'][0] +')'); // not robust
   
   $('#publication-details-col').append(details_div);
+  $('#publication-details-col').show();
   
 }
