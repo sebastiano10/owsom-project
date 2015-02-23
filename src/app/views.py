@@ -29,6 +29,12 @@ def store():
     
     return str(response.status_code)
     
+@app.route('/match/study/<search>')
+def match_study(search):
+    sparql = SPARQLWrapper('http://localhost:5820/owsom/query')
+    
+    query = """SELECT ?s ?p WHERE {{ ?s  }}"""
+    
 if __name__ == '__main__':
     app.debug = True
     app.run()
