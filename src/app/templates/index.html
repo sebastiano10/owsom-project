@@ -46,6 +46,7 @@
 
 {% block scripts %}
 {{super()}}
+<script src="{{url_for('.static', filename='js/selectize.js')}}"></script>
 <script src="{{url_for('.static', filename='js/owsom.js')}}"></script>
 <script src="{{url_for('.static', filename='js/jquery.storageapi.min.js')}}"></script>
 {% endblock %}
@@ -62,6 +63,8 @@
       href="{{url_for('.static', filename='css/owsom.css')}}">
 <link rel="stylesheet"
       href="{{url_for('.static', filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{url_for('.static', filename='css/selectize.css')}}" />
+<link rel="stylesheet" href="{{url_for('.static', filename='css/selectize.bootstrap3.css')}}" />
 {% endblock %}
 
 {% block bootstrap_js_bottom %}
