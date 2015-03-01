@@ -13,8 +13,15 @@ $(function(){
     
     console.log(doi);
     
-    // TODO: Add some code here to check if the DOI starts with 'doi:' or 'http://dx.doi.org/' (should be removed)
-    
+    // Check if the DOI starts with 'doi:' or 'http://dx.doi.org/' (should be removed)
+    if(doi.indexOf("doi") !=-1) {
+    	doi = doi.slice(4,doi.length);
+		console.log(doi);
+    } else if(doi.indexOf("http://dx.doi.org/") != -1) {
+    	doi = doi.slice(18,doi.length);
+		console.log(doi);
+    }
+	
     // First get the JSON description from the Crossref service (we'll worry about RDF later)
     $.getJSON('http://dx.doi.org/'+doi, function(data){
       console.log("Got a response!");
