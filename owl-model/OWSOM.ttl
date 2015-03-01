@@ -18,6 +18,15 @@
   owsom:publicationType "Journal article"^^xsd:string ;
   owsom:publicationYear 2007 ;
 .
+<http://dx.doi.org/doi:10.1016/j.paid.2006.04.021>
+  rdf:type owsom:Paper ;
+  owsom:hasAuthor "van Overveld, W. J. M. and de Jong, P. J. and Peters, M. L. and Cavanagh, K. and Davey, G. C. L."^^xsd:string ;
+  owsom:hasJournalName "Personality and Individual Differences"^^xsd:string ;
+  owsom:journalDOI "doi:10.1016/j.paid.2006.04.021"^^xsd:string ;
+  owsom:publicationTitle "Disgust propensity and disgust sensitivity: Separate constructs that are differentially related to specific fears"^^xsd:string ;
+  owsom:publicationType "Journal article"^^xsd:string ;
+  owsom:publicationYear 2006 ;
+.
 owsom:
   rdf:type owl:Ontology ;
   owl:imports dc: ;
@@ -41,7 +50,18 @@ owsom:CoVariance
   rdf:type owl:Class ;
   rdfs:subClassOf owl:Thing ;
 .
-owsom:DPSSRScale
+owsom:DPSS
+  rdf:type owsom:Scale ;
+  owsom:hasConcept "Disgust Propensity and Disgust Sensitivity"^^xsd:string ;
+  owsom:hasDefinition "Disgust propensity is defined as how easily people are disgusted. / Disgust sensitivity is defined as how unpleasant the experience of disgust is to the individual."^^xsd:string ;
+  owsom:hasDimension owsom:DisgustProspensity_1 ;
+  owsom:hasDimension owsom:DisgustSensivity_1 ;
+  owsom:hasMultipleAnchors owsom:always ;
+  owsom:hasMultipleAnchors owsom:never ;
+  owsom:hasOriginality owsom:Original ;
+  owsom:hasScaleType owsom:LikertScale ;
+.
+owsom:DPSSR
   rdf:type owsom:Scale ;
   rdfs:label "Disgust Propensity and Sensitivity Scale-Revised (DPSS-R)"^^xsd:string ;
   owsom:hasConcept "Disgust Propensity and Sensitivity"^^xsd:string ;
@@ -62,7 +82,16 @@ owsom:DPSSRStudy
   owsom:hasFactorAnalysisType owsom:PCA ;
   owsom:hasMeanAge "19.17"^^xsd:float ;
   owsom:hasSampleSize 340 ;
-  owsom:hasScale owsom:DPSSRScale ;
+  owsom:hasScale owsom:DPSSR ;
+.
+owsom:DPSSStudy
+  rdf:type owsom:Study ;
+  rdfs:label "DPSS study"^^xsd:string ;
+  owsom:describedIn <http://dx.doi.org/doi:10.1016/j.paid.2006.04.021> ;
+  owsom:hasCountryOfConduct "Netherlands"^^xsd:string ;
+  owsom:hasFactorAnalysisType owsom:PCA ;
+  owsom:hasSampleSize 487 ;
+  owsom:hasScale owsom:DPSS ;
 .
 owsom:Dimension
   rdf:type owl:Class ;
@@ -74,10 +103,22 @@ owsom:DisgustAvoidance
   owsom:hasFactorLoading ".57"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
+owsom:DisgustAvoidance_1
+  rdf:type owsom:Item ;
+  rdfs:label "I avoid disgusting things"^^xsd:string ;
+  owsom:hasFactorLoading ".45"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
 owsom:DisgustEmbarrassement
   rdf:type owsom:Item ;
   rdfs:label "It embarrasses me when I feel disgust"^^xsd:string ;
   owsom:hasFactorLoading ".70"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:DisgustEmbarrassement_1
+  rdf:type owsom:Item ;
+  rdfs:label "It embarrasses me when I feel disgust"^^xsd:string ;
+  owsom:hasFactorLoading ".50"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:DisgustProspensity
@@ -94,6 +135,20 @@ owsom:DisgustProspensity
   owsom:hasItem owsom:StomachTurn ;
   owsom:hasItem owsom:SwallowThing ;
 .
+owsom:DisgustProspensity_1
+  rdf:type owsom:Dimension ;
+  rdfs:label "DisgustSensivity2"^^xsd:string ;
+  owsom:chronbachAlpha ".77"^^xsd:float ;
+  owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust"^^xsd:string ;
+  owsom:hasItem owsom:DisgustAvoidance_1 ;
+  owsom:hasItem owsom:DisgustedEasily_1 ;
+  owsom:hasItem owsom:ExperienceDisgust_1 ;
+  owsom:hasItem owsom:FaceScrewup_1 ;
+  owsom:hasItem owsom:IntenseDisgustFeeling_1 ;
+  owsom:hasItem owsom:Repulsed_1 ;
+  owsom:hasItem owsom:SomethingDisgusting_1 ;
+  owsom:hasItem owsom:StomachTurn_1 ;
+.
 owsom:DisgustSensivity
   rdf:type owsom:Dimension ;
   rdfs:label "Disgust Sensivity"^^xsd:string ;
@@ -108,10 +163,29 @@ owsom:DisgustSensivity
   owsom:hasItem owsom:PassOutWorry ;
   owsom:hasItem owsom:VomitWorry ;
 .
+owsom:DisgustSensivity_1
+  rdf:type owsom:Dimension ;
+  rdfs:label "Disgust Sensivity"^^xsd:string ;
+  owsom:hasDefinition "Disgust Sensitivity is defined as the emotional impact of those symptoms"^^xsd:string ;
+  owsom:hasItem owsom:DisgustEmbarrassement_1 ;
+  owsom:hasItem owsom:FaintScare_1 ;
+  owsom:hasItem owsom:FeelingDisgust_1 ;
+  owsom:hasItem owsom:IllnessCausing_1 ;
+  owsom:hasItem owsom:NauseousScare_1 ;
+  owsom:hasItem owsom:PassOutWorry_1 ;
+  owsom:hasItem owsom:SwallowThing_1 ;
+  owsom:hasItem owsom:VomitWorry_1 ;
+.
 owsom:DisgustedEasily
   rdf:type owsom:Item ;
   rdfs:label "I become disgusted more easily than other people"^^xsd:string ;
   owsom:hasFactorLoading ".63"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:DisgustedEasily_1
+  rdf:type owsom:Item ;
+  rdfs:label "I become disgusted more easily than other people"^^xsd:string ;
+  owsom:hasFactorLoading ".49"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:EFA
@@ -124,14 +198,26 @@ owsom:EFACFA
 .
 owsom:ExperienceDisgust
   rdf:type owsom:Item ;
-  rdfs:label "name"^^xsd:string ;
+  rdfs:label "I experience disgust"^^xsd:string ;
   owsom:hasFactorLoading ".77"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:ExperienceDisgust_1
+  rdf:type owsom:Item ;
+  rdfs:label "I experience disgust"^^xsd:string ;
+  owsom:hasFactorLoading ".66"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:FaceScrewup
   rdf:type owsom:Item ;
   rdfs:label "I screw up my face in disgust"^^xsd:string ;
   owsom:hasFactorLoading ".65"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:FaceScrewup_1
+  rdf:type owsom:Item ;
+  rdfs:label "I screw up my face in disgust"^^xsd:string ;
+  owsom:hasFactorLoading ".71"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:Facet
@@ -154,10 +240,22 @@ owsom:FaintScare
   owsom:hasFactorLoading ".59"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
+owsom:FaintScare_1
+  rdf:type owsom:Item ;
+  rdfs:label "It scares me when I faint"^^xsd:string ;
+  owsom:hasFactorLoading ".68"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
 owsom:FeelingDisgust
   rdf:type owsom:Item ;
   rdfs:label "I think feeling disgust is bad for me"^^xsd:string ;
   owsom:hasFactorLoading ".84"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:FeelingDisgust_1
+  rdf:type owsom:Item ;
+  rdfs:label "I think feeling disgust is bad for me"^^xsd:string ;
+  owsom:hasFactorLoading ".57"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:GuttmanScale
@@ -166,7 +264,13 @@ owsom:GuttmanScale
 .
 owsom:IllnessCausing
   rdf:type owsom:Item ;
-  rdfs:label "I avoid disgusting things"^^xsd:string ;
+  rdfs:label "I think disgusting items could cause me illness/infection"^^xsd:string ;
+  owsom:hasFactorLoading ".53"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:IllnessCausing_1
+  rdf:type owsom:Item ;
+  rdfs:label "I think disgusting items could cause me illness/infection"^^xsd:string ;
   owsom:hasFactorLoading ".53"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
@@ -177,8 +281,14 @@ owsom:Instruction
 .
 owsom:IntenseDisgustFeeling
   rdf:type owsom:Item ;
-  rdfs:label "It scares me when I faint"^^xsd:string ;
+  rdfs:label "When I experience disgust, it is an intense feeling"^^xsd:string ;
   owsom:hasFactorLoading ".48"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:IntenseDisgustFeeling_1
+  rdf:type owsom:Item ;
+  rdfs:label "When I experience disgust, it is an intense feeling"^^xsd:string ;
+  owsom:hasFactorLoading ".52"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:Item
@@ -193,8 +303,14 @@ owsom:LikertScale
 .
 owsom:NauseousScare
   rdf:type owsom:Item ;
-  rdfs:label "I become disgusted more easily than other people"^^xsd:string ;
+  rdfs:label "It scares me when I feel nauseous"^^xsd:string ;
   owsom:hasFactorLoading ".59"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:NauseousScare_1
+  rdf:type owsom:Item ;
+  rdfs:label "It scares me when I feel nauseous"^^xsd:string ;
+  owsom:hasFactorLoading ".68"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:Original
@@ -212,14 +328,26 @@ owsom:Paper
 .
 owsom:PassOutWorry
   rdf:type owsom:Item ;
-  rdfs:label "It scares me when I faint"^^xsd:string ;
+  rdfs:label "When I feel disgusted, I worry that I might pass out"^^xsd:string ;
   owsom:hasFactorLoading ".57"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:PassOutWorry_1
+  rdf:type owsom:Item ;
+  rdfs:label "When I feel disgusted, I worry that I might pass out"^^xsd:string ;
+  owsom:hasFactorLoading ".62"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:Repulsed
   rdf:type owsom:Item ;
   rdfs:label "I feel repulsed"^^xsd:string ;
   owsom:hasFactorLoading ".68"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:Repulsed_1
+  rdf:type owsom:Item ;
+  rdfs:label "I feel repulsed"^^xsd:string ;
+  owsom:hasFactorLoading ".64"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:Revised
@@ -251,10 +379,22 @@ owsom:SomethingDisgusting
   owsom:hasFactorLoading ".72"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
+owsom:SomethingDisgusting_1
+  rdf:type owsom:Item ;
+  rdfs:label "I find something disgusting"^^xsd:string ;
+  owsom:hasFactorLoading ".65"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
 owsom:StomachTurn
   rdf:type owsom:Item ;
   rdfs:label "Disgusting things make my stomach turn"^^xsd:string ;
   owsom:hasFactorLoading ".58"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:StomachTurn_1
+  rdf:type owsom:Item ;
+  rdfs:label "Disgusting things make my stomach turn"^^xsd:string ;
+  owsom:hasFactorLoading ".68"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:Study
@@ -268,10 +408,22 @@ owsom:SwallowThing
   owsom:hasFactorLoading ".41"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
+owsom:SwallowThing_1
+  rdf:type owsom:Item ;
+  rdfs:label "I worry that I might swallow a disgusting thing"^^xsd:string ;
+  owsom:hasFactorLoading ".50"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
 owsom:VomitWorry
   rdf:type owsom:Item ;
-  rdfs:label "It scares me when I faint"^^xsd:string ;
+  rdfs:label "When I notice that I feel nauseous, I worry about vomitting"^^xsd:string ;
   owsom:hasFactorLoading ".45"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+.
+owsom:VomitWorry_1
+  rdf:type owsom:Item ;
+  rdfs:label "When I notice that I feel nauseous, I worry about vomitting"^^xsd:string ;
+  owsom:hasFactorLoading ".34"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
 .
 owsom:always
