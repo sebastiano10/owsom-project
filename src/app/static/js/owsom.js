@@ -7,6 +7,7 @@ $(function(){
     
     $('#publication-details-col').hide();
     
+    // Just to have something to query
     if(doi == ''){
       doi = '10.1037/rmh0000008';
     }
@@ -15,13 +16,13 @@ $(function(){
     
     // Check if the DOI starts with 'doi:' or 'http://dx.doi.org/' (should be removed)
     if(doi.indexOf("doi") !=-1) {
-    	doi = doi.slice(4,doi.length);
-		console.log(doi);
+      doi = doi.slice(4,doi.length);
+      console.log(doi);
     } else if(doi.indexOf("http://dx.doi.org/") != -1) {
-    	doi = doi.slice(18,doi.length);
-		console.log(doi);
+      doi = doi.slice(18,doi.length);
+      console.log(doi);
     }
-	
+
     // First get the JSON description from the Crossref service (we'll worry about RDF later)
     $.getJSON('http://dx.doi.org/'+doi, function(data){
       console.log("Got a response!");
@@ -40,6 +41,89 @@ $(function(){
     
   });
   
+  $('#studyName').selectize({
+    valueField: 'study',
+    labelField: 'label',
+    searchField: 'label',
+    create: false,
+    maxItems: 1,
+    render: {
+        option: function(item, escape) {
+            return '<div>' +
+                '<span class="title">' +
+                    escape(item.label)
+                '</span>' +
+                '<span class="uri">' + escape(item.study) + '</span>' +
+                '<ul class="meta">' +
+                  item.title 
+                '</ul>' +
+            '</div>';
+        }
+    },
+    score: function(search) {
+      var score = this.getScoreFunction(search);
+      return function(item) {
+        return item.score;
+      };
+    },
+    load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: '/match/study/' + encodeURIComponent(query),
+            type: 'GET',
+            error: function() {
+              console.log('error')
+              callback();
+            },
+            success: function(res) {
+              console.log(res)
+              callback(res['result']);
+            }
+        });
+    }
+  });
+  
+  $('#scaleName').selectize({
+    valueField: 'scale',
+    labelField: 'label',
+    searchField: 'label',
+    create: false,
+    maxItems: 1,
+    render: {
+        option: function(item, escape) {
+            return '<div>' +
+                '<span class="title">' +
+                    item.label
+                '</span>' +
+                '<span class="description">' + item.study + '</span>' +
+                '<ul class="meta"><li>' +
+                  item.title 
+                '</li></ul>' +
+            '</div>';
+        }
+    },
+    score: function(search) {
+      var score = this.getScoreFunction(search);
+      return function(item) {
+        return item.score;
+      };
+    },
+    load: function(query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+            url: '/match/scale/' + encodeURIComponent(query),
+            type: 'GET',
+            error: function() {
+              console.log('error')
+              callback();
+            },
+            success: function(res) {
+              console.log(res)
+              callback(res['result']);
+            }
+        });
+    }
+  });
   
 });
 
