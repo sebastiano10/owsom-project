@@ -6,7 +6,7 @@ import json
 
 
 PREFIXES = """        
-        PREFIX owsom: <https://onlinesocialmeasures.wordpress.com/> 
+        PREFIX owsom: <http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/> 
         PREFIX bibo: <http://purl.org/ontology/bibo/> 
         PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
         PREFIX dcterms: <http://purl.org/dc/terms/> 
