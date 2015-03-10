@@ -47,6 +47,21 @@ def store():
     
     return str(response.status_code)
     
+    
+@app.route('/scale/details', methods=['GET'])
+def scale_details():
+    uri = request.args.get('uri', False)
+    
+    if uri:
+        app.logger.debug(uri)
+        
+        # Do whatever SPARQLy thing you want
+        # return json
+        
+        return jsonify({'results': 'You sent me {}'.format(uri)})
+        
+    return jsonify({'results': 'error'})
+
 @app.route('/match/study/<search>')
 def match_study(search):
     print "Searching for", search
@@ -58,7 +73,7 @@ def match_study(search):
             ?study rdf:type owsom:Study .
             ?study owsom:describedIn ?paper .
             ?paper dcterms:title ?title .
-            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> ( '{}' 0.001 50 ).
+            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}' .
         }}""".format(search)
         
 
@@ -105,7 +120,7 @@ def match_scale(search):
             ?scale owsom:hasConcept ?concept .
             ?study owsom:hasScale ?scale .
             ?paper dcterms:title ?title .
-            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> ( '{}' 0.001 50 ).
+            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}'.
             FILTER(regex(str(?paper), '^http://dx.doi.org','i'))
         }}""".format(search)
         

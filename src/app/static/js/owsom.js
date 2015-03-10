@@ -122,6 +122,15 @@ $(function(){
               callback(res['result']);
             }
         });
+    },
+    onChange: function(value){
+      console.log(value);
+      
+      console.log(value['scale']);
+      
+      $.get('/scale/details',data={'uri':value['scale']}, function(data){
+        console.log(data);
+      });
     }
   });
   
