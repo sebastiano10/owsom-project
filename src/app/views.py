@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, jsonify
+from flask import Flask, render_template, url_for, jsonify, request
 from SPARQLWrapper import SPARQLWrapper, JSON
 from app import app
 import requests
@@ -52,10 +52,23 @@ def store():
 def scale_details():
     uri = request.args.get('uri', False)
     
+    print uri
+    
     if uri:
         app.logger.debug(uri)
         
         # Do whatever SPARQLy thing you want
+        query = PREFIXES + """
+        SELECT DISTINCT ?label ?originality ?concept ?definition ?type
+        WHERE {{
+            ?scale rdfs:label ?label .
+            ?scale rdf:type owsom:Scale
+            ?scale owsom:hasOriginality ?originality.
+            ?scale owsom:hasConcept ?concept .
+            ?scale owsom:hasDefinition ?definition .
+            ?scale owsom:hasScaleType ?type .
+        }}"""
+        
         # return json
         
         return jsonify({'results': 'You sent me {}'.format(uri)})
@@ -113,15 +126,11 @@ def match_scale(search):
     print "Searching for", search
     
     query = PREFIXES + """
-        SELECT DISTINCT ?scale ?label ?concept ?paper ?title ?score
+        SELECT DISTINCT ?scale ?label ?score
         WHERE {{
             ?scale rdfs:label ?label.
-            ?scale rdf:type owsom:Scale .
-            ?scale owsom:hasConcept ?concept .
-            ?study owsom:hasScale ?scale .
-            ?paper dcterms:title ?title .
+            ?scale rdf:type owsom:LikertScale .
             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}'.
-            FILTER(regex(str(?paper), '^http://dx.doi.org','i'))
         }}""".format(search)
         
 
@@ -130,34 +139,33 @@ def match_scale(search):
     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
     results = json.loads(response.content)
     
+    print results
     
     # Flatten the results returned 
-    papers = dictize(results)
+    scales = dictize(results)
     
     print results
     
-    papers_with_authors = []
+    scalesArray = []
     
-    # For each paper, get its authors.
-    for p in papers:
-        paper = p
-        name_query = PREFIXES + """
-            SELECT DISTINCT ?uri ?name WHERE {{
-                <{}>  dcterms:creator ?creator .
-                ?creator foaf:name ?name .
+    # For each scale, get its name?.
+    for s in scales:
+        scale = s
+        scale_query = PREFIXES + """
+            SELECT DISTINCT ?label WHERE {{
+                ?label rdfs:label ?label .
             }}
-        """.format(p['paper'])
+        """.format(s['scale'])
 
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': name_query})
-        name_results = json.loads(response.content)
-        names = dictize(name_results)
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': scale_query})
+        scale_results = json.loads(response.content)
+        scales = dictize(scale_results)
 
-        paper['names'] = names
-        papers_with_authors.append(paper)
+        scale['scale'] = scales
+        scalesArray.append(scale)
     
 
-    return jsonify({'result': papers_with_authors})
-    
+    return jsonify({'result': scalesArray})
     
 def dictize(sparql_results):
     # If the results are a dict, just return the list of bindings

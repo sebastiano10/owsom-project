@@ -126,16 +126,15 @@ $(function(){
     onChange: function(value){
       console.log(value);
       
-      console.log(value['scale']);
+      console.log(value['result']);
       
-      $.get('/scale/details',data={'uri':value['scale']}, function(data){
+      $.get('/scale/details',data={'uri':value['result']}, function(data){
         console.log(data);
       });
     }
-  });
-  
+ 	});
+ 
 });
-
 
 function show_publication(publication){
   // Remove previously loaded publication details
