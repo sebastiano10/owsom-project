@@ -132,6 +132,30 @@ $(function(){
       // Get scale details
       $.get('/scale/details', {'uri': value}, function(data){
         console.log(data);
+		  
+		  // fill scale type field
+		  if (data.results[0].originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/Original')
+			  $("#scaleType1").prop("checked", true);
+		  else if (data.results[0].originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/Revised')
+			  $("#scaleType2").prop("checked", true);
+		  else 
+			  $("#scaleType3").prop("checked", true);
+		  
+		  // fill scale measure type field
+		  if (data.results[0].type = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/LikertScale')
+			  $("#measureType1").prop("checked", true);
+		  else if(data.results[0].type = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/GuttmanScale')
+			  $("#measureType2").prop("checked", true);
+		  else if(data.results[0].type = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/SemanticDifferentialScale')
+			  $("#measureType3").prop("checked", true);
+		  else
+			  $("#measureType4").prop("checked", true);
+		  
+		  // fill concept field
+		  $("#concept").val(data.results[0].concept);
+		  
+		  // fill concept definition field
+		  $("#conceptDef").val(data.results[0].definition);
       });
     }
  	});
