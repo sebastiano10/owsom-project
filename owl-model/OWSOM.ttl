@@ -191,9 +191,13 @@ owsom:CoVariance
   rdf:type owl:Class ;
   rdfs:subClassOf owl:Thing ;
 .
+owsom:Concept
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
 owsom:DPSS
   rdf:type owsom:LikertScale ;
-  owsom:hasConcept "Disgust Propensity and Disgust Sensitivity"^^xsd:string ;
+  owsom:hasConcept owsom:DPSS_Concept ;
   owsom:hasDefinition "Disgust propensity is defined as how easily people are disgusted. / Disgust sensitivity is defined as how unpleasant the experience of disgust is to the individual."^^xsd:string ;
   owsom:hasDimension owsom:DisgustProspensity_1 ;
   owsom:hasDimension owsom:DisgustSensivity_1 ;
@@ -205,7 +209,7 @@ owsom:DPSS
 .
 owsom:DPSSR
   rdf:type owsom:LikertScale ;
-  owsom:hasConcept "Disgust Propensity and Sensitivity"^^xsd:string ;
+  owsom:hasConcept owsom:DPSS_Concept ;
   owsom:hasDefinition "(definition of this scale)"^^xsd:string ;
   owsom:hasDimension owsom:DisgustProspensity ;
   owsom:hasDimension owsom:DisgustSensivity ;
@@ -234,6 +238,9 @@ owsom:DPSSStudy
   owsom:hasSampleSize 487 ;
   owsom:hasScale owsom:DPSS ;
   rdfs:label "Disgust Propensity and Sensitivity Study"^^xsd:string ;
+.
+owsom:DPSS_Concept
+  rdf:type owsom:Concept ;
 .
 owsom:Dimension
   rdf:type owl:Class ;
@@ -497,7 +504,7 @@ owsom:PCA
 .
 owsom:PVD
   rdf:type owsom:LikertScale ;
-  owsom:hasConcept "Perceived vulnerability to disease"^^xsd:string ;
+  owsom:hasConcept owsom:PVD_Concept ;
   owsom:hasDefinition "￼This measure assesses beliefs about personal susceptibility to the transmission of infectious diseases and emotional discomfort in the presence of potential disease transmission."^^xsd:string ;
   owsom:hasMultipleAnchors owsom:stronglyAgree ;
   owsom:hasMultipleAnchors owsom:stronglyDisagree ;
@@ -512,6 +519,9 @@ owsom:PVDStudy
   owsom:hasFactorAnalysisType owsom:EFA ;
   owsom:hasSampleSize 1539 ;
   rdfs:label "Perceived vulnerability to disease: Development and validation of a 15-item self-report instrument"^^xsd:string ;
+.
+owsom:PVD_Concept
+  rdf:type owsom:Concept ;
 .
 owsom:Paper
   rdf:type owl:Class ;
@@ -712,9 +722,9 @@ owsom:hasCoVarianceValue
   rdfs:range xsd:float ;
 .
 owsom:hasConcept
-  rdf:type owl:DatatypeProperty ;
+  rdf:type owl:ObjectProperty ;
   rdfs:domain owsom:Scale ;
-  rdfs:range xsd:string ;
+  rdfs:range owsom:Concept ;
 .
 owsom:hasCountryOfConduct
   rdf:type owl:DatatypeProperty ;
