@@ -56,22 +56,28 @@ def scale_details():
     
     if uri:
         app.logger.debug(uri)
-        
-        # Do whatever SPARQLy thing you want
+
+        # Get the scale details to fill the scale-related fields
+        param="<"+uri+">"
         query = PREFIXES + """
         SELECT DISTINCT ?label ?originality ?concept ?definition ?type
         WHERE {{
-            ?scale rdfs:label ?label .
-            ?scale rdf:type owsom:Scale
-            ?scale owsom:hasOriginality ?originality.
-            ?scale owsom:hasConcept ?concept .
-            ?scale owsom:hasDefinition ?definition .
-            ?scale owsom:hasScaleType ?type .
-        }}"""
+            {0} rdfs:label ?label .
+            {0} owsom:hasOriginality ?originality .
+            {0} owsom:hasConcept ?concept .
+            {0} owsom:hasDefinition ?definition .
+            {0} rdf:type ?type .
+        }}""".format(param)
+        
+        headers = {'Accept': 'application/sparql-results+json'}    
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+        results = json.loads(response.content)
+
+        # Flatten the results returned 
+        scaleDetails = dictize(results)
         
         # return json
-        
-        return jsonify({'results': 'You sent me {}'.format(uri)})
+        return jsonify({'results': scaleDetails})
         
     return jsonify({'results': 'error'})
 
@@ -88,14 +94,10 @@ def match_study(search):
             ?paper dcterms:title ?title .
             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}' .
         }}""".format(search)
-        
-
     
     headers = {'Accept': 'application/sparql-results+json'}    
     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
     results = json.loads(response.content)
-    
-
     
     # Flatten the results returned 
     papers = dictize(results)
@@ -117,7 +119,6 @@ def match_study(search):
 
         paper['names'] = names
         papers_with_authors.append(paper)
-    
 
     return jsonify({'result': papers_with_authors})
     
@@ -133,8 +134,6 @@ def match_scale(search):
             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}'.
         }}""".format(search)
         
-
-    
     headers = {'Accept': 'application/sparql-results+json'}    
     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
     results = json.loads(response.content)
