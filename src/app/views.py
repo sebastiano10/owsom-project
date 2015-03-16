@@ -144,28 +144,9 @@ def match_scale(search):
     # Flatten the results returned 
     scales = dictize(results)
     
-    print results
-    
-    scalesArray = []
-    
-    # For each scale, get its name?.
-    for s in scales:
-        scale = s
-        scale_query = PREFIXES + """
-            SELECT DISTINCT ?label WHERE {{
-                ?label rdfs:label ?label .
-            }}
-        """.format(s['scale'])
-
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': scale_query})
-        scale_results = json.loads(response.content)
-        scales = dictize(scale_results)
-
-        scale['scale'] = scales
-        scalesArray.append(scale)
-    
-
-    return jsonify({'result': scalesArray})
+    result = {'result': scales}
+    print result 
+    return jsonify(result)
     
 def dictize(sparql_results):
     # If the results are a dict, just return the list of bindings

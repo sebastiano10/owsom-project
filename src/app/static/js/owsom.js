@@ -124,13 +124,14 @@ $(function(){
         });
     },
     onChange: function(value){
-		 // Get the label of the scale entered
-		 label = this.options[value].label;
-		 console.log('scale name: '+label);
+      if (!value.length) return ;
+      
+      console.log('Selected: ' + value);
+      console.log('Retrieving details for the scale');
 
-		 // Get scale details
-       $.get('/scale/details', label, function(data){
-       console.log(data);
+      // Get scale details
+      $.get('/scale/details', {'uri': value}, function(data){
+        console.log(data);
       });
     }
  	});
