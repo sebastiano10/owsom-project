@@ -156,6 +156,15 @@ $(function(){
 		  
 		  // fill concept definition field
 		  $("#conceptDef").val(data.results[0].definition);
+		  
+		  // fill dimensions
+		  var index;
+		  for(index=0; index < data.results.length; ++index) {
+			  // better query dimension seperately to get the dimension label
+			  $("#dimensions1").prop("checked", true);
+			  document.getElementById("subscales").value = data.results.length;
+			  document.getElementById("subscale["+ index +"]").value = data.results[index].dimension;
+		  }
       });
     }
  	});

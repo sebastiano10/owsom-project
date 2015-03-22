@@ -60,13 +60,14 @@ def scale_details():
         # Get the scale details to fill the scale-related fields
         param="<"+uri+">"
         query = PREFIXES + """
-        SELECT DISTINCT ?label ?originality ?concept ?definition ?type
+        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?dimension
         WHERE {{
             {0} rdfs:label ?label .
             {0} owsom:hasOriginality ?originality .
             {0} owsom:hasConcept ?concept .
             {0} owsom:hasDefinition ?definition .
             {0} rdf:type ?type .
+            {0} owsom:hasDimension ?dimension .
         }}""".format(param)
         
         headers = {'Accept': 'application/sparql-results+json'}    
@@ -95,6 +96,8 @@ def match_study(search):
             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}' .
         }}""".format(search)
     
+    
+    
     headers = {'Accept': 'application/sparql-results+json'}    
     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
     results = json.loads(response.content)
@@ -120,6 +123,7 @@ def match_study(search):
         paper['names'] = names
         papers_with_authors.append(paper)
 
+
     return jsonify({'result': papers_with_authors})
     
 @app.route('/match/scale/<search>')
@@ -133,6 +137,8 @@ def match_scale(search):
             ?scale rdf:type owsom:LikertScale .
             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}'.
         }}""".format(search)
+        
+        
         
     headers = {'Accept': 'application/sparql-results+json'}    
     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
