@@ -200,9 +200,9 @@ owsom:DPSS
   owsom:hasConcept owsom:DPSS_Concept ;
   owsom:hasDefinition "Disgust propensity is defined as how easily people are disgusted. / Disgust sensitivity is defined as how unpleasant the experience of disgust is to the individual."^^xsd:string ;
   owsom:hasDimension owsom:DisgustProspensity_1 ;
-  owsom:hasDimension owsom:DisgustSensivity_1 ;
-  owsom:hasMultipleAnchors owsom:always ;
-  owsom:hasMultipleAnchors owsom:never ;
+  owsom:hasDimension owsom:DisgustSensitivity_1 ;
+  owsom:hasHigherAnchor "always"^^xsd:string ;
+  owsom:hasLowerAnchor "never"^^xsd:string ;
   owsom:hasOriginality owsom:Original ;
   owsom:hasPoints 5 ;
   rdfs:label "Disgust Propensity and Disgust Sensitivity (DPSS)" ;
@@ -212,7 +212,9 @@ owsom:DPSSR
   owsom:hasConcept owsom:DPSS_Concept ;
   owsom:hasDefinition "(definition of this scale)"^^xsd:string ;
   owsom:hasDimension owsom:DisgustProspensity ;
-  owsom:hasDimension owsom:DisgustSensivity ;
+  owsom:hasDimension owsom:DisgustSensitivity ;
+  owsom:hasHigherAnchor "always"^^xsd:string ;
+  owsom:hasLowerAnchor "never"^^xsd:string ;
   owsom:hasOriginality owsom:Revised ;
   owsom:hasPoints 5 ;
   owsom:hasScaleReliability ".90"^^xsd:float ;
@@ -304,7 +306,7 @@ owsom:DisgustProspensity_1
   owsom:hasItem owsom:StomachTurn_1 ;
   rdfs:label "DisgustSensivity2"^^xsd:string ;
 .
-owsom:DisgustSensivity
+owsom:DisgustSensitivity
   rdf:type owsom:Dimension ;
   owsom:chronbachAlpha ".83"^^xsd:float ;
   owsom:hasDefinition "Disgust Sensitivity is defined as the emotional impact of those symptoms"^^xsd:string ;
@@ -316,9 +318,9 @@ owsom:DisgustSensivity
   owsom:hasItem owsom:NauseousScare ;
   owsom:hasItem owsom:PassOutWorry ;
   owsom:hasItem owsom:VomitWorry ;
-  rdfs:label "Disgust Sensivity"^^xsd:string ;
+  rdfs:label "Disgust Sensitivity"^^xsd:string ;
 .
-owsom:DisgustSensivity_1
+owsom:DisgustSensitivity_1
   rdf:type owsom:Dimension ;
   owsom:hasDefinition "Disgust Sensitivity is defined as the emotional impact of those symptoms"^^xsd:string ;
   owsom:hasItem owsom:DisgustEmbarrassement_1 ;
@@ -329,7 +331,7 @@ owsom:DisgustSensivity_1
   owsom:hasItem owsom:PassOutWorry_1 ;
   owsom:hasItem owsom:SwallowThing_1 ;
   owsom:hasItem owsom:VomitWorry_1 ;
-  rdfs:label "Disgust Sensivity"^^xsd:string ;
+  rdfs:label "Disgust Sensitivity"^^xsd:string ;
 .
 owsom:DisgustedEasily
   rdf:type owsom:Item ;
@@ -506,8 +508,8 @@ owsom:PVD
   rdf:type owsom:LikertScale ;
   owsom:hasConcept owsom:PVD_Concept ;
   owsom:hasDefinition "￼This measure assesses beliefs about personal susceptibility to the transmission of infectious diseases and emotional discomfort in the presence of potential disease transmission."^^xsd:string ;
-  owsom:hasMultipleAnchors owsom:stronglyAgree ;
-  owsom:hasMultipleAnchors owsom:stronglyDisagree ;
+  owsom:hasHigherAnchor "stronglyAgree"^^xsd:string ;
+  owsom:hasLowerAnchor "stronglyDisagree"^^xsd:string ;
   owsom:hasOriginality owsom:Original ;
   owsom:hasPoints 5 ;
   owsom:hasScaleReliability ".82"^^xsd:float ;
@@ -763,6 +765,11 @@ owsom:hasFactorLoading
   rdfs:domain owsom:Item ;
   rdfs:range xsd:float ;
 .
+owsom:hasHigherAnchor
+  rdf:type rdf:Property ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:string ;
+.
 owsom:hasItem
   rdf:type owl:ObjectProperty ;
   rdfs:domain owsom:Dimension ;
@@ -773,15 +780,15 @@ owsom:hasJournalName
   rdfs:domain owsom:Paper ;
   rdfs:range xsd:string ;
 .
+owsom:hasLowerAnchor
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:string ;
+.
 owsom:hasMeanAge
   rdf:type owl:DatatypeProperty ;
   rdfs:domain owsom:Study ;
   rdfs:range xsd:float ;
-.
-owsom:hasMultipleAnchors
-  rdf:type owl:ObjectProperty ;
-  rdfs:domain owsom:Scale ;
-  rdfs:range owsom:Anchor ;
 .
 owsom:hasOriginality
   rdf:type owl:ObjectProperty ;

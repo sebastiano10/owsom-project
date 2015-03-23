@@ -157,6 +157,10 @@ $(function(){
 		  // fill concept definition field
 		  $("#conceptDef").val(data.results[0].definition);
 		  
+		  // fill anchors for likert scale
+		  $("#likertPointsInfo1").val(data.results[0].lowerAnchor);
+		  $("#likertPointsInfo2").val(data.results[0].higherAnchor);
+		  
 		  // fill dimensions
 		  var index;
 		  for(index=0; index < data.results.length; ++index) {

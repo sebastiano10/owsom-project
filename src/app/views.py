@@ -60,15 +60,17 @@ def scale_details():
         # Get the scale details to fill the scale-related fields
         param="<"+uri+">"
         query = PREFIXES + """
-        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?dimension ?dimension_label
+        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?lowerAnchor ?higherAnchor ?dimension ?dimension_label
         WHERE {{
             {0} rdfs:label ?label .
             {0} owsom:hasOriginality ?originality .
             {0} owsom:hasConcept ?concept .
             {0} owsom:hasDefinition ?definition .
             {0} rdf:type ?type .
+            {0} owsom:hasLowerAnchor ?lowerAnchor .
+            {0} owsom:hasHigherAnchor ?higherAnchor .
             {0} owsom:hasDimension ?dimension .
-            {0} rdfs:label ?dimension_label
+            ?dimension rdfs:label ?dimension_label
         }}""".format(param)
         
         headers = {'Accept': 'application/sparql-results+json'}    
