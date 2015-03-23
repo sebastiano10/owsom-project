@@ -163,7 +163,8 @@ $(function(){
 			  // better query dimension seperately to get the dimension label
 			  $("#dimensions1").prop("checked", true);
 			  document.getElementById("subscales").value = data.results.length;
-			  document.getElementById("subscale["+ index +"]").value = data.results[index].dimension;
+        // TODO: Now adding the dimension_label, but we should keep the uri itself as well!
+			  document.getElementById("subscale["+ index +"]").value = data.results[index].dimension_label;
 		  }
       });
     }
