@@ -157,6 +157,9 @@ $(function(){
 		  // fill concept definition field
 		  $("#conceptDef").val(data.results[0].definition);
 		  
+		  // fill likert scale points field
+		  $("#likertPointsAmount").val(data.results[0].scalePoints);
+		  
 		  // fill anchors for likert scale
 		  $("#likertPointsInfo1").val(data.results[0].lowerAnchor);
 		  $("#likertPointsInfo2").val(data.results[0].higherAnchor);
@@ -170,10 +173,25 @@ $(function(){
         // TODO: Now adding the dimension_label, but we should keep the uri itself as well!
 			  document.getElementById("subscale["+ index +"]").value = data.results[index].dimension_label;
 		  }
-      });
-    }
- 	});
- 
+		  
+  	   // fill scale reliability
+		$.get('/scale/reliability', {'uri': value}, function(data){
+			// a try-catch here would be nicer to avoid the "TypeError" when there is no reliability
+			if(data.results[0].reliability == null) {
+				console.log('no reliability available for this scale')
+			} else {
+				var reliability = data.results[0].reliability;
+				
+				if(reliability.indexOf("0.") !=-1) {
+		     	 reliability = reliability.slice(1,reliability.length);
+	    	  		$("#totalReliability").val(reliability);
+				}
+			}	
+  	   });	
+  		
+   });
+	}
+});
 });
 
 function show_publication(publication){

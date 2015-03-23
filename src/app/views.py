@@ -60,17 +60,47 @@ def scale_details():
         # Get the scale details to fill the scale-related fields
         param="<"+uri+">"
         query = PREFIXES + """
-        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?lowerAnchor ?higherAnchor ?dimension ?dimension_label
+        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?lowerAnchor ?higherAnchor ?dimension ?dimension_label
         WHERE {{
             {0} rdfs:label ?label .
             {0} owsom:hasOriginality ?originality .
             {0} owsom:hasConcept ?concept .
             {0} owsom:hasDefinition ?definition .
             {0} rdf:type ?type .
+            {0} owsom:hasPoints ?scalePoints .
             {0} owsom:hasLowerAnchor ?lowerAnchor .
             {0} owsom:hasHigherAnchor ?higherAnchor .
             {0} owsom:hasDimension ?dimension .
             ?dimension rdfs:label ?dimension_label
+        }}""".format(param)
+        
+        headers = {'Accept': 'application/sparql-results+json'}    
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+        results = json.loads(response.content)
+
+        # Flatten the results returned 
+        scaleDetails = dictize(results)
+        
+        # return json
+        return jsonify({'results': scaleDetails})
+        
+    return jsonify({'results': 'error'})
+    
+@app.route('/scale/reliability', methods=['GET'])
+def scale_reliability():
+    uri = request.args.get('uri', False)
+    
+    print uri
+    
+    if uri:
+        app.logger.debug(uri)
+
+        # Get the reliability for the entire scale, seperately coz not every scale has a value
+        param="<"+uri+">"
+        query = PREFIXES + """
+        SELECT DISTINCT ?reliability
+        WHERE {{
+            {0} owsom:hasScaleReliability ?reliability .
         }}""".format(param)
         
         headers = {'Accept': 'application/sparql-results+json'}    
