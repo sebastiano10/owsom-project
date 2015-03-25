@@ -120,12 +120,15 @@ def match_study(search):
     print "Searching for", search
     
     query = PREFIXES + """
-        SELECT DISTINCT ?study ?label ?paper ?title ?score
+        SELECT DISTINCT ?study ?label ?paper ?title ?country ?size ?analysis ?score
         WHERE {{
             ?study rdfs:label ?label.
             ?study rdf:type owsom:Study .
             ?study owsom:describedIn ?paper .
             ?paper dcterms:title ?title .
+            ?study owsom:hasCountryOfConduct ?country .
+            ?study owsom:hasSampleSize ?size .
+            ?study owsom:hasFactorAnalysisType ?analysis .
             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}' .
         }}""".format(search)
     
@@ -158,6 +161,41 @@ def match_study(search):
 
 
     return jsonify({'result': papers_with_authors})
+    
+@app.route('/study/details', methods=['GET'])
+def study_details():
+    uri = request.args.get('uri', False)
+    
+    print uri
+    
+    if uri:
+        app.logger.debug(uri)
+
+        # Get the scale details to fill the scale-related fields
+        param="<"+uri+">"
+        query = PREFIXES + """
+        SELECT DISTINCT ?label ?type ?paper ?country ?size ?analysis
+        WHERE {{
+            {0} rdfs:label ?label .
+            {0} rdf:type owsom:Study .
+            {0} owsom:describedIn ?paper .
+            {0} owsom:hasCountryOfConduct ?country .
+            {0} owsom:hasSampleSize ?size .
+            {0} owsom:hasFactorAnalysisType ?analysis .
+        }}""".format(param)
+
+        #{0} owsom:hasFemalePercentage ?female .
+        headers = {'Accept': 'application/sparql-results+json'}    
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+        results = json.loads(response.content)
+
+        # Flatten the results returned 
+        studyDetails = dictize(results)
+        
+        # return json
+        return jsonify({'results': studyDetails})
+        
+    return jsonify({'results': 'error'})
     
 @app.route('/match/scale/<search>')
 def match_scale(search):

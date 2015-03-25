@@ -80,7 +80,26 @@ $(function(){
               callback(res['result']);
             }
         });
-    }
+    },
+    onChange: function(value){
+      if (!value.length) return ;
+      
+      console.log('Selected: ' + value);
+
+      // Get study details
+      $.get('/study/details', {'uri': value}, function(data){
+        console.log(data);
+		
+  	    // fill sample size field
+  	    $("#sampleSize").val(data.results[0].size);
+  
+        // make a seperate query for female participants and mean age?
+  
+  	    // fill country of conduct field
+  	    $("#country").val(data.results[0].country);
+      });
+	  
+	}  
   });
   
   $('#scaleName').selectize({
