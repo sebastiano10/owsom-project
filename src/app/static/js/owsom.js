@@ -97,6 +97,21 @@ $(function(){
   
   	    // fill country of conduct field
   	    $("#country").val(data.results[0].country);
+		
+		// fill factor analysis fields
+		if(data.results[0].analysis)
+			$("#factorAnalysisYes").prop("checked", true);
+		else
+			$("#factorAnalysisNo").prop("checked", true);
+		
+	  if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFA')
+		  $("#factorAnalysisType1").prop("checked", true);
+	  else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/CFA')
+		  $("#factorAnalysisType2").prop("checked", true);
+	  else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFACCFA')
+		  $("#factorAnalysisType3").prop("checked", true);
+	  else (data.results[0].originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/PCA')
+		  $("#factorAnalysisType4").prop("checked", true);
       });
 	  
 	}  
@@ -207,6 +222,10 @@ $(function(){
 				}
 			}	
   	   });	
+	   
+	   // fill chronbach alpha field per dimension
+	   
+	   // populate items per dimension
   		
    });
 	}
