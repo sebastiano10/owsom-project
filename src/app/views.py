@@ -60,7 +60,7 @@ def scale_details():
         # Get the scale details to fill the scale-related fields
         param="<"+uri+">"
         query = PREFIXES + """
-        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?lowerAnchor ?higherAnchor ?dimension ?dimension_label ?reliability
+        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?lowerAnchor ?higherAnchor ?dimension ?alpha ?dimension_label ?reliability
         WHERE {{
             {0} rdfs:label ?label .
             OPTIONAL {{ {0} owsom:hasOriginality ?originality }}
@@ -71,6 +71,7 @@ def scale_details():
             OPTIONAL {{ {0} owsom:hasLowerAnchor ?lowerAnchor }}
             OPTIONAL {{ {0} owsom:hasHigherAnchor ?higherAnchor }}
             OPTIONAL {{ {0} owsom:hasDimension ?dimension }}
+            OPTIONAL {{ ?dimension owsom:chronbachAlpha ?alpha }}
             OPTIONAL {{ ?dimension rdfs:label ?dimension_label }}
             OPTIONAL {{ {0} owsom:hasScaleReliability ?reliability }}
         }}""".format(param)
@@ -168,6 +169,41 @@ def study_details():
         
         # return json
         return jsonify({'results': studyDetails})
+        
+    return jsonify({'results': 'error'})
+    
+@app.route('/dimension/details', methods=['GET'])
+def dimension_details():
+    uri = request.args.get('uri', False)
+    
+    print uri
+    
+    if uri:
+        app.logger.debug(uri)
+
+        # Get the study details to fill the scale-related fields
+        param="<"+uri+">"
+        query = PREFIXES + """
+        SELECT DISTINCT ?label ?type ?def ?alpha ?item ?itemlabel ?reversed
+        WHERE {{
+            {0} rdfs:label ?label .
+            {0} rdf:type owsom:Dimension 
+            OPTIONAL {{ {0} owsom:hasDefinition ?def }}
+            OPTIONAL {{ {0} owsom:chronbachAlpha ?alpha }}
+            OPTIONAL {{ {0} owsom:hasItem ?item }}
+            OPTIONAL {{ ?item rdfs:label ?itemlabel }}
+            OPTIONAL {{ ?item owsom:isReversed ?reversed }}
+        }}""".format(param)
+
+        headers = {'Accept': 'application/sparql-results+json'}    
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+        results = json.loads(response.content)
+
+        # Flatten the results returned 
+        dimension = dictize(results)
+        
+        # return json
+        return jsonify({'results': dimension})
         
     return jsonify({'results': 'error'})
     

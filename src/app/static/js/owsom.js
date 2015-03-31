@@ -210,26 +210,38 @@ $(function(){
 		  $("#likertPointsInfo1").val(data.results[0].lowerAnchor);
 		  $("#likertPointsInfo2").val(data.results[0].higherAnchor);
 		  
-		  // fill dimensions
-		  var index;
-		  for(index=0; index < data.results.length; ++index) {
-			  // better query dimension seperately to get the dimension label
-			  $("#dimensions1").prop("checked", true);
-			  document.getElementById("subscales").value = data.results.length;
-          // TODO: Now adding the dimension_label, but we should keep the uri itself as well!
-			  document.getElementById("subscale["+ index +"]").value = data.results[index].dimension_label;
-		  }
-		  	  
   	      // fill scale reliability
 		  if(data.results[0].reliability) {
 			  var reliability = data.results[0].reliability;
 	     	  reliability = reliability.slice(1,reliability.length);
     	  	  $("#totalReliability").val(reliability);
 		  }
-	   
-	   	// fill chronbach alpha field per dimension
-	   
-	   	// populate items per dimension
+		  
+		  // fill dimensions
+		  var index;
+		  for(index=0; index < data.results.length; ++index) {
+			  // better query dimension seperately to get the dimension label
+			  $("#dimensions1").prop("checked", true);
+			  document.getElementById("subscales").value = data.results.length;
+          	  // TODO: Now adding the dimension_label, but we should keep the uri itself as well!
+			  document.getElementById("subscale["+ index +"]").value = data.results[index].dimension_label;
+			  
+		   	  // fill chronbach alpha field per dimension
+			  if(data.results[index].alpha) {
+				  document.getElementById("subscaleReliability"+ index).value = data.results[index].alpha;
+			  }
+					
+			  // get dimension details
+			  var dim = data.results[index].dimension;
+		      $.get('/dimension/details', {'uri': dim}, function(data){
+		        console.log(data);
+				
+		   	  // populate items per dimension
+  		   	  
+					 
+			  });
+		  			  
+		  }
   		
    });
 	}
