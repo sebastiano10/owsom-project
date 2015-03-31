@@ -60,47 +60,19 @@ def scale_details():
         # Get the scale details to fill the scale-related fields
         param="<"+uri+">"
         query = PREFIXES + """
-        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?lowerAnchor ?higherAnchor ?dimension ?dimension_label
+        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?lowerAnchor ?higherAnchor ?dimension ?dimension_label ?reliability
         WHERE {{
             {0} rdfs:label ?label .
-            {0} owsom:hasOriginality ?originality .
-            {0} owsom:hasConcept ?concept .
-            {0} owsom:hasDefinition ?definition .
-            {0} rdf:type ?type .
-            {0} owsom:hasPoints ?scalePoints .
-            {0} owsom:hasLowerAnchor ?lowerAnchor .
-            {0} owsom:hasHigherAnchor ?higherAnchor .
-            {0} owsom:hasDimension ?dimension .
-            ?dimension rdfs:label ?dimension_label
-        }}""".format(param)
-        
-        headers = {'Accept': 'application/sparql-results+json'}    
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-        results = json.loads(response.content)
-
-        # Flatten the results returned 
-        scaleDetails = dictize(results)
-        
-        # return json
-        return jsonify({'results': scaleDetails})
-        
-    return jsonify({'results': 'error'})
-    
-@app.route('/scale/reliability', methods=['GET'])
-def scale_reliability():
-    uri = request.args.get('uri', False)
-    
-    print uri
-    
-    if uri:
-        app.logger.debug(uri)
-
-        # Get the reliability for the entire scale, seperately coz not every scale has a value
-        param="<"+uri+">"
-        query = PREFIXES + """
-        SELECT DISTINCT ?reliability
-        WHERE {{
-            {0} owsom:hasScaleReliability ?reliability .
+            OPTIONAL {{ {0} owsom:hasOriginality ?originality }}
+            OPTIONAL {{ {0} owsom:hasConcept ?concept }}
+            OPTIONAL {{ {0} owsom:hasDefinition ?definition }}
+            OPTIONAL {{ {0} rdf:type ?type }}
+            OPTIONAL {{ {0} owsom:hasPoints ?scalePoints }}
+            OPTIONAL {{ {0} owsom:hasLowerAnchor ?lowerAnchor }}
+            OPTIONAL {{ {0} owsom:hasHigherAnchor ?higherAnchor }}
+            OPTIONAL {{ {0} owsom:hasDimension ?dimension }}
+            OPTIONAL {{ ?dimension rdfs:label ?dimension_label }}
+            OPTIONAL {{ {0} owsom:hasScaleReliability ?reliability }}
         }}""".format(param)
         
         headers = {'Accept': 'application/sparql-results+json'}    
@@ -125,10 +97,10 @@ def match_study(search):
             ?study rdfs:label ?label.
             ?study rdf:type owsom:Study .
             ?study owsom:describedIn ?paper .
-            ?paper dcterms:title ?title .
-            ?study owsom:hasCountryOfConduct ?country .
-            ?study owsom:hasSampleSize ?size .
-            ?study owsom:hasFactorAnalysisType ?analysis .
+            ?paper dcterms:title ?title 
+            OPTIONAL {{ ?study owsom:hasCountryOfConduct ?country }}
+            OPTIONAL {{ ?study owsom:hasSampleSize ?size }}
+            OPTIONAL {{ ?study owsom:hasFactorAnalysisType ?analysis }}
             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}' .
         }}""".format(search)
     
@@ -171,20 +143,22 @@ def study_details():
     if uri:
         app.logger.debug(uri)
 
-        # Get the scale details to fill the scale-related fields
+        # Get the study details to fill the scale-related fields
         param="<"+uri+">"
         query = PREFIXES + """
-        SELECT DISTINCT ?label ?type ?paper ?country ?size ?analysis
+        SELECT DISTINCT ?label ?type ?paper ?def ?country ?size ?analysis ?age ?female
         WHERE {{
             {0} rdfs:label ?label .
             {0} rdf:type owsom:Study .
-            {0} owsom:describedIn ?paper .
-            {0} owsom:hasCountryOfConduct ?country .
-            {0} owsom:hasSampleSize ?size .
-            {0} owsom:hasFactorAnalysisType ?analysis .
+            {0} owsom:describedIn ?paper 
+            OPTIONAL {{ {0} owsom:hasDefinition ?def }}
+            OPTIONAL {{ {0} owsom:hasCountryOfConduct ?country }}
+            OPTIONAL {{ {0} owsom:hasSampleSize ?size }}
+            OPTIONAL {{ {0} owsom:hasFactorAnalysisType ?analysis }}
+            OPTIONAL {{ {0} owsom:hasMeanAge ?age }}
+            OPTIONAL {{ {0} owsom:femalePercentage ?female }}
         }}""".format(param)
 
-        #{0} owsom:hasFemalePercentage ?female .
         headers = {'Accept': 'application/sparql-results+json'}    
         response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
         results = json.loads(response.content)
@@ -201,6 +175,7 @@ def study_details():
 def match_scale(search):
     print "Searching for", search
     
+    # LikertScale needs to be adjusted when other scale types are implemented
     query = PREFIXES + """
         SELECT DISTINCT ?scale ?label ?score
         WHERE {{

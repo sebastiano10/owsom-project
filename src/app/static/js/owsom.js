@@ -91,12 +91,24 @@ $(function(){
         console.log(data);
 		
   	    // fill sample size field
-  	    $("#sampleSize").val(data.results[0].size);
+		if(data.results[0].size) {
+  	    	$("#sampleSize").val(data.results[0].size);
+		}
   
-        // make a seperate query for female participants and mean age?
-  
+  	  	// fill female participants field
+		if(data.results[0].female) {
+			$("#femPercentage").val(data.results[0].female)
+		}
+		
+		// fill mean participants age field
+		if(data.results[0].age) {
+			$("#meanAge").val(data.results[0].age)
+		}
+		
   	    // fill country of conduct field
-  	    $("#country").val(data.results[0].country);
+		if(data.results[0].country) {
+	  	    $("#country").val(data.results[0].country);
+		}
 		
 		// fill factor analysis fields
 		if(data.results[0].analysis)
@@ -104,14 +116,14 @@ $(function(){
 		else
 			$("#factorAnalysisNo").prop("checked", true);
 		
-	  if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFA')
-		  $("#factorAnalysisType1").prop("checked", true);
-	  else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/CFA')
-		  $("#factorAnalysisType2").prop("checked", true);
-	  else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFACCFA')
-		  $("#factorAnalysisType3").prop("checked", true);
-	  else (data.results[0].originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/PCA')
-		  $("#factorAnalysisType4").prop("checked", true);
+	    if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFA')
+		    $("#factorAnalysisType1").prop("checked", true);
+	    else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/CFA')
+		    $("#factorAnalysisType2").prop("checked", true);
+	    else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFACCFA')
+	  	    $("#factorAnalysisType3").prop("checked", true);
+	    else (data.results[0].originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/PCA')
+		    $("#factorAnalysisType4").prop("checked", true);
       });
 	  
 	}  
@@ -204,28 +216,20 @@ $(function(){
 			  // better query dimension seperately to get the dimension label
 			  $("#dimensions1").prop("checked", true);
 			  document.getElementById("subscales").value = data.results.length;
-        // TODO: Now adding the dimension_label, but we should keep the uri itself as well!
+          // TODO: Now adding the dimension_label, but we should keep the uri itself as well!
 			  document.getElementById("subscale["+ index +"]").value = data.results[index].dimension_label;
 		  }
-		  
-  	   // fill scale reliability
-		$.get('/scale/reliability', {'uri': value}, function(data){
-			// a try-catch here would be nicer to avoid the "TypeError" when there is no reliability
-			if(data.results[0].reliability == null) {
-				console.log('no reliability available for this scale')
-			} else {
-				var reliability = data.results[0].reliability;
-				
-				if(reliability.indexOf("0.") !=-1) {
-		     	 reliability = reliability.slice(1,reliability.length);
-	    	  		$("#totalReliability").val(reliability);
-				}
-			}	
-  	   });	
+		  	  
+  	      // fill scale reliability
+		  if(data.results[0].reliability) {
+			  var reliability = data.results[0].reliability;
+	     	  reliability = reliability.slice(1,reliability.length);
+    	  	  $("#totalReliability").val(reliability);
+		  }
 	   
-	   // fill chronbach alpha field per dimension
+	   	// fill chronbach alpha field per dimension
 	   
-	   // populate items per dimension
+	   	// populate items per dimension
   		
    });
 	}
