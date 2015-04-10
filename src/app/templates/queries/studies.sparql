@@ -1,0 +1,8 @@
+{{PREFIXES}}
+
+SELECT DISTINCT ?study ?label WHERE {
+ ?study a owsom:Study ;
+    rdfs:label ?label .
+}
+
+

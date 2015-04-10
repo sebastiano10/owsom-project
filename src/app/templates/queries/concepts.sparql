@@ -1,0 +1,8 @@
+{{PREFIXES}}
+
+SELECT DISTINCT ?concept ?label WHERE {
+ ?concept a owsom:Concept ;
+    rdfs:label ?label .
+}
+
+

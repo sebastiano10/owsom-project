@@ -1,0 +1,15 @@
+{{PREFIXES}}
+
+SELECT DISTINCT ?label ?type ?paper ?def ?country ?size ?analysis ?age ?female ?scale
+WHERE {
+    <{{ uri }}> rdfs:label ?label .
+    <{{ uri }}> rdf:type owsom:Study .
+    <{{ uri }}> owsom:describedIn ?paper 
+    OPTIONAL { <{{ uri }}> owsom:hasDefinition ?def }
+    OPTIONAL { <{{ uri }}> owsom:hasCountryOfConduct ?country }
+    OPTIONAL { <{{ uri }}> owsom:hasSampleSize ?size }
+    OPTIONAL { <{{ uri }}> owsom:hasFactorAnalysisType ?analysis }
+    OPTIONAL { <{{ uri }}> owsom:hasMeanAge ?age }
+    OPTIONAL { <{{ uri }}> owsom:femalePercentage ?female }
+    OPTIONAL { <{{ uri }}> owsom:hasScale ?scale }
+} LIMIT 1
