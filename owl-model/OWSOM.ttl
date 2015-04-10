@@ -243,7 +243,8 @@ owsom:DPSSStudy
 .
 owsom:DPSS_Concept
   rdf:type owsom:Concept ;
-.
+  rdfs:label "Disgust Propensity and Sensitivity"@en .
+
 owsom:Dimension
   rdf:type owl:Class ;
   rdfs:subClassOf owl:Thing ;
@@ -524,7 +525,8 @@ owsom:PVDStudy
 .
 owsom:PVD_Concept
   rdf:type owsom:Concept ;
-.
+  rdfs:label "Perceived Vulnerability to Disease"@en .
+  
 owsom:Paper
   rdf:type owl:Class ;
   rdfs:label "Paper"^^xsd:string ;
