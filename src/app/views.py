@@ -47,6 +47,49 @@ def store():
     
     return str(response.status_code)
     
+
+def query(query, inferencing=False):
+    headers = {'Accept': 'application/sparql-results+json'}    
+    if not inferencing:
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+    else :
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query, 'reasoning': 'RDFS'})
+    
+    app.logger.debug(response.content)
+    results = json.loads(response.content)
+
+    # Flatten the results returned 
+    flattened_results = dictize(results)    
+    
+    return flattened_results
+
+@app.route('/data')
+def data():
+    app.logger.debug('Retrieving data necessary for rendering the forms')
+    
+    studies_query = render_template('queries/studies.sparql', PREFIXES=PREFIXES) 
+    studies = query(studies_query)
+    
+    scales_query = render_template('queries/scales.sparql', PREFIXES=PREFIXES)
+    scales = query(scales_query, inferencing=True)
+    
+    concepts_query = render_template('queries/concepts.sparql', PREFIXES=PREFIXES) 
+    concepts = query(concepts_query)
+    
+    dimensions_query = render_template('queries/dimensions.sparql', PREFIXES=PREFIXES) 
+    dimensions = query(dimensions_query)
+    
+    
+    response = {
+        'studies': studies,
+        'scales': scales,
+        'concepts': concepts,
+        'dimensions': dimensions
+    }
+    
+    return jsonify(response)
+    
+    
     
 @app.route('/scale/details', methods=['GET'])
 def scale_details():
@@ -55,38 +98,32 @@ def scale_details():
     print uri
     
     if uri:
-        app.logger.debug(uri)
-
-        # Get the scale details to fill the scale-related fields
-        param="<"+uri+">"
-        query = PREFIXES + """
-        SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?lowerAnchor ?higherAnchor ?dimension ?alpha ?dimension_label ?reliability
-        WHERE {{
-            {0} rdfs:label ?label .
-            OPTIONAL {{ {0} owsom:hasOriginality ?originality }}
-            OPTIONAL {{ {0} owsom:hasConcept ?concept }}
-            OPTIONAL {{ {0} owsom:hasDefinition ?definition }}
-            OPTIONAL {{ {0} rdf:type ?type }}
-            OPTIONAL {{ {0} owsom:hasPoints ?scalePoints }}
-            OPTIONAL {{ {0} owsom:hasLowerAnchor ?lowerAnchor }}
-            OPTIONAL {{ {0} owsom:hasHigherAnchor ?higherAnchor }}
-            OPTIONAL {{ {0} owsom:hasDimension ?dimension }}
-            OPTIONAL {{ ?dimension owsom:chronbachAlpha ?alpha }}
-            OPTIONAL {{ ?dimension rdfs:label ?dimension_label }}
-            OPTIONAL {{ {0} owsom:hasScaleReliability ?reliability }}
-        }}""".format(param)
+        scale_details_query = render_template('queries/scale_details.sparql',PREFIXES=PREFIXES, uri=uri)
+        scale_details = query(scale_details_query)
         
-        headers = {'Accept': 'application/sparql-results+json'}    
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-        results = json.loads(response.content)
-
-        # Flatten the results returned 
-        scaleDetails = dictize(results)
+        scale_dimensions_query = render_template('queries/scale_dimensions.sparql',PREFIXES=PREFIXES, uri=uri)
+        scale_dimensions = query(scale_dimensions_query)
         
-        # return json
-        return jsonify({'results': scaleDetails})
+        # return only the first result
+        return jsonify({'scale': scale_details[0], 'dimensions': scale_dimensions})
         
     return jsonify({'results': 'error'})
+
+@app.route('/study/details', methods=['GET'])
+def study_details():
+    uri = request.args.get('uri', False)
+    
+    print uri
+    
+    if uri:
+        study_details_query = render_template('queries/study_details.sparql',PREFIXES=PREFIXES, uri=uri)
+        study_details = query(study_details_query)
+        
+        # return json
+        return jsonify(study_details[0])
+        
+    return jsonify({'results': 'error'})
+
 
 @app.route('/match/study/<search>')
 def match_study(search):
@@ -102,13 +139,14 @@ def match_study(search):
             OPTIONAL {{ ?study owsom:hasCountryOfConduct ?country }}
             OPTIONAL {{ ?study owsom:hasSampleSize ?size }}
             OPTIONAL {{ ?study owsom:hasFactorAnalysisType ?analysis }}
-            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}' .
+            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> ('{}' 0.1 50) .
         }}""".format(search)
     
     
     
     headers = {'Accept': 'application/sparql-results+json'}    
     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+    print response.content
     results = json.loads(response.content)
     
     # Flatten the results returned 
@@ -135,42 +173,7 @@ def match_study(search):
 
     return jsonify({'result': papers_with_authors})
     
-@app.route('/study/details', methods=['GET'])
-def study_details():
-    uri = request.args.get('uri', False)
-    
-    print uri
-    
-    if uri:
-        app.logger.debug(uri)
 
-        # Get the study details to fill the scale-related fields
-        param="<"+uri+">"
-        query = PREFIXES + """
-        SELECT DISTINCT ?label ?type ?paper ?def ?country ?size ?analysis ?age ?female
-        WHERE {{
-            {0} rdfs:label ?label .
-            {0} rdf:type owsom:Study .
-            {0} owsom:describedIn ?paper 
-            OPTIONAL {{ {0} owsom:hasDefinition ?def }}
-            OPTIONAL {{ {0} owsom:hasCountryOfConduct ?country }}
-            OPTIONAL {{ {0} owsom:hasSampleSize ?size }}
-            OPTIONAL {{ {0} owsom:hasFactorAnalysisType ?analysis }}
-            OPTIONAL {{ {0} owsom:hasMeanAge ?age }}
-            OPTIONAL {{ {0} owsom:femalePercentage ?female }}
-        }}""".format(param)
-
-        headers = {'Accept': 'application/sparql-results+json'}    
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-        results = json.loads(response.content)
-
-        # Flatten the results returned 
-        studyDetails = dictize(results)
-        
-        # return json
-        return jsonify({'results': studyDetails})
-        
-    return jsonify({'results': 'error'})
     
 @app.route('/dimension/details', methods=['GET'])
 def dimension_details():
