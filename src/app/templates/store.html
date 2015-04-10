@@ -1,5 +1,10 @@
 {% extends "index.html" %}
 
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('.static', filename='js/owsom.js')}}"></script>
+{% endblock %}
+
 {% block owsom_content %}
 
 	<div class="container">
@@ -14,7 +19,7 @@
       <div class='col-md-6'>
         <div class="form-group">
           <label for="#doi-input">DOI <small>Please provide the DOI of the publication you will be entering into the system</small></label>
-          <input type="text" class="form-control" id="doi-input" placeholder="e.g. 10.1037/rmh0000008">
+          <input type="text" class="form-control data primary" id="doi-input" placeholder="e.g. 10.1037/rmh0000008">
         </div>
         <!-- <button id="doi-button" class="btn btn-default">Submit</button> -->
       </div>
@@ -50,22 +55,22 @@
         <p>(please provide author names in the following format: e.g. <code>Goldberg, L. R.</code>)</p>
         <form role="form">
           <div class="form-group">
-            <input type="text" class="form-control" id="author1" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="author1" placeholder="Please enter your data here">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="author2" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="author2" placeholder="Please enter your data here">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="author3" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="author3" placeholder="Please enter your data here">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="author4" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="author4" placeholder="Please enter your data here">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="author5" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="author5" placeholder="Please enter your data here">
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="author6" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="author6" placeholder="Please enter your data here">
           </div>
         </form>
       </div>
@@ -76,7 +81,7 @@
         <small>What is the year of the publication?</small></h3>
         <form role="form">
           <div class="form-group">
-            <input type="text" class="form-control" id="pubYear" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="pubYear" placeholder="Please enter your data here">
           </div>
         </form>
       </div>
@@ -88,7 +93,7 @@
         <p>(depending on the type of publication, please provide the title of the article, book chapter or book)</p>
         <form role="form">
           <div class="form-group">
-            <input type="text" class="form-control" id="pubTitle" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="pubTitle" placeholder="Please enter your data here">
           </div>
         </form>
       </div>
@@ -99,7 +104,7 @@
         <small>What is the name of the journal in which the article was published?</small></h3>
         <form role="form">
           <div class="form-group">
-            <input type="text" class="form-control" id="journalName" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="journalName" placeholder="Please enter your data here">
           </div>
         </form>
       </div>
@@ -111,7 +116,7 @@
         <p>(the DOI is a digital object identifier, which is commonly displayed in the journal article webpage)</p>
         <form role="form">
           <div class="form-group">
-            <input type="text" class="form-control" id="journalDOI" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="journalDOI" placeholder="Please enter your data here">
           </div>
         </form>
       </div>
@@ -122,7 +127,7 @@
         <small>What is the title of the book where you found the book chapter?</small></h3>
         <form role="form">
           <div class="form-group">
-            <input type="text" class="form-control" id="bookTitle" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="bookTitle" placeholder="Please enter your data here">
           </div>
         </form>
       </div>
@@ -134,7 +139,7 @@
         <p>(the ISBN is an unique identifier, which is commonly printed on the back of the book cover)</p>
         <form role="form">
           <div class="form-group">
-            <input type="text" class="form-control" id="bookISBN" placeholder="Please enter your data here">
+            <input type="text" class="form-control data secondary" id="bookISBN" placeholder="Please enter your data here">
           </div>
         </form>
       </div>
@@ -154,200 +159,53 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-6">
-				<h3>Study name<br>
+			<div class="col-lg-12">
+				<h3>Study name<br><div class="btn btn-default btn-small btn-xs" id="toggle-study-details">Toggle Details</div>
 				<small>What is the name of the study you would like to record?</small></h3>
-				<form role="form">
+				<form role="form form-inline">
 					<div class="form-group">
-						<input type="text" class="form-control" id="studyName" placeholder="Please enter your data here">
+						<input type="text" class="form-control data primary" id="studyName" placeholder="Please enter your data here">
 					</div>
 				</form>
 			</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="study-details" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Study details</h3>
+          </div>
+          <div class="panel-body">
+            {% include 'study_details.html' %}
+          </div>
+        </div>
+      </div>
 		</div>
 		<div class="row">
 			<div class="col-lg-6">
-				<h3>Scale name<br>
+				<h3>Scale name<br><div class="btn btn-default btn-small btn-xs" id="toggle-scale-details">Toggle Details</div>
 				<small>What is the name of the scale?</small></h3>
 				<form role="form">
 					<div class="form-group">
-						<input type="text" class="form-control" id="scaleName" placeholder="Please enter your data here">
+						<input type="text" class="form-control data primary" id="scaleName" placeholder="Please enter your data here">
 					</div>
 				</form>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Scale type<br>
-				<small>Is it an original, revised or brief version of the scale?</small></h3>
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="scaleType" id="scaleType1" value="original">Original
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="scaleType" id="scaleType2" value="revised">Revised
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="scaleType" id="scaleType3" value="brief">Brief
-					</label>
-				</div>
-			</div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div id="scale-details" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Scale details</h3>
+          </div>
+          <div class="panel-body">
+            {% include 'scale_details.html' %}
+          </div>
+        </div>
+      </div>
 		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Scale concept<br>
-				<small>What is the concept this scale was designed to measure?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="concept" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Concept definition<br>
-				<small>How is the concept defined in the present publication?</small></h3>
-				<p>(If applicable, please copy a short description of the concept provided by the publication authors)</p>
-				<form role="form">
-					<div class="form-group">
-						<textarea class="form-control" rows="3" id="conceptDef" placeholder="Please enter your data here"></textarea>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Scale items<br>
-				<small>How many items does the scale consist of?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="scaleItems" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Scale measure type<br>
-				<small>How are these items measured?</small></h3>
-				<p>(Reseachers may use different types of scales to measure individual responses, e.g.Likert scales, Guttman scales or semantic scales)
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="measureType" id="measureType1" value="likert">Likert scales
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="measureType" id="measureType2" value="guttman">Guttman scales
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="measureType" id="measureType3" value="differential">Semantic differential scales
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="measureType" id="measureType4" value="other">Other
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Scale points<br>
-				<small>Do these Likert scales consist of the same number of points?</small></h3>
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="likertPoints" id="likertPoints" value="yes">Yes
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="likertPoints" id="likertPoints" value="no">No
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>How many points do these Likert scales consist of?</small></h3>
-				<p>(Reseachers may use scales with different numbers of choices, e.g. <code>5-point scales</code> or <code>7-point scales</code>)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="likertPointsAmount" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>Please provide information on the numbers of Likert scale points used for different items (or groups of items)</small></h3>
-				<p>(Reseachers may use scales with different numbers of choices, e.g. <code>5-point scales</code> or <code>7-point scales</code>)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="likertPointsInfo" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Scale anchors<br>
-				<small>What are the anchors for these Likert scales?</small></h3>
-				<p>(Reseachers typically use anchors to indicate what the scale points correspond to, e.g. <code>strongly disagree to strongly agree</code> or <code>not at all to very much</code>)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="likertPointsInfo1" placeholder="Please enter your data here">
-						<input type="text" class="form-control" id="likertPointsInfo2" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Publication study<br>
-				<small>You have indicated that the publication you are using includes more than one study. If this is the case, please focus on evidence from one study to fill out the remaining questions in this survey. In the field below, please indicate the study you chose using the numbering in the publication.</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="studyNumber" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Information on the study<br>
-				<small>What is the sample size in this study?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="sampleSize" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>What is the percentage of female participants in this study?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="femPercentage" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>What is the mean age of participants in this study?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="meanAge" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>What country was this study conducted in?</small></h3>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="country" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>
+
+
 		<div class="row">
 			<div class="col-lg-12">
 				<h3>Dimensionality</h3>
@@ -355,6 +213,25 @@
 		Multidimensionality should be explicitly indicated in a publication, either by referring to distinct dimensions or by referring to distinct subscales. Please answer the following questions based on such information on dimensions or subscales.</p>
 			</div>
 		</div>
+    
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table table-striped">
+          <thead>
+            <tr><th>Dimension</th><th>Sub-dimension</th><th>Item</th></tr>
+          </thead>
+          <tbody id='dimensions-body'>
+            <tr></tr>
+          </tbody>
+        </table>
+        <div id="add-dimension" class="btn btn-primary">Add dimension</div>
+      </div>
+    </div>
+    
+    
+    
+    
 		<div class="row">
 			<div class="col-lg-6">
 				<h3>Dimensions<br>
@@ -393,32 +270,32 @@
 				<form role="form">
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscale[0]" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscale[0]" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscale[1]" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscale[1]" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscale[2]" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscale[2]" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscale[3]" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscale[3]" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscale[4]" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscale[4]" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscale[5]" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscale[5]" placeholder="Please enter your data here">
 						</div>
 					</div>
 				</form>
@@ -479,7 +356,7 @@
 				<p>(Please provide in the following format: e.g. <code>.89</code>)</p>
 				<form role="form">
 					<div class="form-group">
-						<input type="text" class="form-control" id="totalReliability" placeholder="Please enter your data here">
+						<input type="text" class="form-control data secondary" id="totalReliability" placeholder="Please enter your data here">
 					</div>
 				</form>
 			</div>
@@ -493,32 +370,32 @@
 				<form role="form">
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscaleReliability0" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscaleReliability0" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscaleReliability1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscaleReliability1" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscaleReliability2" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscaleReliability2" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscaleReliability3" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscaleReliability3" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscaleReliability4" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscaleReliability4" placeholder="Please enter your data here">
 						</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<input type="text" class="form-control" id="subscaleReliability5" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="subscaleReliability5" placeholder="Please enter your data here">
 						</div>
 					</div>
 				</form>
@@ -543,7 +420,7 @@
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item1Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item1Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -555,13 +432,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item1Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item1Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item2Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item2Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -573,13 +450,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item2Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item2Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item3Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item3Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -591,13 +468,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item3Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item3Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item4Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item4Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -609,13 +486,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item4Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item4Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item5Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item5Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -627,13 +504,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item5Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item5Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item6Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item6Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -645,13 +522,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item6Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item6Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item7Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item7Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -663,13 +540,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item7Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item7Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item8Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item8Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -681,13 +558,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item8Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item8Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item9Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item9Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -699,13 +576,13 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item9Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item9Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 					<div class="col-md-8">
 					<form role="form">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item10Dimension1" placeholder="Please enter your data here">
+							<input type="text" class="form-control data secondary" id="item10Dimension1" placeholder="Please enter your data here">
 						</div>
 					</form>
 					</div>
@@ -717,7 +594,7 @@
 					</div>
 					<div class="col-md-1">
 						<div class="form-group">
-							<input type="text" class="form-control" id="item10Dimension1FactorLoading" placeholder="Value">
+							<input type="text" class="form-control data secondary" id="item10Dimension1FactorLoading" placeholder="Value">
 						</div>
 					</div>
 		</div>
