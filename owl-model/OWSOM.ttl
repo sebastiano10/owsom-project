@@ -271,13 +271,13 @@ owsom:DisgustEmbarrassement
   rdf:type owsom:Item ;
   owsom:hasFactorLoading ".70"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
-  rdfs:label "It embarrasses me when I feel disgust"^^xsd:string ;
+  rdfs:label "It embarrasses me when I feel disgusted"^^xsd:string ;
 .
 owsom:DisgustEmbarrassement_1
   rdf:type owsom:Item ;
   owsom:hasFactorLoading ".50"^^xsd:float ;
   owsom:isReversed "false"^^xsd:boolean ;
-  rdfs:label "It embarrasses me when I feel disgust"^^xsd:string ;
+  rdfs:label "It embarrasses me when I feel disgusted"^^xsd:string ;
 .
 owsom:DisgustProspensity
   rdf:type owsom:Dimension ;
@@ -305,7 +305,7 @@ owsom:DisgustProspensity_1
   owsom:hasItem owsom:Repulsed_1 ;
   owsom:hasItem owsom:SomethingDisgusting_1 ;
   owsom:hasItem owsom:StomachTurn_1 ;
-  rdfs:label "DisgustSensivity2"^^xsd:string ;
+  rdfs:label "Disgust Propensity"^^xsd:string ;
 .
 owsom:DisgustSensitivity
   rdf:type owsom:Dimension ;

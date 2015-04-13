@@ -188,16 +188,17 @@ def dimension_details():
     if uri:
         app.logger.debug(uri)
 
-        # Get the study details to fill the scale-related fields
+        # Get the dimension details to fill the dimension and item fields
         param="<"+uri+">"
         query = PREFIXES + """
-        SELECT DISTINCT ?label ?type ?def ?alpha ?item ?itemlabel ?reversed
+        SELECT DISTINCT ?label ?type ?def ?alpha ?item ?factor ?itemlabel ?reversed
         WHERE {{
             {0} rdfs:label ?label .
             {0} rdf:type owsom:Dimension 
             OPTIONAL {{ {0} owsom:hasDefinition ?def }}
             OPTIONAL {{ {0} owsom:chronbachAlpha ?alpha }}
             OPTIONAL {{ {0} owsom:hasItem ?item }}
+            OPTIONAL {{ ?item owsom:hasFactorLoading ?factor }}
             OPTIONAL {{ ?item rdfs:label ?itemlabel }}
             OPTIONAL {{ ?item owsom:isReversed ?reversed }}
         }}""".format(param)
