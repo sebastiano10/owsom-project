@@ -2,6 +2,7 @@ var concepts;
 var studies;
 var scales;
 var dimensions;
+var items;
 
 
 $(function(){
@@ -16,6 +17,7 @@ $(function(){
     studies = data.studies;
     scales = data.scales;
     dimensions = data.dimensions;
+    items = data.items;
     
     
     $('#studyName').selectize({
@@ -76,43 +78,153 @@ $(function(){
     
     
     $('#add-dimension').on('click',function(){
-      add_dimension();
+      add_dimension($('#dimension-list', null));
     });
     
     
   });
   
-  function add_dimension(){
-    var row = $('<tr></tr>');
-    var col1 = $('<td></td>');
-    var col2 = $('<td></td>');
-    var col3 = $('<td></td>');  
+  
+  function generateUUID(){
+      var d = new Date().getTime();
+      var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = (d + Math.random()*16)%16 | 0;
+          d = Math.floor(d/16);
+          return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+      });
+      return uuid;
+  };
+  
+  function add_dimension(parent, parent_uri){
     
-    var dimtext = $('<input type="text" class="form-control data secondary dimension" id="subscale[0]" placeholder="Please enter a dimension">');
+    uri = 'http://example.com/dimension/' + generateUUID();
     
+    var dimli = $('<li></li>');
+    dimli.addClass('list-group-item');    
+    dimli.prop('dimension',uri);
+    
+    
+    var dimdiv = $('<div></div>');
+    dimdiv.addClass('form-inline');
+    
+    var diminputgroup = $('<div></div>');
+    diminputgroup.addClass('form-group');
+    var diminputlabel = $('<label>Dimension&nbsp;</label><br/>');
+    var diminput = $('<input type="text" style="width: 300px;" class="form-control input data secondary dimension" id="subscale[0]" placeholder="Please enter a dimension">');
+    
+    diminput.prop('id',uri);
+    
+    if (parent_uri != null){
+      diminput.prop('parent',parent_uri);
+    }
+    
+    var dimreliabilitygroup = $('<div></div>');
+    dimreliabilitygroup.addClass('form-group');
+    var dimreliabilitylabel = $('<label>Reliability&nbsp;</label><br/>');
+    var dimreliability = $('<input type="text" style="width: 100px" class="form-control input-sm data secondary dimension" name="dimension" placeholder="Reliability">');
+    dimreliability.prop('dimension', uri);
+    
+    var subdimbtn = $('<span class="badge">Add Sub-dimension</span>');
+    var itembtn = $('<span class="badge">Add Item</div>');
+    var removebtn = $('<span class="badge"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>');
+    
+    var subdimul = $('<ul></ul>');
+    subdimul.addClass('list-group');
 
-    var subdimbtn = $('<div class="btn btn-sm">Add Sub-dimension</div>');
+    var itemul = $('<ul></ul>');
+    itemul.addClass('list-group');
+    
     
     subdimbtn.on('click', function(){
-      var subdimdiv = $('<div></div>');
-      var subdimtext = $('<input type="text" class="form-control data secondary dimension" id="subscale[0]" placeholder="Please enter a sub dimension">');
-      subdimdiv.append(subdimtext);
-      subdimbtn.before(subdimdiv);
+      add_dimension($(this).parent(), $(this).parent().prop('dimension'));
+      
+      // var subdimli = $('<li><label>Sub-Dimension<label></li>');
+      // subdimli.addClass('list-group-item');
+      // var subdimtext = $('<input type="text" style="width: 300px;" class="form-control data secondary dimension" id="subscale[0]" placeholder="Please enter a sub dimension">');
+      // subdimli.append(subdimtext);
+      // subdimul.append(subdimli);
     });
     
-    var itembtn = $('<div class="btn btn-sm">Add Item</div>');
+    itembtn.on('click', function(){
+      var itemli = $('<li></li>');
+      itemli.addClass('list-group-item');
+      
+      var removebtn = $('<span class="badge"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>');
+      
+      removebtn.on('click',function(){
+        $(this).parent().remove();
+      });
+      
+      var itemdiv = $('<div></div>');
+      itemdiv.addClass('form-inline');
+      
+      var itemgroup =  $('<div></div>');
+      itemgroup.addClass('form-group');
+      var itemlabel = $('<label>Item</label><br/>');
+      var iteminput = $('<input type="text" style="width: 300px;" class="form-control data secondary dimension" name="item" placeholder="Please enter an Item">');
+      iteminput.prop('dimension',$(this).parent().prop('dimension'));
+      
+      var itemreversedgroup = $('<div></div>');
+      itemreversedgroup.addClass('form-group');
+      var itemreversedlabel = $('<label>Reversed</label><br/>');
+      var itemreversed = $('<input type="checkbox" class="form-control data secondary dimension">y/n</input>');
+      itemreversed.prop('dimension',$(this).parent().prop('dimension'));
+      
+      itemli.append(removebtn);
+      
+      itemli.append(itemdiv);
+      itemdiv.append(itemgroup);
+      itemgroup.append(itemlabel);
+      itemgroup.append(iteminput);
+      
+      itemdiv.append(itemreversedgroup);
+      itemreversedgroup.append(itemreversedlabel);
+      itemreversedgroup.append(itemreversed);
+      
+      
+      itemul.append(itemli);     
+      
+      
+      iteminput.selectize({
+        valueField: 'item',
+        labelField: 'label',
+        searchField: 'label',
+        create: true,
+        maxItems: 1,
+        options: items,
+        create: function(input){
+          var dim = {
+            label: input,
+            item: 'http://example.com/item/'+input
+          }
+          items.push(item);
+          return item
+        }
+      }); 
+    });
     
-    col1.append(dimtext);
-    col2.append(subdimbtn);
-    col3.append(itembtn);
-    row.append(col1);
-    row.append(col2);
-    row.append(col3);
+    removebtn.on('click',function(){
+      $(this).parent().remove();
+    });
     
+    dimli.append(subdimbtn);
+    dimli.append(itembtn);
+    dimli.append(removebtn);
     
-    $('tbody#dimensions-body').append(row);
+    dimli.append(dimdiv);
+    dimdiv.append(diminputgroup);
+    dimdiv.append(dimreliabilitygroup);
+    diminputgroup.append(diminputlabel);
+    diminputgroup.append(diminput);
+    dimreliabilitygroup.append(dimreliabilitylabel);
+    dimreliabilitygroup.append(dimreliability);
     
-    dimtext.selectize({
+    dimli.append(subdimul);
+    dimli.append(itemul);
+    
+    parent.append(dimli);
+    
+    diminput.selectize({
       valueField: 'dimension',
       labelField: 'label',
       searchField: 'label',
