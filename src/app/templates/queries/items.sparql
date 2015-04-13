@@ -1,0 +1,8 @@
+{{PREFIXES}}
+
+SELECT DISTINCT ?item ?label WHERE {
+ ?item a owsom:Item ;
+    rdfs:label ?label .
+}
+
+
