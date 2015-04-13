@@ -2,6 +2,6 @@
 
 SELECT ?dimension ?label ?alpha WHERE {
   <{{ uri }}> owsom:hasDimension ?dimension .
-  ?dimension  owsom:chronbachAlpha ?alpha ;
-              rdfs:label ?dimension_label .
+  ?dimension  owsom:chronbachAlpha ?alpha .
+  ?dimension  rdfs:label ?label .
 }
