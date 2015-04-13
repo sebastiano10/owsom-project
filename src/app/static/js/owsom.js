@@ -372,15 +372,15 @@ function get_scale_details(value){
     
     $("#subscales").val(dimensions.length);
     
-	  for(index=0; index < dimensions.length; ++index) {
+	for(index=0; index < dimensions.length; ++index) {		  
 		  // better query dimension seperately to get the dimension label
 		  $("#dimensions1").prop("checked", true);
-        	  // TODO: Now adding the dimension_label, but we should keep the uri itself as well!
-		  $("#subscale["+ index +"]").val(dimensions[index].label);
+
+		  $("#subscale"+index).val(dimensions[index].label);
 	  
 	   	  // fill chronbach alpha field per dimension
 		  if(dimensions[index].alpha) {
-			  $("subscaleReliability"+ index).val(dimensions[index].alpha);
+			  $("#subscaleReliability"+index).val(dimensions[index].alpha);
 		  }
 			
 		  // get dimension details
@@ -389,6 +389,26 @@ function get_scale_details(value){
 	        console.log(data);
 		
 	   	  // populate items per dimension
+		  for(index=0; index < data.results.length; index++) {
+			    if(dimensions[0]) {
+			    	$("#dimensionItem"+index).val(data.results[index].itemlabel);
+
+		  	    	if(data.results[index].reversed == true) {
+						$("#dimensionItem"+index+"Rev").prop("checked", true)
+					}
+
+					if(data.results[index].factor) {
+						$("#dimensionItem"+index+"FactorLoading").val(data.results[index].factor);
+					}
+				
+			    }
+				else if(dimension[1]){
+					// add another dimensions' item fields
+					console.log('to do second');
+				}
+			    
+		  }	
+			
 		  });
   			  
 	  }
