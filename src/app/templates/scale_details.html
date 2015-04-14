@@ -53,6 +53,7 @@
   						<textarea class="form-control" rows="3" id="conceptDef" placeholder="Please enter your data here"></textarea>
   					</div>
   				</form>
+
         </div>
         <div class="col-lg-6">
   				<h4>Scale points<br>
@@ -65,20 +66,20 @@
   						<input type="radio" name="likertPoints" id="likertPoints" value="no">No
   					</label>
   				</div>
-  				<h4><small>How many points do these Likert scales consist of?</small></h4>
+  				<h4><small>How many points does the scale have?</small></h4>
   				<p>(Reseachers may use scales with different numbers of choices, e.g. <code>5-point scales</code> or <code>7-point scales</code>)</p>
   				<form role="form">
   					<div class="form-group">
   						<input type="text" class="form-control data secondary" id="likertPointsAmount" placeholder="Please enter your data here">
   					</div>
   				</form>
-  				<h4><small>Please provide information on the numbers of Likert scale points used for different items (or groups of items)</small></h4>
-  				<p>(Reseachers may use scales with different numbers of choices, e.g. <code>5-point scales</code> or <code>7-point scales</code>)</p>
-  				<form role="form">
-  					<div class="form-group">
-  						<input type="text" class="form-control data secondary" id="likertPointsInfo" placeholder="Please enter your data here">
-  					</div>
-  				</form>
+  				<!-- <h4><small>Please provide information on the numbers of Likert scale points used for different items (or groups of items)</small></h4>
+          <p>(Reseachers may use scales with different numbers of choices, e.g. <code>5-point scales</code> or <code>7-point scales</code>)</p>
+          <form role="form">
+            <div class="form-group">
+              <input type="text" class="form-control data secondary" id="likertPointsInfo" placeholder="Please enter your data here">
+            </div>
+          </form> -->
   			</div>
       
 		</div>
@@ -94,7 +95,19 @@
       </div>
     </div> -->
 		<div class="row">
-			<div class="col-lg-offset-6 col-lg-6">
+      <div class="col-lg-6">
+    				<h4>Reliability<br/>
+    				<small>Researchers report reliability metrics for social measurement scales, most often using Cronbach's
+    		alpha (α).</small></h4>
+            <!-- <h3><small>What is the reliability of the total scale?</small></h3>
+            <p>(Please provide in the following format: e.g. <code>.89</code>)</p> -->
+    				<form role="form">
+    					<div class="form-group">
+    						<input type="text" class="form-control data secondary" id="totalReliability" placeholder="e.g. .83">
+    					</div>
+    				</form>
+      </div>
+			<div class="col-lg-6">
 				<h4>Scale anchors<br>
 				<small>What are the anchors for these Likert scales?</small></h4>
 				<p>(Reseachers typically use anchors to indicate what the scale points correspond to, e.g. <code>strongly disagree to strongly agree</code> or <code>not at all to very much</code>)</p>

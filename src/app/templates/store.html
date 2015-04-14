@@ -6,15 +6,12 @@
 {% endblock %}
 
 {% block owsom_content %}
-
-
-    <div class="row">
-      <div class="col-md-12">
-        <h2>Enter data on scales</h2>
-        <hr/>
+    
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Publication</h3>
       </div>
     </div>
-    
     <div class="row" id="doi-row">
       <div class='col-md-6'>
         <div class="form-group">
@@ -94,10 +91,13 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-10">
 				<label><small>In many cases, social science scales are developed in order to measure a concept or construct which subsumes other lower-level constructs. Thus, social science scales can either be unidimensional (i.e., measuring one unified construct) or mutidimensional (i.e. measuring more than one constructs).<br/>
 		Multidimensionality should be explicitly indicated in a publication, either by referring to distinct dimensions or by referring to distinct subscales. Please answer the following questions based on such information on dimensions or subscales.</small></label>
 			</div>
+      <div class="col-lg-2">
+        <div id="add-dimension" class="btn btn-primary btn-xs pull-right">Add dimension</div>
+      </div>
 		</div>
     
     
@@ -105,378 +105,14 @@
       <div class="col-lg-12">
         <ul class='list-group' id="dimension-list">
         </ul>
-        <div id="add-dimension" class="btn btn-primary">Add dimension</div>
+        
       </div>
     </div>
     
     
     
     
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Dimensions<br>
-				<small>Does the scale include distinct subscales or dimensions?</small></h3>
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="dimensions" id="dimensions1" value="yes">Yes
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="dimensions" id="dimensions2" value="no">No
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>How many sub-scales or dimensions does the scale include?</small></h3>
-				<form>
-				<select id="subscales">
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-					<option value="6">6</option>
-				</select>
-				</form>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>What are the names of these sub-scales or dimensions?</small></h3>
-			</div>
-		</div>
-		<div class="row">
-				<form role="form">
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscale0" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscale1" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscale2" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscale3" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscale4" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscale5" placeholder="Please enter your data here">
-						</div>
-					</div>
-				</form>
-		</div>
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Factor analysis<br>
-				<small>Have the authors performed factor analysis to examine dimensionality?</small></h3>
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="factorAnalysis" id="factorAnalysisYes" value="yes">Yes
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="factorAnalysis" id="factorAnalysisNo" value="no">No
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12">
-				<h3><small>What type of factor analyses have the authors performed?</small></h3>
-			</div>
-			<div class="col-md-6">
-				<div class="radio-inline">
-					<label class="radio-inline">
-					<input type="radio" name="factorAnalysisType" id="factorAnalysisType1" value="exploratory">Exploratory factor analysis (EFA)
-					</label>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="factorAnalysisType" id="factorAnalysisType2" value="confirmatory">Confirmatory factor analysis (CFA)
-					</label>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="factorAnalysisType" id="factorAnalysisType3" value="both">Both exploratory (EFA) and confirmatory factor analysis (CFA)
-					</label>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="factorAnalysisType" id="factorAnalysisType4" value="principal">Principal components analysis (PCA)
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12">
-				<h3>Reliability</h3>
-				<p>Researchers report reliability metrics for social measurement scales, most often using Cronbach's
-		alpha (α).</p>
-				<h3><small>What is the reliability of the total scale?</small></h3>
-				<p>(Please provide in the following format: e.g. <code>.89</code>)</p>
-				<form role="form">
-					<div class="form-group">
-						<input type="text" class="form-control data secondary" id="totalReliability" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-lg-6">
-				<h3><small>What is the reliability of the before-mentioned dimension or sub-scale?</small></h3>
-			</div>
-		</div>
-		<div class="row">
-				<form role="form">
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscaleReliability0" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscaleReliability1" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscaleReliability2" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscaleReliability3" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscaleReliability4" placeholder="Please enter your data here">
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="subscaleReliability5" placeholder="Please enter your data here">
-						</div>
-					</div>
-				</form>
-		</div>
-		<div class="row">
-			<div class="col-lg-12">
-				<h3>Items<br>
-				<small>Please copy the items for dimension or sub-scale -1- in the fields below</small></h3>
-				<p>If applicable, please indicate the item order suggested by the authors in parantheses.<br></p>
-					<p>Further, indicate whether each item is reversed by checking Yes or No right beside it.<br></p>
-					<p>Finally, if applicable, also note the factor loading in the appropriate field next to each item (Please use the following format: e.g. <code>.54</code>)</p>
-				</div>
-				<div class="col-md-8">
-					<h5>Item</h5>
-				</div>
-				<div class="col-md-1">
-					<h5>Reversed</h5>
-				</div>
-				<div class="col-md-2">
-					<h5>Factor loading</h5>
-				</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem0" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem0Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem0FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem1" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem1Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem1FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem2" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem2Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem2FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem3" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem3Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem3FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem4" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem4Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem4FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem5" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem5Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem5FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem6" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem6Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem6FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem7" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem7Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem7FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem8" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem8Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem8FactorLoading" placeholder="Value">
-						</div>
-					</div>
-					<div class="col-md-8">
-					<form role="form">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem9" placeholder="Please enter your data here">
-						</div>
-					</form>
-					</div>
-					<div class="col-md-1">
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" id="dimensionItem9Rev">
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="form-group">
-							<input type="text" class="form-control data secondary" id="dimensionItem9FactorLoading" placeholder="Value">
-						</div>
-					</div>
+
 
 
 

@@ -86,6 +86,9 @@ def data():
     items_query = render_template('queries/items.sparql', PREFIXES=PREFIXES) 
     items = query(items_query)
     
+    analyses_query = render_template('queries/analyses.sparql', PREFIXES=PREFIXES) 
+    analyses = query(analyses_query)
+    
     
     response = {
         'papers': papers,
@@ -93,7 +96,8 @@ def data():
         'scales': scales,
         'concepts': concepts,
         'dimensions': dimensions,
-        'items': items
+        'items': items,
+        'analyses': analyses
     }
     
     return jsonify(response)

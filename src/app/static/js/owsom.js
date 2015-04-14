@@ -4,6 +4,7 @@ var studies;
 var scales;
 var dimensions;
 var items;
+var analyses;
 
 
 $(function(){
@@ -20,6 +21,7 @@ $(function(){
     scales = data.scales;
     dimensions = data.dimensions;
     items = data.items;
+    analyses = data.analyses;
     
     
     $('#doi-input').selectize({
@@ -76,8 +78,12 @@ $(function(){
       },
       onChange: function(value){
         console.log('Selected study value: ' + value);
+        
+        // Remove all data entered
         $('.data.secondary').val('');
         $("input[type='radio']").removeAttr('checked');
+        $('#dimension-list').empty();
+        
         get_study_details(value);
         $('#study-details').show();
       }
@@ -115,8 +121,12 @@ $(function(){
       },
       onChange: function(value){
         console.log('Selected scale value: ' + value);
+        
+        // Remove all data entered
         $('.data.secondary').val('');
         $("input[type='radio']").removeAttr('checked');
+        $('#dimension-list').empty();
+        
         get_scale_details(value);
         $('#scale-details').show();
       }
@@ -137,6 +147,15 @@ $(function(){
         concepts.push(concept);
         return concept;
       }
+    });
+    
+    $("#factor-analysis-type").selectize({
+      valueField: 'analysis',
+      labelField: 'label',
+      searchField: 'label',
+      create: true,
+      maxItems: 1,
+      options: analyses
     })
     
     $('#toggle-scale-details').on('click',function(){
@@ -388,134 +407,7 @@ $(function(){
     
   }
   
-  // $('#studyName').selectize({
-  //   valueField: 'study',
-  //   labelField: 'label',
-  //   searchField: 'label',
-  //   create: false,
-  //   maxItems: 1,
-  //   render: {
-  //       option: function(item, escape) {
-  //           return '<div>' +
-  //               '<span class="title">' +
-  //                   escape(item.label)
-  //               '</span>' +
-  //               '<span class="uri">' + escape(item.study) + '</span>' +
-  //               '<ul class="meta">' +
-  //                 item.title
-  //               '</ul>' +
-  //           '</div>';
-  //       }
-  //   },
-  //   score: function(search) {
-  //     var score = this.getScoreFunction(search);
-  //     return function(item) {
-  //       return item.score;
-  //     };
-  //   },
-  //   load: function(query, callback) {
-  //       if (!query.length) return callback();
-  //       $.ajax({
-  //           url: '/match/study/' + encodeURIComponent(query),
-  //           type: 'GET',
-  //           error: function() {
-  //             console.log('error')
-  //             callback();
-  //           },
-  //           success: function(res) {
-  //             console.log(res)
-  //             callback(res['result']);
-  //           }
-  //       });
-  //   },
-  //   onChange: function(value){
-  //     if (!value.length) return ;
-  //
-  //     console.log('Selected: ' + value);
-  //
-  //     // Get study details
-  //     $.get('/study/details', {'uri': value}, function(data){
-  //       console.log(data);
-  //
-  //           // fill sample size field
-  //       if(data.results[0].size) {
-  //             $("#sampleSize").val(data.results[0].size);
-  //       }
-  //
-  //           // fill female participants field
-  //       if(data.results[0].female) {
-  //         $("#femPercentage").val(data.results[0].female)
-  //       }
-  //
-  //       // fill mean participants age field
-  //       if(data.results[0].age) {
-  //         $("#meanAge").val(data.results[0].age)
-  //       }
-  //
-  //           // fill country of conduct field
-  //       if(data.results[0].country) {
-  //             $("#country").val(data.results[0].country);
-  //       }
-  //
-  //       // fill factor analysis fields
-  //       if(data.results[0].analysis)
-  //         $("#factorAnalysisYes").prop("checked", true);
-  //       else
-  //         $("#factorAnalysisNo").prop("checked", true);
-  //
-  //         if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFA')
-  //           $("#factorAnalysisType1").prop("checked", true);
-  //         else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/CFA')
-  //           $("#factorAnalysisType2").prop("checked", true);
-  //         else if (data.results[0].analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFACCFA')
-  //             $("#factorAnalysisType3").prop("checked", true);
-  //         else (data.results[0].originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/PCA')
-  //           $("#factorAnalysisType4").prop("checked", true);
-  //     });
-  //     }
-  // });
-  
-//   $('#scaleName').selectize({
-//     valueField: 'scale',
-//     labelField: 'label',
-//     searchField: 'label',
-//     create: false,
-//     maxItems: 1,
-//     render: {
-//         option: function(item, escape) {
-//             return '<div>' +
-//                 '<span class="title">' +
-//                     item.label
-//                 '</span>' +
-//                 '<span class="description">' + item.study + '</span>' +
-//                 '<ul class="meta"><li>' +
-//                   item.title
-//                 '</li></ul>' +
-//             '</div>';
-//         }
-//     },
-//     score: function(search) {
-//       var score = this.getScoreFunction(search);
-//       return function(item) {
-//         return item.score;
-//       };
-//     },
-//     load: function(query, callback) {
-//         if (!query.length) return callback();
-//         $.ajax({
-//             url: '/match/scale/' + encodeURIComponent(query),
-//             type: 'GET',
-//             error: function() {
-//               console.log('error')
-//               callback();
-//             },
-//             success: function(res) {
-//               console.log(res)
-//               callback(res['result']);
-//             }
-//         });
-//     }
-// });
+
 
 
 
@@ -556,19 +448,10 @@ function get_study_details(value){
     }
 
     // fill factor analysis fields
-    if(study.analysis)
-      $("#factorAnalysisYes").prop("checked", true);
-    else
-      $("#factorAnalysisNo").prop("checked", true);
-
-      if (study.analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFA')
-        $("#factorAnalysisType1").prop("checked", true);
-      else if (study.analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/CFA')
-        $("#factorAnalysisType2").prop("checked", true);
-      else if (study.analysis = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/EFACCFA')
-          $("#factorAnalysisType3").prop("checked", true);
-      else (study.originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/PCA')
-        $("#factorAnalysisType4").prop("checked", true);
+    console.log(study.analysis)
+    if(study.analysis) {
+      $('#factor-analysis-type')[0].selectize.setValue(study.analysis);
+    }
   });
 }
 

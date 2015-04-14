@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Fredericka+the+Great);
 
-h1.title, .navbar-brand.title {
+h1.title, .navbar-brand.title, h2, h3 {
   font-family: "Fredericka the Great";
 }
 
@@ -11,4 +11,8 @@ h1.title, .navbar-brand.title {
 
 .form-inline .form-group input {
   margin-right: 5px;
+}
+
+.btn {
+  width: 130px;
 }

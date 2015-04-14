@@ -1,0 +1,8 @@
+{{PREFIXES}}
+
+SELECT DISTINCT ?analysis ?label WHERE {
+ ?analysis a owsom:FactorAnalysisType ;
+    rdfs:label ?label .
+}
+
+
