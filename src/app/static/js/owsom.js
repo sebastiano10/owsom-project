@@ -1,3 +1,4 @@
+var papers;
 var concepts;
 var studies;
 var scales;
@@ -13,12 +14,50 @@ $(function(){
   
   // Retrieve the data for filling in the forms
   $.get('/data', function(data){
+    papers = data.papers;
     concepts = data.concepts;
     studies = data.studies;
     scales = data.scales;
     dimensions = data.dimensions;
     items = data.items;
     
+    
+    $('#doi-input').selectize({
+      valueField: 'paper',
+      labelField: 'label',
+      searchField: 'label',
+      create: true,
+      maxItems: 1,
+      options: papers,
+      create: function(input){
+        retrieve_doi_details(input);
+        
+        var paper = {
+          label: input,
+          paper: 'http://dx.doi.org/' + input
+        };
+        papers.push(paper);
+        return paper;
+      },
+      onChange: function(value){
+        
+        retrieve_doi_details(value);
+        
+        $.getJSON('/paper/details', {'uri': value}, function(data){
+          var paper_studies = data['studies'];
+          
+          var selectize = $('#studyName')[0].selectize;
+
+          selectize.clear();
+          selectize.clearOptions();
+          selectize.renderCache['option'] = {};
+          selectize.renderCache['item'] = {};
+
+          selectize.addOption(paper_studies);
+          
+        });
+      }      
+    });
     
     $('#studyName').selectize({
       valueField: 'study',
@@ -42,6 +81,17 @@ $(function(){
         get_study_details(value);
         $('#study-details').show();
       }
+    });
+    
+    $('#show-all-studies-button').on('click',function(){
+      var selectize = $('#studyName')[0].selectize;
+
+      selectize.clear();
+      selectize.clearOptions();
+      selectize.renderCache['option'] = {};
+      selectize.renderCache['item'] = {};
+      
+      selectize.addOption(studies);
     });
     
     $('#toggle-study-details').on('click',function(){
@@ -72,15 +122,47 @@ $(function(){
       }
     });
     
+    $("#concept").selectize({
+      valueField: 'concept',
+      labelField: 'label',
+      searchField: 'label',
+      create: true,
+      maxItems: 1,
+      options: concepts,
+      create: function(input){
+        var concept = {
+          label: input,
+          study: 'http://example.com/concept/'+input
+        };
+        concepts.push(concept);
+        return concept;
+      }
+    })
+    
     $('#toggle-scale-details').on('click',function(){
       $('#scale-details').toggle();
     });
     
     
     $('#add-dimension').on('click',function(){
-      add_dimension($('#dimension-list', null));
+      add_dimension($('#dimension-list'));
     });
     
+    
+    // TESTING
+    // var dims = [{
+    //   'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/DisgustSensitivity_1',
+    //   'items': [{'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/NauseousScare'}],
+    //   'subdimensions': [
+    //     {'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/DisgustSensitivity_1',
+    //      'items': [{'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/NauseousScare'}]
+    //     }
+    //   ]
+    // }]
+    
+    
+    
+
     
   });
   
@@ -95,13 +177,16 @@ $(function(){
       return uuid;
   };
   
-  function add_dimension(parent, parent_uri){
+  function add_dimension(parent, parent_uri, sub, data){
+    sub = typeof sub !== 'undefined' ? sub : false;
+    data = typeof data !== 'undefined' ? data : {};
+    console.log(data);
     
-    uri = 'http://example.com/dimension/' + generateUUID();
+    var dimensioninputid = generateUUID();
     
     var dimli = $('<li></li>');
     dimli.addClass('list-group-item');    
-    dimli.prop('dimension',uri);
+    dimli.prop('dimension','#'+dimensioninputid);
     
     
     var dimdiv = $('<div></div>');
@@ -109,107 +194,57 @@ $(function(){
     
     var diminputgroup = $('<div></div>');
     diminputgroup.addClass('form-group');
-    var diminputlabel = $('<label>Dimension&nbsp;</label><br/>');
-    var diminput = $('<input type="text" style="width: 300px;" class="form-control input data secondary dimension" id="subscale[0]" placeholder="Please enter a dimension">');
+    var diminputlabel = $('<label>Dimension&nbsp;</label>');
+    var diminput = $('<input type="text" style="width: 300px;" class="form-control input data secondary dimension" placeholder="Please enter a dimension">');
     
-    diminput.prop('id',uri);
+    diminput.attr('id',dimensioninputid);
     
     if (parent_uri != null){
-      diminput.prop('parent',parent_uri);
+      diminput.attr('parent',parent_uri);
     }
     
     var dimreliabilitygroup = $('<div></div>');
     dimreliabilitygroup.addClass('form-group');
-    var dimreliabilitylabel = $('<label>Reliability&nbsp;</label><br/>');
-    var dimreliability = $('<input type="text" style="width: 100px" class="form-control input-sm data secondary dimension" name="dimension" placeholder="Reliability">');
-    dimreliability.prop('dimension', uri);
+    var dimreliabilitylabel = $('<label>Reliability&nbsp;</label>');
+    var dimreliability = $('<input type="text" style="width: 100px" class="form-control input-sm data secondary reliability" name="dimension" placeholder="Reliability">');
+    dimreliability.attr('dimension', '#' + dimensioninputid);
     
-    var subdimbtn = $('<span class="badge">Add Sub-dimension</span>');
-    var itembtn = $('<span class="badge">Add Item</div>');
-    var removebtn = $('<span class="badge"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>');
+    if (!sub) {
+      var subdimbtn = $('<span class="btn btn-default btn-xs pull-right">Add Sub-dimension</span>');
+      subdimbtn.on('click', function(){
+        add_dimension($(this).parent(), $(this).parent().prop('dimension'), true);
+      });
+    }
+    
+    
+    var itembtn = $('<span class="btn btn-info btn-xs pull-right">Add Item</div>');
+    var removebtn = $('<span class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>');
     
     var subdimul = $('<ul></ul>');
     subdimul.addClass('list-group');
 
     var itemul = $('<ul></ul>');
     itemul.addClass('list-group');
+    itemulid = generateUUID();
+    
+    itemul.prop('id',itemulid);
     
     
-    subdimbtn.on('click', function(){
-      add_dimension($(this).parent(), $(this).parent().prop('dimension'));
-      
-      // var subdimli = $('<li><label>Sub-Dimension<label></li>');
-      // subdimli.addClass('list-group-item');
-      // var subdimtext = $('<input type="text" style="width: 300px;" class="form-control data secondary dimension" id="subscale[0]" placeholder="Please enter a sub dimension">');
-      // subdimli.append(subdimtext);
-      // subdimul.append(subdimli);
-    });
+
     
     itembtn.on('click', function(){
-      var itemli = $('<li></li>');
-      itemli.addClass('list-group-item');
-      
-      var removebtn = $('<span class="badge"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>');
-      
-      removebtn.on('click',function(){
-        $(this).parent().remove();
-      });
-      
-      var itemdiv = $('<div></div>');
-      itemdiv.addClass('form-inline');
-      
-      var itemgroup =  $('<div></div>');
-      itemgroup.addClass('form-group');
-      var itemlabel = $('<label>Item</label><br/>');
-      var iteminput = $('<input type="text" style="width: 300px;" class="form-control data secondary dimension" name="item" placeholder="Please enter an Item">');
-      iteminput.prop('dimension',$(this).parent().prop('dimension'));
-      
-      var itemreversedgroup = $('<div></div>');
-      itemreversedgroup.addClass('form-group');
-      var itemreversedlabel = $('<label>Reversed</label><br/>');
-      var itemreversed = $('<input type="checkbox" class="form-control data secondary dimension">y/n</input>');
-      itemreversed.prop('dimension',$(this).parent().prop('dimension'));
-      
-      itemli.append(removebtn);
-      
-      itemli.append(itemdiv);
-      itemdiv.append(itemgroup);
-      itemgroup.append(itemlabel);
-      itemgroup.append(iteminput);
-      
-      itemdiv.append(itemreversedgroup);
-      itemreversedgroup.append(itemreversedlabel);
-      itemreversedgroup.append(itemreversed);
-      
-      
-      itemul.append(itemli);     
-      
-      
-      iteminput.selectize({
-        valueField: 'item',
-        labelField: 'label',
-        searchField: 'label',
-        create: true,
-        maxItems: 1,
-        options: items,
-        create: function(input){
-          var dim = {
-            label: input,
-            item: 'http://example.com/item/'+input
-          }
-          items.push(item);
-          return item
-        }
-      }); 
+      add_item($(this).parent(), $(this).parent().prop('dimension'));
     });
     
     removebtn.on('click',function(){
       $(this).parent().remove();
     });
     
-    dimli.append(subdimbtn);
-    dimli.append(itembtn);
     dimli.append(removebtn);
+    dimli.append(itembtn);
+    dimli.append(subdimbtn);
+    
+    
     
     dimli.append(dimdiv);
     dimdiv.append(diminputgroup);
@@ -223,6 +258,7 @@ $(function(){
     dimli.append(itemul);
     
     parent.append(dimli);
+    parent.attr('itemul','#'+itemulid);
     
     diminput.selectize({
       valueField: 'dimension',
@@ -240,15 +276,117 @@ $(function(){
         return dim
       }
     });
+    
+    if (data['uri']){
+      diminput[0].selectize.setValue(data['uri']);
+      
+      if (data['reliability']){
+        dimreliability.val(data['reliability']);
+      }
+      
+      
+      if (data['items']){
+        for (n in data['items']) {
+          add_item(dimli, '#'+dimensioninputid, data['items'][n]);
+        } 
+      } 
+      if (data['subdimensions']){
+        for (n in data['subdimensions']) {
+          add_dimension(dimli, '#'+dimensioninputid, true, data['subdimensions'][n]);
+        }
+      }
+    }
   }
   
-  // Add a 'change handler' to the doi-input 
-  $('#doi-input').on('change', function(){
-    var doi = $('#doi-input').val();
+  function add_item(parent, parent_uri, data){
+    data = typeof data !== 'undefined' ? data : {};
     
-    retrieve_doi_details(doi);
+    var itemli = $('<li></li>');
+    itemli.addClass('list-group-item');
+    itemli.addClass('well');
     
-  });
+    var iteminputid = generateUUID();
+    
+    var removebtn = $('<span class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>');
+    
+    removebtn.on('click',function(){
+      parent.remove();
+    });
+    
+    var itemdiv = $('<div></div>');
+    itemdiv.addClass('form-inline');
+    
+    var itemgroup =  $('<div></div>');
+    itemgroup.addClass('form-group');
+    var itemlabel = $('<label>Item</label>');
+    var iteminput = $('<input type="text" style="width: 300px;" class="form-control data secondary item" name="item" placeholder="Please enter an Item">');
+    iteminput.attr('dimension',parent_uri);
+    iteminput.attr('id',iteminputid);
+    
+    var itemreversedgroup = $('<div></div>');
+    itemreversedgroup.addClass('form-group');
+    var itemreversedlabel = $('<label>Reversed</label>');
+    var itemreversed = $('<input type="checkbox" class="form-control data secondary reversed">y/n</input>');
+    itemreversed.attr('item','#'+iteminputid);
+    
+    var itemfactorloadinggroup = $('<div></div>');
+    itemfactorloadinggroup.addClass('form-group');
+    var itemfactorloadinglabel = $('<label>Factor loading</label>');
+    var itemfactorloading = $('<input type="text" style="width: 100px;" class="form-control input-sm data secondary loading">');
+    itemfactorloading.attr('item','#'+iteminputid);
+    
+    
+    itemli.append(removebtn);
+    
+    itemli.append(itemdiv);
+    itemdiv.append(itemgroup);
+    itemgroup.append(itemlabel);
+    itemgroup.append(iteminput);
+    
+    itemdiv.append(itemreversedgroup);
+    itemreversedgroup.append(itemreversedlabel);
+    itemreversedgroup.append(itemreversed);
+    
+    itemdiv.append(itemfactorloadinggroup);
+    itemfactorloadinggroup.append(itemfactorloadinglabel);
+    itemfactorloadinggroup.append(itemfactorloading);
+    
+    console.log(parent.parent());
+    $(parent.parent().attr('itemul')).append(itemli);     
+    
+    
+    iteminput.selectize({
+      valueField: 'item',
+      labelField: 'label',
+      searchField: 'label',
+      create: true,
+      maxItems: 1,
+      options: items,
+      create: function(input){
+        var item = {
+          label: input,
+          item: 'http://example.com/item/'+input
+        }
+        items.push(item);
+        return item
+      }
+    }); 
+    
+    if (data['uri']){
+      iteminput[0].selectize.setValue(data['uri']);
+      
+      if (data['reversed']){
+        if (data['reversed'] == 'true') {
+          itemreversed.attr('checked',true);
+        }
+      }
+      if (data['factorloading']){
+        itemfactorloading.val(data['factorloading'])
+      }
+    }
+    
+    
+  }
   
   // $('#studyName').selectize({
   //   valueField: 'study',
@@ -378,7 +516,7 @@ $(function(){
 //         });
 //     }
 // });
-});
+
 
 
 
@@ -460,7 +598,7 @@ function get_scale_details(value){
 		  $("#measureType4").prop("checked", true);
   
 	  // fill concept field
-	  $("#concept").val(scale.concept);
+    $("#concept")[0].selectize.setValue(scale.concept);
   
 	  // fill concept definition field
 	  $("#conceptDef").val(scale.definition);
@@ -484,46 +622,61 @@ function get_scale_details(value){
     
     $("#subscales").val(dimensions.length);
     
-	for(index=0; index < dimensions.length; ++index) {		  
-		  // better query dimension seperately to get the dimension label
-		  $("#dimensions1").prop("checked", true);
-
-		  $("#subscale"+index).val(dimensions[index].label);
-	  
-	   	  // fill chronbach alpha field per dimension
-		  if(dimensions[index].alpha) {
-			  $("#subscaleReliability"+index).val(dimensions[index].alpha);
-		  }
-			
-		  // get dimension details
-		  var dim = dimensions[index].dimension;
-	      $.get('/dimension/details', {'uri': dim}, function(data){
-	        console.log(data);
-		
-	   	  // populate items per dimension
-		  for(index=0; index < data.results.length; index++) {
-			    if(dimensions[0]) {
-			    	$("#dimensionItem"+index).val(data.results[index].itemlabel);
-
-		  	    	if(data.results[index].reversed == true) {
-						$("#dimensionItem"+index+"Rev").prop("checked", true)
-					}
-
-					if(data.results[index].factor) {
-						$("#dimensionItem"+index+"FactorLoading").val(data.results[index].factor);
-					}
-				
-			    }
-				else if(dimension[1]){
-					// add another dimensions' item fields
-					console.log('to do second');
-				}
-			    
-		  }	
-			
-		  });
-  			  
-	  }
+    
+    for (n in dimensions){
+      console.log(dimensions[n]);
+      
+      $.getJSON('/dimension/details', {'uri': dimensions[n]['dimension']}, function(data){
+        var dim = data['dimensions'];
+        
+        add_dimension($('#dimension-list'),null, false, dim);
+        
+        
+      })
+      
+      
+    }
+    
+  // for(index=0; index < dimensions.length; ++index) {
+  //     // better query dimension seperately to get the dimension label
+  //     $("#dimensions1").prop("checked", true);
+  //
+  //     $("#subscale"+index).val(dimensions[index].label);
+  //
+  //        // fill chronbach alpha field per dimension
+  //     if(dimensions[index].alpha) {
+  //       $("#subscaleReliability"+index).val(dimensions[index].alpha);
+  //     }
+  //
+  //     // get dimension details
+  //     var dim = dimensions[index].dimension;
+  //       $.get('/dimension/details', {'uri': dim}, function(data){
+  //         console.log(data);
+  //
+  //        // populate items per dimension
+  //     for(index=0; index < data.results.length; index++) {
+  //         if(dimensions[0]) {
+  //           $("#dimensionItem"+index).val(data.results[index].itemlabel);
+  //
+  //             if(data.results[index].reversed == true) {
+  //           $("#dimensionItem"+index+"Rev").prop("checked", true)
+  //         }
+  //
+  //         if(data.results[index].factor) {
+  //           $("#dimensionItem"+index+"FactorLoading").val(data.results[index].factor);
+  //         }
+  //
+  //         }
+  //       else if(dimension[1]){
+  //         // add another dimensions' item fields
+  //         console.log('to do second');
+  //       }
+  //
+  //     }
+  //
+  //     });
+  //
+  //   }
   });
 }
 
@@ -539,13 +692,13 @@ function retrieve_doi_details(doi){
   console.log(doi);
   
   // Check if the DOI starts with 'doi:' or 'http://dx.doi.org/' (should be removed)
-  if(doi.indexOf("doi") !=-1) {
-    doi = doi.slice(4,doi.length);
-    console.log(doi);
-  } else if(doi.indexOf("http://dx.doi.org/") != -1) {
+  if(doi.indexOf("http://dx.doi.org/") != -1) {
     doi = doi.slice(18,doi.length);
     console.log(doi);
-  }
+  } else if(doi.indexOf("doi") !=-1) {
+    doi = doi.slice(4,doi.length);
+    console.log(doi);
+  } 
 
 
   // First get the JSON description from the Crossref service (we'll worry about RDF later)
@@ -558,6 +711,8 @@ function retrieve_doi_details(doi){
     
     // Show the publication in a table
     show_publication(data);
+    
+    
     
   }).fail(function(){
     console.log("Error: DOI does not exist");
@@ -583,3 +738,5 @@ function show_publication(publication){
   $('#publication-details-col').show();
   
 }
+
+});

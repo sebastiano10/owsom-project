@@ -3,6 +3,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from app import app
 import requests
 import json
+from collections import defaultdict
 
 
 PREFIXES = """        
@@ -67,6 +68,9 @@ def query(query, inferencing=False):
 def data():
     app.logger.debug('Retrieving data necessary for rendering the forms')
     
+    papers_query = render_template('queries/papers.sparql', PREFIXES=PREFIXES) 
+    papers = query(papers_query)
+    
     studies_query = render_template('queries/studies.sparql', PREFIXES=PREFIXES) 
     studies = query(studies_query)
     
@@ -84,6 +88,7 @@ def data():
     
     
     response = {
+        'papers': papers,
         'studies': studies,
         'scales': scales,
         'concepts': concepts,
@@ -92,6 +97,34 @@ def data():
     }
     
     return jsonify(response)
+    
+    
+@app.route('/paper/details', methods=['GET'])
+def paper_details():
+    uri = request.args.get('uri', False)
+    
+    if uri:
+        paper_studies_query = render_template('queries/paper_studies.sparql', PREFIXES=PREFIXES, uri=uri)
+        paper_studies = query(paper_studies_query)
+        
+        return jsonify({'studies': paper_studies})
+    
+    return jsonify({'results': 'error'})
+
+@app.route('/study/details', methods=['GET'])
+def study_details():
+    uri = request.args.get('uri', False)
+    
+    print uri
+    
+    if uri:
+        study_details_query = render_template('queries/study_details.sparql',PREFIXES=PREFIXES, uri=uri)
+        study_details = query(study_details_query)
+        
+        # return json
+        return jsonify(study_details[0])
+        
+    return jsonify({'results': 'error'})
     
     
     
@@ -112,19 +145,50 @@ def scale_details():
         return jsonify({'scale': scale_details[0], 'dimensions': scale_dimensions})
         
     return jsonify({'results': 'error'})
-
-@app.route('/study/details', methods=['GET'])
-def study_details():
+    
+    
+@app.route('/dimension/details', methods=['GET'])
+def dimension_details():
     uri = request.args.get('uri', False)
     
     print uri
     
     if uri:
-        study_details_query = render_template('queries/study_details.sparql',PREFIXES=PREFIXES, uri=uri)
-        study_details = query(study_details_query)
+        dimension_details_query = render_template('queries/dimension_details.sparql',PREFIXES=PREFIXES, uri=uri)
+        dimension_details = query(dimension_details_query)
         
+        dimension = {'uri': uri, 'items': [], 'subdimensions': []}
+        subdimensions = defaultdict(list)
+        
+        
+        for entry in dimension_details :
+            if 'reliability' in entry:
+                dimension['reliability'] = entry['reliability']
+            
+            if 'item' in entry:
+                item = {'uri': entry['item']}
+                if 'factorloading' in entry:
+                    item['factorloading'] = entry['factorloading']
+                if 'reversed' in entry:
+                    item['reversed'] = entry['reversed']
+                
+                dimension['items'].append(item)
+            if 'subdimension' in entry :
+                item = {'uri': entry['subitem']}
+                if 'subfactorloading' in entry:
+                    item['subfactorloading'] = entry['subfactorloading']
+                if 'subreversed' in entry:
+                    item['subreversed'] = entry['subreversed']
+                if 'subreliability' in entry:
+                    dimension['subreliability'] = entry['subreliability']
+                    
+                subdimensions[entry['subdimension']].append(item)
+        
+        dimension['subdimensions'] = [{'uri': key, 'items': value} for key, value in subdimensions.items()]
+                
+        print dimension
         # return json
-        return jsonify(study_details[0])
+        return jsonify({'dimensions': dimension})
         
     return jsonify({'results': 'error'})
 
@@ -179,42 +243,45 @@ def match_study(search):
     
 
     
-@app.route('/dimension/details', methods=['GET'])
-def dimension_details():
-    uri = request.args.get('uri', False)
-    
-    print uri
-    
-    if uri:
-        app.logger.debug(uri)
-
-        # Get the dimension details to fill the dimension and item fields
-        param="<"+uri+">"
-        query = PREFIXES + """
-        SELECT DISTINCT ?label ?type ?def ?alpha ?item ?factor ?itemlabel ?reversed
-        WHERE {{
-            {0} rdfs:label ?label .
-            {0} rdf:type owsom:Dimension 
-            OPTIONAL {{ {0} owsom:hasDefinition ?def }}
-            OPTIONAL {{ {0} owsom:chronbachAlpha ?alpha }}
-            OPTIONAL {{ {0} owsom:hasItem ?item }}
-            OPTIONAL {{ ?item owsom:hasFactorLoading ?factor }}
-            OPTIONAL {{ ?item rdfs:label ?itemlabel }}
-            OPTIONAL {{ ?item owsom:isReversed ?reversed }}
-        }}""".format(param)
-
-        headers = {'Accept': 'application/sparql-results+json'}    
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-        results = json.loads(response.content)
-
-        # Flatten the results returned 
-        dimension = dictize(results)
-        
-        # return json
-        return jsonify({'results': dimension})
-        
-    return jsonify({'results': 'error'})
-    
+# @app.route('/dimension/details', methods=['GET'])
+# def dimension_details():
+#     uri = request.args.get('uri', False)
+#
+#     print uri
+#
+#     if uri:
+#         app.logger.debug(uri)
+#
+#         # Get the dimension details to fill the dimension and item fields
+#         param="<"+uri+">"
+#         query = PREFIXES + """
+#         SELECT DISTINCT ?label ?type ?def ?alpha ?item ?factor ?itemlabel ?reversed
+#         WHERE {{
+#             {0} rdfs:label ?label .
+#             {0} rdf:type owsom:Dimension
+#             OPTIONAL {{ {0} owsom:hasDefinition ?def }}
+#             OPTIONAL {{ {0} owsom:chronbachAlpha ?alpha }}
+#             OPTIONAL {{ {0} owsom:hasItem ?item }}
+#             OPTIONAL {{ ?item owsom:hasFactorLoading ?factor }}
+#             OPTIONAL {{ ?item rdfs:label ?itemlabel }}
+#             OPTIONAL {{ ?item owsom:isReversed ?reversed }}
+#         }}""".format(param)
+#
+#         headers = {'Accept': 'application/sparql-results+json'}
+#         response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+#         results = json.loads(response.content)
+#
+#         # Flatten the results returned
+#         dimension = dictize(results)
+#
+#         # return json
+#         return jsonify({'results': dimension})
+#
+#     return jsonify({'results': 'error'})
+   
+# ------
+# Legacy stuff: THIS IS NO LONGER CALLED
+# ------ 
 @app.route('/match/scale/<search>')
 def match_scale(search):
     print "Searching for", search
