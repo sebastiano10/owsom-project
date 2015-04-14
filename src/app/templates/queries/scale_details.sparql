@@ -4,7 +4,7 @@ SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?low
 WHERE {
     <{{ uri }}> rdfs:label ?label .
     OPTIONAL { <{{ uri }}> owsom:hasOriginality ?originality }
-    OPTIONAL { <{{ uri }}> owsom:hasConcept ?concept }
+    OPTIONAL { <{{ uri }}> owsom:hasConcept ?concept .}
     OPTIONAL { <{{ uri }}> owsom:hasDefinition ?definition }
     OPTIONAL { <{{ uri }}> rdf:type ?type }
     OPTIONAL { <{{ uri }}> owsom:hasPoints ?scalePoints }

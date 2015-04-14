@@ -1,0 +1,22 @@
+{{ PREFIXES }}
+
+SELECT DISTINCT ?reliability ?item ?factorloading ?reversed ?subdim ?subreliability ?subitem ?subfactorloading ?subreversed WHERE {
+  OPTIONAL { <{{ uri }}> owsom:chronbachAlpha ?reliability . }
+  { 
+    <{{ uri }}> owsom:hasItem ?item . 
+    OPTIONAL {
+      ?item owsom:hasFactorLoading ?factorloading .
+      ?item owsom:isReversed ?reversed .
+    }
+  }
+  UNION
+  {
+    <{{ uri }}> owsom:hasDimension ?subdim .
+  	?subdim owsom:hasItem ?subitem .
+    OPTIONAL { ?subdim owsom:chronbachAlpha ?subreliability . }
+    OPTIONAL {
+      ?subitem owsom:hasFactorLoading ?subfactorloading .
+      ?subitem owsom:isReversed ?subreversed .
+    }
+  }
+}
