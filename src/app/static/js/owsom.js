@@ -117,7 +117,7 @@ $(function(){
       create: function(input){
         var scale = {
           label: input,
-          study: 'http://example.com/scale/'+input
+          scale: 'http://example.com/scale/'+input
         };
         scales.push(scale);
         return scale;
@@ -145,7 +145,7 @@ $(function(){
       create: function(input){
         var concept = {
           label: input,
-          study: 'http://example.com/concept/'+input
+          concept: 'http://example.com/concept/'+input
         };
         concepts.push(concept);
         return concept;

@@ -22,6 +22,7 @@ PREFIXES = """
         """
 
 ENDPOINT_URI = 'http://localhost:5820/owsom/query'
+UPDATE_URI = 'http://localhost:5820/owsom/update'
 
 @app.route('/')
 def index():
@@ -51,20 +52,7 @@ def store():
     return str(response.status_code)
     
 
-def query(query, inferencing=False):
-    headers = {'Accept': 'application/sparql-results+json'}    
-    if not inferencing:
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-    else :
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query, 'reasoning': 'RDFS'})
-    
-    app.logger.debug(response.content)
-    results = json.loads(response.content)
 
-    # Flatten the results returned 
-    flattened_results = dictize(results)    
-    
-    return flattened_results
 
 @app.route('/data')
 def data():
@@ -259,10 +247,10 @@ def save():
     g.bind('owsom',OWSOM)
     
     
-    pub_uri = URIRef(data['doi-input']['uri'])
-    study_uri = URIRef(data['studyName']['uri'])
-    scale_uri = URIRef(data['scaleName']['uri'])
-    concept_uri = URIRef(data['concept']['uri'])
+    pub_uri = URIRef(data['doi-input']['uri'].replace(' ','_'))
+    study_uri = URIRef(data['studyName']['uri'].replace(' ','_'))
+    scale_uri = URIRef(data['scaleName']['uri'].replace(' ','_'))
+    concept_uri = URIRef(data['concept']['uri'].replace(' ','_'))
     
     # Publication
     g.add((pub_uri, RDF.type, OWSOM['Paper']))
@@ -315,7 +303,7 @@ def save():
         
     # Dimensions
     for dim in data['dimensions']:
-        dim_uri = URIRef(dim['dimension'])
+        dim_uri = URIRef(dim['dimension'].replace(' ','_'))
         
         g.add((dim_uri, RDF.type, OWSOM['Dimension']))
         g.add((dim_uri, RDFS.label, Literal(dim['label'])))
@@ -323,36 +311,39 @@ def save():
         if not 'parent' in dim:
             g.add((scale_uri, OWSOM['hasDimension'], dim_uri))
         else :
-            g.add((URIRef(dim['parent']), OWSOM['hasDimension'], dim_uri))
+            g.add((URIRef(dim['parent'].replace(' ','_')), OWSOM['hasDimension'], dim_uri))
             
     for rel in data['reliabilities']:
-        g.add((URIRef(rel['dimension']), OWSOM['chronbachAlpha'], Literal(rel['value'], datatype=XSD['float'])))
+        g.add((URIRef(rel['dimension'].replace(' ','_')), OWSOM['chronbachAlpha'], Literal(rel['value'], datatype=XSD['float'])))
      
     # Items  
     for item in data['items'] :
-        item_uri = URIRef(item['item'])
-        dim_uri = URIRef(item['dimension'])
+        item_uri = URIRef(item['item'].replace(' ','_'))
+        dim_uri = URIRef(item['dimension'].replace(' ','_'))
         
         g.add((item_uri, RDF.type, OWSOM['Item']))
         g.add((item_uri, RDFS.label, Literal(item['label'])))
         g.add((dim_uri, OWSOM['hasItem'], item_uri))
         
     for loading in data['loadings']:
-        item_uri = URIRef(loading['item'])
+        item_uri = URIRef(loading['item'].replace(' ','_'))
         
         g.add((item_uri, OWSOM['hasFactorLoading'], Literal(loading['value'], datatype=XSD['float'])))
     
     for rev in data['reverseds']:
-        item_uri = URIRef(rev['item'])
+        item_uri = URIRef(rev['item'].replace(' ','_'))
         
         g.add((item_uri, OWSOM['isReversed'], Literal(rev['value'], datatype=XSD['boolean'])))
         
         
     
+    update = make_update(g, data['doi-input']['uri'])
+    
+    response = sparql_update(update)
+    
     print g.serialize(format='turtle')
     
-    
-    return jsonify({'status': 'yay'})
+    return jsonify({'status': response})
     
     
     
@@ -442,6 +433,44 @@ def dictize(sparql_results):
         
     return results
     
+    
+def query(query, inferencing=False):
+    headers = {'Accept': 'application/sparql-results+json'}    
+    if not inferencing:
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+    else :
+        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query, 'reasoning': 'RDFS'})
+    
+    app.logger.debug(response.content)
+    results = json.loads(response.content)
+
+    # Flatten the results returned 
+    flattened_results = dictize(results)    
+    
+    return flattened_results
+    
+    
+def make_update(graph, graph_uri = None):
+    if graph_uri == None :
+        template = "INSERT DATA {{ {} }}"
+        query = template.format(graph.serialize(format='nt'))
+    else :
+        template = "INSERT DATA {{ GRAPH <{}> {{ {} }} }}"
+        query = template.format(graph_uri, graph.serialize(format='nt'))
+    
+    return query
+    
+def sparql_update(query, endpoint_url = UPDATE_URI):
+    UPDATE_HEADERS = {
+        'Content-Type': 'application/sparql-update'
+    }
+    result = requests.post(endpoint_url, data=query, headers=UPDATE_HEADERS)
+    
+
+    print "SPARQL UPDATE response: ", result.content
+    
+    return result.content
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
