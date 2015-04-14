@@ -7,7 +7,7 @@
 
 {% block owsom_content %}
 
-	<div class="container">
+
     <div class="row">
       <div class="col-md-12">
         <h2>Enter data on scales</h2>
@@ -28,146 +28,24 @@
         </div>
       </div>
     </div>
-    
-    
-    
-    <!-- <div class="row">
-      <div class="col-lg-6">
-        <h3>Publication type<br>
-        <small>What type of publication did you use?</small></h3>
-        <div class="radio-inline">
-          <label class="radio-inline">
-            <input type="radio" name="publicationTypes" id="publicationType1" value="option1">Journal article
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="publicationTypes" id="publicationType2" value="option2">Book chapter
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="publicationTypes" id="publicationType2" value="option3">Book
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Authors<br>
-        <small>What are the last names and initials of the publication authors?</small></h3>
-        <p>(please provide author names in the following format: e.g. <code>Goldberg, L. R.</code>)</p>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="author1" placeholder="Please enter your data here">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="author2" placeholder="Please enter your data here">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="author3" placeholder="Please enter your data here">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="author4" placeholder="Please enter your data here">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="author5" placeholder="Please enter your data here">
-          </div>
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="author6" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Publication year<br>
-        <small>What is the year of the publication?</small></h3>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="pubYear" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Publication title<br>
-        <small>What is the title of the publication you used?</small></h3>
-        <p>(depending on the type of publication, please provide the title of the article, book chapter or book)</p>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="pubTitle" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Journal name<br>
-        <small>What is the name of the journal in which the article was published?</small></h3>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="journalName" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Journal title<br>
-        <small>What is the DOI of the publication you used?</small></h3>
-        <p>(the DOI is a digital object identifier, which is commonly displayed in the journal article webpage)</p>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="journalDOI" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Book title<br>
-        <small>What is the title of the book where you found the book chapter?</small></h3>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="bookTitle" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6">
-        <h3>Book ISBN<br>
-        <small>What is the ISBN for the book you used?</small></h3>
-        <p>(the ISBN is an unique identifier, which is commonly printed on the back of the book cover)</p>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="bookISBN" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div> -->
-		<div class="row">
-			<div class="col-lg-6">
-				<h3>Publication studies<br>
-				<small>Does the publication you used include more than one study?</small></h3>
-				<div class="radio-inline">
-					<label class="radio-inline">
-						<input type="radio" name="pStudies" id="pStudies1" value="yes">Yes
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="pStudies" id="pStudies2" value="no">No
-					</label>
-				</div>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-lg-12">
-				<h3>Study name<br><div class="btn btn-default btn-small btn-xs" id="toggle-study-details">Toggle Details</div>
-				<small>What is the name of the study you would like to record?</small></h3>
-				<form role="form form-inline">
+				<h3>Study<div class="btn btn-default btn-xs pull-right" id="toggle-study-details">Toggle Details</div></h3>
+      </div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-6">
 					<div class="form-group">
+            <label for='#studyName'>Name <small>What is the name of the study you would like to record?</small></label>
 						<input type="text" class="form-control data primary" id="studyName" placeholder="Please enter your data here">
-					</div>
-				</form>
-			</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+            <div id='show-all-studies-button' class='btn btn-info btn-xs pull-right'>Show all studies</div>
+        </div>
+
+
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -182,11 +60,15 @@
       </div>
 		</div>
 		<div class="row">
-			<div class="col-lg-6">
-				<h3>Scale name<br><div class="btn btn-default btn-small btn-xs" id="toggle-scale-details">Toggle Details</div>
-				<small>What is the name of the scale?</small></h3>
+			<div class="col-lg-12">
+				<h3>Scale<div class="btn btn-default btn-xs pull-right" id="toggle-scale-details">Toggle Details</div></h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
 				<form role="form">
 					<div class="form-group">
+            <label for="#scaleName">Name <small>What is the name of the scale?</small></label>
 						<input type="text" class="form-control data primary" id="scaleName" placeholder="Please enter your data here">
 					</div>
 				</form>
@@ -208,9 +90,13 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h3>Dimensionality</h3>
-				<p>In many cases, social science scales are developed in order to measure a concept or construct which subsumes other lower-level constructs. Thus, social science scales can either be unidimensional (i.e., measuring one unified construct) or mutidimensional (i.e. measuring more than one constructs).<br>
-		Multidimensionality should be explicitly indicated in a publication, either by referring to distinct dimensions or by referring to distinct subscales. Please answer the following questions based on such information on dimensions or subscales.</p>
+				<h3>Dimensions</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+				<label><small>In many cases, social science scales are developed in order to measure a concept or construct which subsumes other lower-level constructs. Thus, social science scales can either be unidimensional (i.e., measuring one unified construct) or mutidimensional (i.e. measuring more than one constructs).<br/>
+		Multidimensionality should be explicitly indicated in a publication, either by referring to distinct dimensions or by referring to distinct subscales. Please answer the following questions based on such information on dimensions or subscales.</small></label>
 			</div>
 		</div>
     
@@ -591,7 +477,7 @@
 							<input type="text" class="form-control data secondary" id="dimensionItem9FactorLoading" placeholder="Value">
 						</div>
 					</div>
-		</div>
+
 
 
 
