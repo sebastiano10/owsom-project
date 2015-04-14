@@ -48,14 +48,17 @@ $(function(){
         $.getJSON('/paper/details', {'uri': value}, function(data){
           var paper_studies = data['studies'];
           
-          var selectize = $('#studyName')[0].selectize;
+          if (paper_studies.length >0){
+          
+            var selectize = $('#studyName')[0].selectize;
 
-          selectize.clear();
-          selectize.clearOptions();
-          selectize.renderCache['option'] = {};
-          selectize.renderCache['item'] = {};
+            selectize.clear();
+            selectize.clearOptions();
+            selectize.renderCache['option'] = {};
+            selectize.renderCache['item'] = {};
 
-          selectize.addOption(paper_studies);
+            selectize.addOption(paper_studies);
+          }
           
         });
       }      
@@ -165,6 +168,92 @@ $(function(){
     
     $('#add-dimension').on('click',function(){
       add_dimension($('#dimension-list'));
+    });
+    
+    $('#save-button').on('click', function(){
+      if ($('#doi-input').val() == ''){
+        alert('Must specify the DOI of a publication!');
+        return;
+      }
+      
+      
+      data = {};
+      items = [];
+      dimensions = [];
+      reliabilities = [];
+      loadings = [];
+      reverseds = [];
+      
+      $('input').each(function(index){
+        // console.log($(this).prop('id') + '> ' + $(this).val());
+        
+        elem = $(this);
+        elem_id = elem.prop('id');
+        
+        if (elem.hasClass('loading')) {
+          item_uri = $(elem.attr('item')).val();
+          
+          loadings.push({'item': item_uri, 'value': elem.val()});
+        } else if (elem.hasClass('reversed')){
+          item_uri = $(elem.attr('item')).val();
+          
+          reverseds.push({'item': item_uri, 'value': elem.prop('checked')});
+        } else if (elem.hasClass('item')) {
+          dimension_uri = $(elem.attr('dimension')).val();
+          
+          var label = elem[0].selectize.getItem(elem.val())[0].innerHTML;
+          
+          items.push({'dimension': dimension_uri, 'item': elem.val(), 'label': label})
+        } else if (elem.hasClass('dimension')) {
+          parent_dimension_uri = $(elem.attr('dimension')).val();
+          
+          var label = elem[0].selectize.getItem(elem.val())[0].innerHTML;
+          
+          if(parent_dimension_uri){
+            dimensions.push({'dimension': elem.val(), 'parent': parent_dimension_uri, 'label': label});
+          } else {
+            dimensions.push({'dimension': elem.val(), 'label': label});
+          }
+        } else if (elem.hasClass('reliability')) {
+          dimension_uri = $(elem.attr('dimension')).val();
+          
+          reliabilities.push({'dimension': dimension_uri, 'value': elem.val()});
+        } else if (elem.prop('type') == 'radio'){
+          data[elem_id] = elem.prop('checked');
+        } else if (elem.hasClass('selectized')){
+          console.log(elem);
+          console.log($(elem));
+          var uri = $(elem)[0].selectize.getValue();
+          if(uri!=''){            
+            var label = $(elem)[0].selectize.getItem(uri)[0].innerHTML;
+            data[elem_id] = {'uri': uri, 'label': label};
+          } else {
+            data[elem_id] = null;
+          }
+        } else {
+          if (elem_id == ''){
+            console.log(elem);
+          } else {
+            data[elem_id] = elem.val();
+          }
+        }
+        
+        
+      });
+      
+      data['items'] = items;
+      data['dimensions'] = dimensions;
+      data['reliabilities'] = reliabilities;
+      data['reverseds'] = reverseds;
+      data['loadings'] = loadings;
+      
+      console.log(data);
+      
+      $.post('/save', JSON.stringify(data), function(d){
+        console.log(d);
+        
+      }, "json");
+      
     });
     
     
@@ -507,7 +596,6 @@ function get_scale_details(value){
     
     
     for (n in dimensions){
-      console.log(dimensions[n]);
       
       $.getJSON('/dimension/details', {'uri': dimensions[n]['dimension']}, function(data){
         var dim = data['dimensions'];

@@ -6,13 +6,13 @@
 				<small>Is it an original, revised or brief version of the scale?</small></h4>
 				<div class="radio-inline">
 					<label class="radio-inline">
-						<input type="radio" name="scaleType" id="scaleType1" value="original">Original
+						<input type="radio"  class='form-control data' name="scaleType" id="scaleType1" value="original">Original
 					</label>
 					<label class="radio-inline">
-						<input type="radio" name="scaleType" id="scaleType2" value="revised">Revised
+						<input type="radio"  class='form-control data' name="scaleType" id="scaleType2" value="revised">Revised
 					</label>
 					<label class="radio-inline">
-						<input type="radio" name="scaleType" id="scaleType3" value="brief">Brief
+						<input type="radio"  class='form-control data' name="scaleType" id="scaleType3" value="brief">Brief
 					</label>
 				</div>
 				
@@ -23,16 +23,16 @@
   				<p>(Reseachers may use different types of scales to measure individual responses, e.g.Likert scales, Guttman scales or semantic scales)</p>
   				<div class="radio-inline">
   					<label class="radio-inline">
-  						<input type="radio" name="measureType" id="measureType1" value="likert">Likert scales
+  						<input type="radio" name="measureType" class='form-control data' id="measureType1" value="likert">Likert scales
   					</label>
   					<label class="radio-inline">
-  						<input type="radio" name="measureType" id="measureType2" value="guttman">Guttman scales
+  						<input type="radio" name="measureType" class='form-control data'  id="measureType2" value="guttman">Guttman scales
   					</label>
   					<label class="radio-inline">
-  						<input type="radio" name="measureType" id="measureType3" value="differential">Semantic differential scales
+  						<input type="radio" name="measureType" class='form-control data'  id="measureType3" value="differential">Semantic differential scales
   					</label>
   					<label class="radio-inline">
-  						<input type="radio" name="measureType" id="measureType4" value="other">Other
+  						<input type="radio" name="measureType" class='form-control data'  id="measureType4" value="other">Other
   					</label>
   				</div>
         </div>
@@ -50,7 +50,7 @@
   				<p>(If applicable, please copy a short description of the concept provided by the publication authors)</p>
   				<form role="form">
   					<div class="form-group">
-  						<textarea class="form-control" rows="3" id="conceptDef" placeholder="Please enter your data here"></textarea>
+  						<textarea class="form-control data" rows="3" id="conceptDef" placeholder="Please enter your data here"></textarea>
   					</div>
   				</form>
 
@@ -60,10 +60,10 @@
   				<small>Does this scale always consist of the same number of points?</small></h4>
   				<div class="radio-inline">
   					<label class="radio-inline">
-  						<input type="radio" name="likertPoints" id="likertPoints" value="yes">Yes
+  						<input type="radio" class='form-control data' name="likertPoints" id="likertPoints" value="yes">Yes
   					</label>
   					<label class="radio-inline">
-  						<input type="radio" name="likertPoints" id="likertPoints" value="no">No
+  						<input type="radio" class='form-control data' name="likertPoints" id="likertPoints" value="no">No
   					</label>
   				</div>
   				<h4><small>How many points does the scale have?</small></h4>
@@ -73,27 +73,11 @@
   						<input type="text" class="form-control data secondary" id="likertPointsAmount" placeholder="Please enter your data here">
   					</div>
   				</form>
-  				<!-- <h4><small>Please provide information on the numbers of Likert scale points used for different items (or groups of items)</small></h4>
-          <p>(Reseachers may use scales with different numbers of choices, e.g. <code>5-point scales</code> or <code>7-point scales</code>)</p>
-          <form role="form">
-            <div class="form-group">
-              <input type="text" class="form-control data secondary" id="likertPointsInfo" placeholder="Please enter your data here">
-            </div>
-          </form> -->
+  				
   			</div>
       
 		</div>
-    <!-- <div class="row">
-      <div class="col-lg-6">
-        <h4>Scale items<br>
-        <small>How many items does the scale consist of?</small></h4>
-        <form role="form">
-          <div class="form-group">
-            <input type="text" class="form-control data secondary" id="scaleItems" placeholder="Please enter your data here">
-          </div>
-        </form>
-      </div>
-    </div> -->
+
 		<div class="row">
       <div class="col-lg-6">
     				<h4>Reliability<br/>

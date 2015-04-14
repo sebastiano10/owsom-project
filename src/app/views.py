@@ -5,6 +5,8 @@ import requests
 import json
 from collections import defaultdict
 
+from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef, Literal, BNode, XSD
+
 
 PREFIXES = """        
         PREFIX owsom: <http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/> 
@@ -246,6 +248,117 @@ def match_study(search):
     return jsonify({'result': papers_with_authors})
     
 
+    
+@app.route('/save', methods=['POST'])
+def save():
+    data = request.get_json(force=True)
+    
+    g = Graph()
+    
+    OWSOM = Namespace('http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/')
+    g.bind('owsom',OWSOM)
+    
+    
+    pub_uri = URIRef(data['doi-input']['uri'])
+    study_uri = URIRef(data['studyName']['uri'])
+    scale_uri = URIRef(data['scaleName']['uri'])
+    concept_uri = URIRef(data['concept']['uri'])
+    
+    # Publication
+    g.add((pub_uri, RDF.type, OWSOM['Paper']))
+    g.add((pub_uri, RDFS.label, Literal(data['doi-input']['label'])))
+    
+    # Study
+    g.add((study_uri, RDF.type, OWSOM['Study']))
+    g.add((study_uri, RDFS.label, Literal(data['studyName']['label'])))
+    g.add((study_uri, OWSOM['describedIn'], pub_uri))
+    
+    # Study details
+    g.add((study_uri, OWSOM['hasSampleSize'], Literal(data['sampleSize'], datatype=XSD['int'])))
+    g.add((study_uri, OWSOM['femalePercentage'], Literal(data['femPercentage'])))
+    g.add((study_uri, OWSOM['hasCountryOfConduct'], Literal(data['country'])))
+    
+    if data['factor-analysis-type'] != None :
+        g.add((study_uri, OWSOM['hasFactorAnalysisType'], URIRef(data['factor-analysis-type']['uri'])))
+    
+    g.add((study_uri, OWSOM['hasMeanAge'], Literal(data['meanAge'], datatype=XSD['float'])))
+    
+    # Link the study to the scale
+    g.add((study_uri, OWSOM['hasScale'], scale_uri))
+    
+    # Scale
+    
+    if data['measureType1']:
+        g.add((scale_uri, RDF.type, OWSOM['LikertScale']))
+    elif data['measureType2']:
+        g.add((scale_uri, RDF.type, OWSOM['GuttmanScale']))
+    elif data['measureType3']:
+        g.add((scale_uri, RDF.type, OWSOM['SemanticDifferentialScale']))
+    else :
+        g.add((scale_uri, RDF.type, OWSOM['Scale']))
+            
+    g.add((scale_uri, OWSOM['hasConcept'], concept_uri))
+    
+    # Scale details
+    g.add((scale_uri, OWSOM['hasLowerAnchor'], Literal(data['likertPointsInfo1'])))
+    g.add((scale_uri, OWSOM['hasHigherAnchor'], Literal(data['likertPointsInfo2'])))
+    
+    g.add((scale_uri, OWSOM['hasPoints'], Literal(data['likertPointsAmount'], datatype=XSD['int'])))
+    g.add((scale_uri, OWSOM['hasScaleReliability'], Literal(data['totalReliability'], datatype=XSD['float'])))
+
+    if data['scaleType1']:
+        g.add((scale_uri, OWSOM['hasOriginality'], OWSOM['Original']))
+    elif data['scaleType2']:
+        g.add((scale_uri, OWSOM['hasOriginality'], OWSOM['Revised']))
+    elif data['scaleType3']:
+        g.add((scale_uri, OWSOM['hasOriginality'], OWSOM['Brief']))
+        
+    # Dimensions
+    for dim in data['dimensions']:
+        dim_uri = URIRef(dim['dimension'])
+        
+        g.add((dim_uri, RDF.type, OWSOM['Dimension']))
+        g.add((dim_uri, RDFS.label, Literal(dim['label'])))
+        
+        if not 'parent' in dim:
+            g.add((scale_uri, OWSOM['hasDimension'], dim_uri))
+        else :
+            g.add((URIRef(dim['parent']), OWSOM['hasDimension'], dim_uri))
+            
+    for rel in data['reliabilities']:
+        g.add((URIRef(rel['dimension']), OWSOM['chronbachAlpha'], Literal(rel['value'], datatype=XSD['float'])))
+     
+    # Items  
+    for item in data['items'] :
+        item_uri = URIRef(item['item'])
+        dim_uri = URIRef(item['dimension'])
+        
+        g.add((item_uri, RDF.type, OWSOM['Item']))
+        g.add((item_uri, RDFS.label, Literal(item['label'])))
+        g.add((dim_uri, OWSOM['hasItem'], item_uri))
+        
+    for loading in data['loadings']:
+        item_uri = URIRef(loading['item'])
+        
+        g.add((item_uri, OWSOM['hasFactorLoading'], Literal(loading['value'], datatype=XSD['float'])))
+    
+    for rev in data['reverseds']:
+        item_uri = URIRef(rev['item'])
+        
+        g.add((item_uri, OWSOM['isReversed'], Literal(rev['value'], datatype=XSD['boolean'])))
+        
+        
+    
+    print g.serialize(format='turtle')
+    
+    
+    return jsonify({'status': 'yay'})
+    
+    
+    
+    
+    
+    
     
 # @app.route('/dimension/details', methods=['GET'])
 # def dimension_details():
