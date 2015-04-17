@@ -14,7 +14,7 @@ $(function(){
   
   
   // Retrieve the data for filling in the forms
-  $.get('/data', function(data){
+  $.get('data', function(data){
     papers = data.papers;
     concepts = data.concepts;
     studies = data.studies;
@@ -506,7 +506,7 @@ $(function(){
 
 function get_study_details(value){
   // Get study details
-  $.get('/study/details', {'uri': value}, function(data){
+  $.get('study/details', {'uri': value}, function(data){
     console.log(data);
 
     var study = data;
@@ -546,8 +546,7 @@ function get_study_details(value){
 
 function get_scale_details(value){
   // Get scale details
-  $.get('/scale/details', {'uri': value}, function(data){
-    console.log(data);
+  $.get('scale/details', {'uri': value, 'graph': publication}, function(data){
     var scale = data.scale;
     var dimensions = data.dimensions; 
     
