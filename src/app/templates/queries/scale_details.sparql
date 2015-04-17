@@ -2,13 +2,15 @@
 
 SELECT DISTINCT ?label ?originality ?concept ?definition ?type ?scalePoints ?lowerAnchor ?higherAnchor ?reliability
 WHERE {
-    <{{ uri }}> rdfs:label ?label .
-    OPTIONAL { <{{ uri }}> owsom:hasOriginality ?originality }
-    OPTIONAL { <{{ uri }}> owsom:hasConcept ?concept .}
-    OPTIONAL { <{{ uri }}> owsom:hasDefinition ?definition }
-    OPTIONAL { <{{ uri }}> rdf:type ?type }
-    OPTIONAL { <{{ uri }}> owsom:hasPoints ?scalePoints }
-    OPTIONAL { <{{ uri }}> owsom:hasLowerAnchor ?lowerAnchor }
-    OPTIONAL { <{{ uri }}> owsom:hasHigherAnchor ?higherAnchor }
-    OPTIONAL { <{{ uri }}> owsom:hasScaleReliability ?reliability }
+    GRAPH ?g {
+      <{{ uri }}> rdfs:label ?label .
+      OPTIONAL { <{{ uri }}> owsom:hasOriginality ?originality }
+      OPTIONAL { <{{ uri }}> owsom:hasConcept ?concept .}
+      OPTIONAL { <{{ uri }}> owsom:hasDefinition ?definition }
+      OPTIONAL { <{{ uri }}> rdf:type ?type }
+      OPTIONAL { <{{ uri }}> owsom:hasPoints ?scalePoints }
+      OPTIONAL { <{{ uri }}> owsom:hasLowerAnchor ?lowerAnchor }
+      OPTIONAL { <{{ uri }}> owsom:hasHigherAnchor ?higherAnchor }
+      OPTIONAL { <{{ uri }}> owsom:hasScaleReliability ?reliability }
+    }
 } LIMIT 1

@@ -2,6 +2,7 @@
 
 SELECT DISTINCT ?label ?type ?paper ?def ?country ?size ?analysis ?age ?female ?scale
 WHERE {
+  GRAPH ?g {
     <{{ uri }}> rdfs:label ?label .
     <{{ uri }}> rdf:type owsom:Study .
     <{{ uri }}> owsom:describedIn ?paper 
@@ -12,4 +13,5 @@ WHERE {
     OPTIONAL { <{{ uri }}> owsom:hasMeanAge ?age }
     OPTIONAL { <{{ uri }}> owsom:femalePercentage ?female }
     OPTIONAL { <{{ uri }}> owsom:hasScale ?scale }
+  }
 } LIMIT 1

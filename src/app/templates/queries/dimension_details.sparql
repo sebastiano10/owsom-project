@@ -1,22 +1,41 @@
 {{ PREFIXES }}
 
 SELECT DISTINCT ?reliability ?item ?factorloading ?reversed ?subdim ?subreliability ?subitem ?subfactorloading ?subreversed WHERE {
-  OPTIONAL { <{{ uri }}> owsom:chronbachAlpha ?reliability . }
+  {% if graph %}
+  OPTIONAL {
+    GRAPH <{{ graph }}> { <{{ uri }}> owsom:chronbachAlpha ?reliability . }
+  }
+  {% endif %}
   { 
-    <{{ uri }}> owsom:hasItem ?item . 
+    GRAPH ?g1 { <{{ uri }}> owsom:hasItem ?item . }
+    
+    {% if graph %}
     OPTIONAL {
-      ?item owsom:hasFactorLoading ?factorloading .
-      ?item owsom:isReversed ?reversed .
+      GRAPH <{{ graph }}> { ?item owsom:hasFactorLoading ?factorloading . }
+    }
+    {% endif %}
+    OPTIONAL {
+      GRAPH ?2 { ?item owsom:isReversed ?reversed . }
     }
   }
   UNION
   {
-    <{{ uri }}> owsom:hasDimension ?subdim .
-  	?subdim owsom:hasItem ?subitem .
-    OPTIONAL { ?subdim owsom:chronbachAlpha ?subreliability . }
+    GRAPH ?g3 { 
+      <{{ uri }}> owsom:hasDimension ?subdim . 
+  	  ?subdim owsom:hasItem ?subitem . 
+    } 
+    {% if graph %}
     OPTIONAL {
-      ?subitem owsom:hasFactorLoading ?subfactorloading .
-      ?subitem owsom:isReversed ?subreversed .
+      GRAPH <{{ graph }}> { ?subdim owsom:chronbachAlpha ?subreliability . }
+    }
+    {% endif %}
+    {% if graph %}
+    OPTIONAL {
+      GRAPH <{{ graph }}> { ?subitem owsom:hasFactorLoading ?subfactorloading . }
+    }
+    {% endif %}
+    OPTIONAL {
+      GRAPH ?g4 { ?subitem owsom:isReversed ?subreversed .}
     }
   }
 }

@@ -1,6 +1,8 @@
 {{ PREFIXES }}
 
 SELECT DISTINCT ?study ?label WHERE {
-  ?study  owsom:describedIn <{{ uri }}> .
-  ?study  rdfs:label ?label .
+  GRAPH ?g { 
+    ?study  owsom:describedIn <{{ uri }}> .
+    ?study  rdfs:label ?label . 
+  }
 }

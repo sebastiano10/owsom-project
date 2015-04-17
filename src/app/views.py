@@ -59,6 +59,7 @@ def data():
     app.logger.debug('Retrieving data necessary for rendering the forms')
     
     papers_query = render_template('queries/papers.sparql', PREFIXES=PREFIXES) 
+    print papers_query
     papers = query(papers_query)
     
     studies_query = render_template('queries/studies.sparql', PREFIXES=PREFIXES) 
@@ -144,11 +145,19 @@ def scale_details():
 @app.route('/dimension/details', methods=['GET'])
 def dimension_details():
     uri = request.args.get('uri', False)
+    graph = request.args.get('graph', False)
     
-    print uri
+    # Make sure the graph URI is False if empty
+    if graph == '':
+        graph = False
+        
+    print "Graph URI", graph
     
     if uri:
-        dimension_details_query = render_template('queries/dimension_details.sparql',PREFIXES=PREFIXES, uri=uri)
+        dimension_details_query = render_template('queries/dimension_details.sparql',PREFIXES=PREFIXES, uri=uri, graph=graph)
+        
+        print dimension_details_query
+        
         dimension_details = query(dimension_details_query)
         
         dimension = {'uri': uri, 'items': [], 'subdimensions': []}
@@ -186,54 +195,54 @@ def dimension_details():
         
     return jsonify({'results': 'error'})
 
-
-@app.route('/match/study/<search>')
-def match_study(search):
-    print "Searching for", search
-    
-    query = PREFIXES + """
-        SELECT DISTINCT ?study ?label ?paper ?title ?country ?size ?analysis ?score
-        WHERE {{
-            ?study rdfs:label ?label.
-            ?study rdf:type owsom:Study .
-            ?study owsom:describedIn ?paper .
-            ?paper dcterms:title ?title 
-            OPTIONAL {{ ?study owsom:hasCountryOfConduct ?country }}
-            OPTIONAL {{ ?study owsom:hasSampleSize ?size }}
-            OPTIONAL {{ ?study owsom:hasFactorAnalysisType ?analysis }}
-            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> ('{}' 0.1 50) .
-        }}""".format(search)
-    
-    
-    
-    headers = {'Accept': 'application/sparql-results+json'}    
-    response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-    print response.content
-    results = json.loads(response.content)
-    
-    # Flatten the results returned 
-    papers = dictize(results)
-    papers_with_authors = []
-    
-    # For each paper, get its authors.
-    for p in papers:
-        paper = p
-        name_query = PREFIXES + """
-            SELECT DISTINCT ?uri ?name WHERE {{
-                <{}>  dcterms:creator ?creator .
-                ?creator foaf:name ?name .
-            }}
-        """.format(p['paper'])
-
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': name_query})
-        name_results = json.loads(response.content)
-        names = dictize(name_results)
-
-        paper['names'] = names
-        papers_with_authors.append(paper)
-
-
-    return jsonify({'result': papers_with_authors})
+# NO LONGER CALLED
+# @app.route('/match/study/<search>')
+# def match_study(search):
+#     print "Searching for", search
+#
+#     query = PREFIXES + """
+#         SELECT DISTINCT ?study ?label ?paper ?title ?country ?size ?analysis ?score
+#         WHERE {{
+#             ?study rdfs:label ?label.
+#             ?study rdf:type owsom:Study .
+#             ?study owsom:describedIn ?paper .
+#             ?paper dcterms:title ?title
+#             OPTIONAL {{ ?study owsom:hasCountryOfConduct ?country }}
+#             OPTIONAL {{ ?study owsom:hasSampleSize ?size }}
+#             OPTIONAL {{ ?study owsom:hasFactorAnalysisType ?analysis }}
+#             ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> ('{}' 0.1 50) .
+#         }}""".format(search)
+#
+#
+#
+#     headers = {'Accept': 'application/sparql-results+json'}
+#     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
+#     print response.content
+#     results = json.loads(response.content)
+#
+#     # Flatten the results returned
+#     papers = dictize(results)
+#     papers_with_authors = []
+#
+#     # For each paper, get its authors.
+#     for p in papers:
+#         paper = p
+#         name_query = PREFIXES + """
+#             SELECT DISTINCT ?uri ?name WHERE {{
+#                 <{}>  dcterms:creator ?creator .
+#                 ?creator foaf:name ?name .
+#             }}
+#         """.format(p['paper'])
+#
+#         response = requests.get(ENDPOINT_URI,headers=headers,params={'query': name_query})
+#         name_results = json.loads(response.content)
+#         names = dictize(name_results)
+#
+#         paper['names'] = names
+#         papers_with_authors.append(paper)
+#
+#
+#     return jsonify({'result': papers_with_authors})
     
 
     
@@ -349,7 +358,19 @@ def save():
     
     
     
+@app.route('/doi', methods=['GET'])
+def doi():
+    uri = request.args.get('uri', False)
     
+    if uri:
+        headers = {'Accept': 'application/json'}
+        
+        r = requests.get(uri, headers=headers)
+        
+        return jsonify(r.json())
+    else :
+        return jsonify({'status': 'error'})
+        
     
 # @app.route('/dimension/details', methods=['GET'])
 # def dimension_details():
@@ -408,14 +429,11 @@ def match_scale(search):
     headers = {'Accept': 'application/sparql-results+json'}    
     response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
     results = json.loads(response.content)
-    
-    print results
-    
+
     # Flatten the results returned 
     scales = dictize(results)
-    
     result = {'result': scales}
-    print result 
+    
     return jsonify(result)
     
 def dictize(sparql_results):
@@ -465,9 +483,6 @@ def sparql_update(query, endpoint_url = UPDATE_URI):
         'Content-Type': 'application/sparql-update'
     }
     result = requests.post(endpoint_url, data=query, headers=UPDATE_HEADERS)
-    
-
-    print "SPARQL UPDATE response: ", result.content
     
     return result.content
 

@@ -1,8 +1,8 @@
 {{PREFIXES}}
 
 SELECT DISTINCT ?analysis ?label WHERE {
- ?analysis a owsom:FactorAnalysisType ;
-    rdfs:label ?label .
+ GRAPH ?g { ?analysis a owsom:FactorAnalysisType ;
+    rdfs:label ?label . }
 }
 
 

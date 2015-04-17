@@ -1,8 +1,8 @@
 {{PREFIXES}}
 
 SELECT DISTINCT ?dimension ?label WHERE {
- ?dimension a owsom:Dimension ;
-    rdfs:label ?label .
+ GRAPH ?g { ?dimension a owsom:Dimension ;
+    rdfs:label ?label . }
 }
 
 

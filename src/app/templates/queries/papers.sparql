@@ -1,8 +1,10 @@
 {{PREFIXES}}
 
 SELECT DISTINCT ?paper ?label WHERE {
- ?paper a owsom:Paper ;
+ GRAPH ?g { 
+     ?paper a owsom:Paper ;
     dcterms:title ?label .
+  }
 }
 
 

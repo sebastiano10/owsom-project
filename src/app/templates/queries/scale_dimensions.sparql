@@ -1,7 +1,9 @@
 {{ PREFIXES }}
 
 SELECT DISTINCT ?dimension ?label ?alpha WHERE {
-  <{{ uri }}> owsom:hasDimension ?dimension .
-  ?dimension  owsom:chronbachAlpha ?alpha .
-  ?dimension  rdfs:label ?label .
+  GRAPH ?g {
+    <{{ uri }}> owsom:hasDimension ?dimension .
+    ?dimension  owsom:chronbachAlpha ?alpha .
+    ?dimension  rdfs:label ?label .
+  }
 }

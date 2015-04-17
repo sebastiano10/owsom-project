@@ -45,7 +45,7 @@ $(function(){
         
         retrieve_doi_details(value);
         
-        $.getJSON('/paper/details', {'uri': value}, function(data){
+        $.getJSON('paper/details', {'uri': value}, function(data){
           var paper_studies = data['studies'];
           
           if (paper_studies.length >0){
@@ -221,8 +221,6 @@ $(function(){
         } else if (elem.prop('type') == 'radio'){
           data[elem_id] = elem.prop('checked');
         } else if (elem.hasClass('selectized')){
-          console.log(elem);
-          console.log($(elem));
           var uri = $(elem)[0].selectize.getValue();
           if(uri!=''){            
             var label = $(elem)[0].selectize.getItem(uri)[0].innerHTML;
@@ -249,7 +247,7 @@ $(function(){
       
       console.log(data);
       
-      $.post('/save', JSON.stringify(data), function(d){
+      $.post('save', JSON.stringify(data), function(d){
         console.log(d);
         
       }, "json");
@@ -459,7 +457,6 @@ $(function(){
     itemfactorloadinggroup.append(itemfactorloadinglabel);
     itemfactorloadinggroup.append(itemfactorloading);
     
-    console.log(parent.parent());
     $(parent.parent().attr('itemul')).append(itemli);     
     
     
@@ -545,6 +542,11 @@ function get_study_details(value){
 }
 
 function get_scale_details(value){
+  
+  var publication = $.localStorage.get('publication')['URL'];
+  
+  console.log(publication);
+  
   // Get scale details
   $.get('scale/details', {'uri': value, 'graph': publication}, function(data){
     var scale = data.scale;
@@ -581,7 +583,7 @@ function get_scale_details(value){
 	  $("#likertPointsInfo1").val(scale.lowerAnchor);
 	  $("#likertPointsInfo2").val(scale.higherAnchor);
   
-	      // fill scale reliability
+	  // fill scale reliability (as reported in the selected publication)
 	  if(scale.reliability) {
 		  var reliability = scale.reliability;
      	  reliability = reliability.slice(1,reliability.length);
@@ -593,10 +595,12 @@ function get_scale_details(value){
     
     $("#subscales").val(dimensions.length);
     
+    // Make sure we also pass the graph, to only retrieve eventual factor loadings as reported in the selected study
+    var publication = $.localStorage.get('publication')['URL'];
     
     for (n in dimensions){
       
-      $.getJSON('/dimension/details', {'uri': dimensions[n]['dimension']}, function(data){
+      $.getJSON('/dimension/details', {'uri': dimensions[n]['dimension'], 'graph': publication}, function(data){
         var dim = data['dimensions'];
         
         add_dimension($('#dimension-list'),null, false, dim);
@@ -620,7 +624,7 @@ function get_scale_details(value){
   //
   //     // get dimension details
   //     var dim = dimensions[index].dimension;
-  //       $.get('/dimension/details', {'uri': dim}, function(data){
+  //       $.get('dimension/details', {'uri': dim}, function(data){
   //         console.log(data);
   //
   //        // populate items per dimension
@@ -672,7 +676,7 @@ function retrieve_doi_details(doi){
 
 
   // First get the JSON description from the Crossref service (we'll worry about RDF later)
-  $.getJSON('http://dx.doi.org/'+doi, function(data){
+  $.getJSON('/doi',{'uri': 'http://dx.doi.org/'+doi}, function(data){
     console.log("Got a response!");
     console.log(data);
     
@@ -686,7 +690,7 @@ function retrieve_doi_details(doi){
     
   }).fail(function(){
     console.log("Error: DOI does not exist");
-    alert("DOI cannot be found (should not start with 'doi:' or 'http://dx.doi.org')");
+    alert("DOI cannot be found through Crossref.org");
   });
 }
 
