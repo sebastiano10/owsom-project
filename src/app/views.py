@@ -27,12 +27,12 @@ UPDATE_URI = 'http://localhost:5820/owsom/update'
 @app.route('/')
 def index():
     app.logger.debug('Now on ' + url_for('index'))
-    return render_template('index.html')
-    
-@app.route('/storage')
-def storage():
-    app.logger.debug('Now on ' + url_for('index'))
     return render_template('store.html')
+    
+# @app.route('/storage')
+# def storage():
+#     app.logger.debug('Now on ' + url_for('index'))
+#     return render_template('store.html')
     
 @app.route('/store', methods=['POST'])
 def store():
