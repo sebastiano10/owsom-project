@@ -2,8 +2,7 @@
 
 SELECT DISTINCT ?scale ?label ?type ?type_label WHERE {
   GRAPH ?g {
-   ?scale a owsom:Scale ;
-      rdfs:label ?label .
+    ?scale rdfs:label ?label .
    {
      ?scale a owsom:LikertScale .
      BIND(owsom:LikertScale as ?type )
