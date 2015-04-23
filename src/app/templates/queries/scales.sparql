@@ -1,7 +1,7 @@
 {{PREFIXES}}
 
-SELECT DISTINCT ?scale ?label ?type ?type_label WHERE {
-  GRAPH ?g {
+SELECT DISTINCT ?paper ?scale ?label ?type ?type_label WHERE {
+  GRAPH ?paper {
     ?scale rdfs:label ?label .
    {
      ?scale a owsom:LikertScale .

@@ -31,6 +31,11 @@ $(function(){
       create: true,
       maxItems: 1,
       options: papers,
+      render: {
+              option: function(item, escape) {
+                return '<div>' + escape(item.label) + '<br/><small>' + escape(item.paper) + '</small></div>';
+              }
+          },
       create: function(input){
         retrieve_doi_details(input);
         
@@ -71,6 +76,11 @@ $(function(){
       create: true,
       maxItems: 1,
       options: studies,
+      render: {
+              option: function(item, escape) {
+                return '<div>' + escape(item.label) + '<br/><small>' + escape(item.paper) + '</small></div>';
+              }
+          },
       create: function(input){
         var study = {
           label: input,
@@ -114,6 +124,11 @@ $(function(){
       create: true,
       maxItems: 1,
       options: scales,
+      render: {
+              option: function(item, escape) {
+                return '<div>' + escape(item.label) + '<br/><small>' + escape(item.paper) + '</small></div>';
+              }
+          },
       create: function(input){
         var scale = {
           label: input,
@@ -126,7 +141,7 @@ $(function(){
         console.log('Selected scale value: ' + value);
         
         // Remove all data entered
-        $('.data.secondary').val('');
+        $('.data.scale').val('');
         $("input[type='radio']").removeAttr('checked');
         $('#dimension-list').empty();
         
@@ -142,6 +157,11 @@ $(function(){
       create: true,
       maxItems: 1,
       options: concepts,
+      render: {
+              option: function(item, escape) {
+                return '<div>' + escape(item.label) + '<br/><small>' + escape(item.paper) + '</small></div>';
+              }
+          },
       create: function(input){
         var concept = {
           label: input,
@@ -250,7 +270,7 @@ $(function(){
       
       $.post('save', JSON.stringify(data), function(d){
         console.log(d);
-        alert('Success! (We hope...)');
+        alert('The server responded:\n'+d['status']);
       }, "json");
       
     });
@@ -503,8 +523,12 @@ $(function(){
 
 
 function get_study_details(value){
+  var publication = $.localStorage.get('publication')['URL'];
+  
+  console.log(publication);
+  
   // Get study details
-  $.get('study/details', {'uri': value}, function(data){
+  $.get('study/details', {'uri': value, 'graph': publication}, function(data){
     console.log(data);
 
     var study = data;

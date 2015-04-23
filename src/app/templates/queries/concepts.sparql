@@ -1,7 +1,7 @@
 {{PREFIXES}}
 
-SELECT DISTINCT ?concept ?label WHERE {
- GRAPH ?g { ?concept a owsom:Concept ;
+SELECT DISTINCT ?paper ?concept ?label WHERE {
+ GRAPH ?paper { ?concept a owsom:Concept ;
     rdfs:label ?label .}
 }
 

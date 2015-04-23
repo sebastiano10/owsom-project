@@ -23,6 +23,7 @@ PREFIXES = """
 
 ENDPOINT_URI = 'http://localhost:5820/owsom/query'
 UPDATE_URI = 'http://localhost:5820/owsom/update'
+TRANSACTION_BASE = 'http://localhost:5820/owsom/'
 
 @app.route('/')
 def index():
@@ -59,24 +60,31 @@ def data():
     app.logger.debug('Retrieving data necessary for rendering the forms')
     
     papers_query = render_template('queries/papers.sparql', PREFIXES=PREFIXES) 
+    print papers_query
     papers = query(papers_query)
     
     studies_query = render_template('queries/studies.sparql', PREFIXES=PREFIXES) 
+    print studies_query
     studies = query(studies_query)
     
     scales_query = render_template('queries/scales.sparql', PREFIXES=PREFIXES)
+    print scales_query
     scales = query(scales_query, inferencing=True)
     
     concepts_query = render_template('queries/concepts.sparql', PREFIXES=PREFIXES) 
+    print concepts_query
     concepts = query(concepts_query)
     
     dimensions_query = render_template('queries/dimensions.sparql', PREFIXES=PREFIXES) 
+    print dimensions_query
     dimensions = query(dimensions_query)
     
     items_query = render_template('queries/items.sparql', PREFIXES=PREFIXES) 
+    print items_query
     items = query(items_query)
     
     analyses_query = render_template('queries/analyses.sparql', PREFIXES=PREFIXES) 
+    print analyses_query
     analyses = query(analyses_query)
     
     
@@ -108,11 +116,11 @@ def paper_details():
 @app.route('/study/details', methods=['GET'])
 def study_details():
     uri = request.args.get('uri', False)
-    
+    graph = request.args.get('graph', False)
     print uri
     
-    if uri:
-        study_details_query = render_template('queries/study_details.sparql',PREFIXES=PREFIXES, uri=uri)
+    if uri and graph:
+        study_details_query = render_template('queries/study_details.sparql',PREFIXES=PREFIXES, uri=uri, graph=graph)
         study_details = query(study_details_query)
         
         # return json
@@ -125,14 +133,15 @@ def study_details():
 @app.route('/scale/details', methods=['GET'])
 def scale_details():
     uri = request.args.get('uri', False)
+    graph = request.args.get('graph', False)
     
     print uri
     
-    if uri:
-        scale_details_query = render_template('queries/scale_details.sparql',PREFIXES=PREFIXES, uri=uri)
+    if uri and graph:
+        scale_details_query = render_template('queries/scale_details.sparql',PREFIXES=PREFIXES, uri=uri, graph=graph)
         scale_details = query(scale_details_query)
         
-        scale_dimensions_query = render_template('queries/scale_dimensions.sparql',PREFIXES=PREFIXES, uri=uri)
+        scale_dimensions_query = render_template('queries/scale_dimensions.sparql',PREFIXES=PREFIXES, uri=uri, graph=graph)
         scale_dimensions = query(scale_dimensions_query)
         
         # return only the first result
@@ -273,19 +282,25 @@ def save():
     g.add((study_uri, OWSOM['describedIn'], pub_uri))
     
     # Study details
-    g.add((study_uri, OWSOM['hasSampleSize'], Literal(data['sampleSize'], datatype=XSD['int'])))
-    g.add((study_uri, OWSOM['femalePercentage'], Literal(data['femPercentage'])))
-    g.add((study_uri, OWSOM['hasCountryOfConduct'], Literal(data['country'])))
+    if data['sampleSize'] != '' and data['sampleSize'] != None :
+        g.add((study_uri, OWSOM['hasSampleSize'], Literal(data['sampleSize'], datatype=XSD['int'])))
+    if data['femPercentage'] != '' and data['femPercentage'] != None :
+        g.add((study_uri, OWSOM['femalePercentage'], Literal(data['femPercentage'])))
+    if data['country'] != '' and data['country'] != None :
+        g.add((study_uri, OWSOM['hasCountryOfConduct'], Literal(data['country'])))
     
-    if data['factor-analysis-type'] != None :
+    if data['factor-analysis-type'] != '' and data['factor-analysis-type'] != None:
         g.add((study_uri, OWSOM['hasFactorAnalysisType'], URIRef(data['factor-analysis-type']['uri'])))
     
-    g.add((study_uri, OWSOM['hasMeanAge'], Literal(data['meanAge'], datatype=XSD['float'])))
+    if data['meanAge'] != '' and data['meanAge'] != None :
+        g.add((study_uri, OWSOM['hasMeanAge'], Literal(data['meanAge'], datatype=XSD['float'])))
     
     # Link the study to the scale
     g.add((study_uri, OWSOM['hasScale'], scale_uri))
     
+    
     # Scale
+    g.add((scale_uri, RDFS.label, Literal(data['scaleName']['label'])))
     
     if data['measureType1']:
         g.add((scale_uri, RDF.type, OWSOM['LikertScale']))
@@ -299,11 +314,17 @@ def save():
     g.add((scale_uri, OWSOM['hasConcept'], concept_uri))
     
     # Scale details
-    g.add((scale_uri, OWSOM['hasLowerAnchor'], Literal(data['likertPointsInfo1'])))
-    g.add((scale_uri, OWSOM['hasHigherAnchor'], Literal(data['likertPointsInfo2'])))
+    if data['likertPointsInfo1'] != '' and data['likertPointsInfo1'] != None :
+        g.add((scale_uri, OWSOM['hasLowerAnchor'], Literal(data['likertPointsInfo1'])))
     
-    g.add((scale_uri, OWSOM['hasPoints'], Literal(data['likertPointsAmount'], datatype=XSD['int'])))
-    g.add((scale_uri, OWSOM['hasScaleReliability'], Literal(data['totalReliability'], datatype=XSD['float'])))
+    if data['likertPointsInfo2'] != '' and data['likertPointsInfo2'] != None :
+        g.add((scale_uri, OWSOM['hasHigherAnchor'], Literal(data['likertPointsInfo2'])))
+    
+    if data['likertPointsAmount'] != '' and data['likertPointsAmount'] != None :
+        g.add((scale_uri, OWSOM['hasPoints'], Literal(data['likertPointsAmount'], datatype=XSD['int'])))
+    
+    if data['totalReliability'] != '' and data['totalReliability'] != None :
+        g.add((scale_uri, OWSOM['hasScaleReliability'], Literal(data['totalReliability'], datatype=XSD['float'])))
 
     if data['scaleType1']:
         g.add((scale_uri, OWSOM['hasOriginality'], OWSOM['Original']))
@@ -325,6 +346,8 @@ def save():
             g.add((URIRef(dim['parent'].replace(' ','_')), OWSOM['hasDimension'], dim_uri))
             
     for rel in data['reliabilities']:
+        if rel == '' or rel == None:
+            continue
         g.add((URIRef(rel['dimension'].replace(' ','_')), OWSOM['chronbachAlpha'], Literal(rel['value'], datatype=XSD['float'])))
      
     # Items  
@@ -337,22 +360,30 @@ def save():
         g.add((dim_uri, OWSOM['hasItem'], item_uri))
         
     for loading in data['loadings']:
+        if loading == '' or loading == None:
+            continue
+            
         item_uri = URIRef(loading['item'].replace(' ','_'))
         
         g.add((item_uri, OWSOM['hasFactorLoading'], Literal(loading['value'], datatype=XSD['float'])))
     
     for rev in data['reverseds']:
+        if rev == '' or rev == None:
+            continue
         item_uri = URIRef(rev['item'].replace(' ','_'))
         
         g.add((item_uri, OWSOM['isReversed'], Literal(rev['value'], datatype=XSD['boolean'])))
         
         
     
-    update = make_update(g, graph_uri=data['doi-input']['uri'])
+    #update = make_update(g, graph_uri=data['doi-input']['uri'])
     
-    response = sparql_update(update)
+    # response = sparql_update(update)
     
-    print g.serialize(format='turtle')
+    
+    response = stardog_add(g.serialize(format='turtle'),graph_uri=data['doi-input']['uri'])
+    
+    print g.serialize(format='trig')
     
     return jsonify({'status': response})
     
@@ -454,6 +485,8 @@ def dictize(sparql_results):
     return results
     
     
+
+    
 def query(query, inferencing=False):
     headers = {'Accept': 'application/sparql-results+json'}    
     if not inferencing:
@@ -488,6 +521,44 @@ def sparql_update(query, endpoint_url = UPDATE_URI):
     }
     result = requests.post(endpoint_url, data=query, headers=UPDATE_HEADERS)
     return result.content
+    
+def stardog_add(data, graph_uri = None):
+    app.logger.debug('Posting data to Stardog')
+    
+    
+    
+    app.logger.debug('Assuming your data is Turtle!!')    
+
+
+
+    transaction_begin_url = TRANSACTION_BASE + "transaction/begin"
+    app.logger.debug('Getting a transaction URI from {}'.format(transaction_begin_url))
+    
+    # Start the transaction, and get a transaction_id
+    headers = {'accept': 'text/plain'}
+    response = requests.post(transaction_begin_url,headers=headers)
+    transaction_id = response.content
+    app.logger.debug(response.status_code)
+    
+    # POST the data to the transaction
+    if graph_uri == None :
+        post_url = TRANSACTION_BASE + transaction_id + "/add"
+    else :
+        post_url = TRANSACTION_BASE + transaction_id + "/add?graph-uri={}".format(graph_uri)
+        
+    app.logger.debug('Doing a POST of your data to {}'.format(post_url))
+    headers = {'content-type': 'application/x-turtle', 'accept': 'text/plain'}
+    response = requests.post(post_url, data=data, headers=headers)
+    app.logger.debug(response.status_code)
+
+    
+    # Close the transaction
+    transaction_close_url = TRANSACTION_BASE + "transaction/commit/" + transaction_id 
+    headers = {'accept': 'text/plain'}
+    response = requests.post(transaction_close_url,headers=headers)
+    app.logger.debug(response.status_code)
+    
+    return str(response.status_code)
 
 if __name__ == '__main__':
     app.debug = True
