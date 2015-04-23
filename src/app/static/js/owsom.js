@@ -244,12 +244,13 @@ $(function(){
       data['reliabilities'] = reliabilities;
       data['reverseds'] = reverseds;
       data['loadings'] = loadings;
+      data['publication'] = $.localStorage.get('publication');
       
       console.log(data);
       
       $.post('save', JSON.stringify(data), function(d){
         console.log(d);
-        
+        alert('Success! (We hope...)');
       }, "json");
       
     });
@@ -697,6 +698,8 @@ function retrieve_doi_details(doi){
 function show_publication(publication){
   // Remove previously loaded publication details
   $("#publication-details").remove();
+  
+  console.log(publication);
   
   var details_div = $('<div></div>');
   details_div.attr('id','publication-details');
