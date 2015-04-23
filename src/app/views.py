@@ -59,7 +59,6 @@ def data():
     app.logger.debug('Retrieving data necessary for rendering the forms')
     
     papers_query = render_template('queries/papers.sparql', PREFIXES=PREFIXES) 
-    print papers_query
     papers = query(papers_query)
     
     studies_query = render_template('queries/studies.sparql', PREFIXES=PREFIXES) 
@@ -254,7 +253,10 @@ def save():
     
     OWSOM = Namespace('http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/')
     g.bind('owsom',OWSOM)
+    DCT = Namespace('http://purl.org/dc/terms/')
+    g.bind('dct',DCT)
     
+    print data['publication']
     
     pub_uri = URIRef(data['doi-input']['uri'].replace(' ','_'))
     study_uri = URIRef(data['studyName']['uri'].replace(' ','_'))
@@ -263,7 +265,7 @@ def save():
     
     # Publication
     g.add((pub_uri, RDF.type, OWSOM['Paper']))
-    g.add((pub_uri, RDFS.label, Literal(data['doi-input']['label'])))
+    g.add((pub_uri, DCT['title'], Literal(data['publication']['title'])))
     
     # Study
     g.add((study_uri, RDF.type, OWSOM['Study']))
@@ -346,7 +348,7 @@ def save():
         
         
     
-    update = make_update(g, data['doi-input']['uri'])
+    update = make_update(g, graph_uri=data['doi-input']['uri'])
     
     response = sparql_update(update)
     
@@ -476,6 +478,8 @@ def make_update(graph, graph_uri = None):
         template = "INSERT DATA {{ GRAPH <{}> {{ {} }} }}"
         query = template.format(graph_uri, graph.serialize(format='nt'))
     
+    print query
+    
     return query
     
 def sparql_update(query, endpoint_url = UPDATE_URI):
@@ -483,7 +487,6 @@ def sparql_update(query, endpoint_url = UPDATE_URI):
         'Content-Type': 'application/sparql-update'
     }
     result = requests.post(endpoint_url, data=query, headers=UPDATE_HEADERS)
-    
     return result.content
 
 if __name__ == '__main__':
