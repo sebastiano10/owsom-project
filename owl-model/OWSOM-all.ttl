@@ -1,0 +1,956 @@
+# baseURI: http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/
+# imports: http://purl.org/dc/elements/1.1/
+# imports: http://www.w3.org/2004/02/skos/core
+
+@prefix : <http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owsom: <http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://dx.doi.org/10.1016/j.janxdis.2006.12.005>
+  rdf:type owsom:Paper ;
+  prism:doi "10.1016/j.janxdis.2006.12.005" ;
+  prism:endingPage "930" ;
+  prism:startingPage "918" ;
+  prism:volume "21" ;
+  dcterms:creator <http://id.crossref.org/contributor/brett-j-deacon-4c17av9rugey> ;
+  dcterms:creator <http://id.crossref.org/contributor/bunmi-o-olatunji-4c17av9rugey> ;
+  dcterms:creator <http://id.crossref.org/contributor/jeffrey-m-lohr-4c17av9rugey> ;
+  dcterms:creator <http://id.crossref.org/contributor/josh-m-cisler-4c17av9rugey> ;
+  dcterms:creator <http://id.crossref.org/contributor/kevin-connolly-4c17av9rugey> ;
+  dcterms:date "2007-01"^^xsd:gYearMonth ;
+  dcterms:identifier "10.1016/j.janxdis.2006.12.005" ;
+  dcterms:isPartOf <http://id.crossref.org/issn/0887-6185> ;
+  dcterms:publisher "Elsevier BV" ;
+  dcterms:title "The Disgust Propensity and Sensitivity Scale-Revised: Psychometric properties and specificity in relation to anxiety disorder symptoms" ;
+  bibo:doi "10.1016/j.janxdis.2006.12.005" ;
+  bibo:pageEnd "930" ;
+  bibo:pageStart "918" ;
+  bibo:volume "21" ;
+.
+<http://dx.doi.org/10.1016/j.paid.2006.04.021>
+  rdf:type owsom:Paper ;
+  prism:doi "10.1016/j.paid.2006.04.021" ;
+  prism:endingPage "1252" ;
+  prism:startingPage "1241" ;
+  prism:volume "41" ;
+  dcterms:creator <http://id.crossref.org/contributor/g-c-l-davey-24yysbvqkm7hs> ;
+  dcterms:creator <http://id.crossref.org/contributor/k-cavanagh-24yysbvqkm7hs> ;
+  dcterms:creator <http://id.crossref.org/contributor/m-l-peters-24yysbvqkm7hs> ;
+  dcterms:creator <http://id.crossref.org/contributor/p-j-de-jong-24yysbvqkm7hs> ;
+  dcterms:creator <http://id.crossref.org/contributor/w-j-m-van-overveld-24yysbvqkm7hs> ;
+  dcterms:date "2006-11"^^xsd:gYearMonth ;
+  dcterms:identifier "10.1016/j.paid.2006.04.021" ;
+  dcterms:isPartOf <http://id.crossref.org/issn/0191-8869> ;
+  dcterms:publisher "Elsevier BV" ;
+  dcterms:title "Disgust propensity and disgust sensitivity: Separate constructs that are differentially related to specific fears" ;
+  bibo:doi "10.1016/j.paid.2006.04.021" ;
+  bibo:pageEnd "1252" ;
+  bibo:pageStart "1241" ;
+  bibo:volume "41" ;
+.
+<http://dx.doi.org/10.1016/j.paid.2009.05.001>
+  rdf:type owsom:Paper ;
+  <http://prismstandard.org/namespaces/basic/2.1/doi:> "10.1016/j.paid.2009.05.001" ;
+  prism:endingPage "546" ;
+  prism:startingPage "541" ;
+  prism:volume "47" ;
+  dcterms:creator <http://id.crossref.org/contributor/justin-h-park-3ohtadx53uka0> ;
+  dcterms:creator <http://id.crossref.org/contributor/lesley-a-duncan-3ohtadx53uka0> ;
+  dcterms:creator <http://id.crossref.org/contributor/mark-schaller-3ohtadx53uka0> ;
+  dcterms:date "2009-10"^^xsd:gYearMonth ;
+  dcterms:identifier "10.1016/j.paid.2009.05.001" ;
+  dcterms:isPartOf <http://id.crossref.org/issn/0191-8869> ;
+  dcterms:publisher "Elsevier BV" ;
+  dcterms:title "Perceived vulnerability to disease: Development and validation of a 15-item self-report instrument" ;
+  bibo:doi "10.1016/j.paid.2009.05.001" ;
+  bibo:pageEnd "546" ;
+  bibo:pageStart "541" ;
+  bibo:volume "47" ;
+.
+<http://id.crossref.org/contributor/brett-j-deacon-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Deacon" ;
+  foaf:givenName "Brett J." ;
+  foaf:name "Brett J. Deacon" ;
+.
+<http://id.crossref.org/contributor/bunmi-o-olatunji-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Olatunji" ;
+  foaf:givenName "Bunmi O." ;
+  foaf:name "Bunmi O. Olatunji" ;
+.
+<http://id.crossref.org/contributor/g-c-l-davey-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "Davey" ;
+  foaf:givenName "G.C.L." ;
+  foaf:name "G.C.L. Davey" ;
+.
+<http://id.crossref.org/contributor/jeffrey-m-lohr-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Lohr" ;
+  foaf:givenName "Jeffrey M." ;
+  foaf:name "Jeffrey M. Lohr" ;
+.
+<http://id.crossref.org/contributor/josh-m-cisler-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Cisler" ;
+  foaf:givenName "Josh M." ;
+  foaf:name "Josh M. Cisler" ;
+.
+<http://id.crossref.org/contributor/justin-h-park-3ohtadx53uka0>
+  rdf:type <foaf:Person> ;
+  foaf:familyName "Park" ;
+  foaf:givenName "Justin H." ;
+  foaf:name "Justin H. Park" ;
+.
+<http://id.crossref.org/contributor/k-cavanagh-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "Cavanagh" ;
+  foaf:givenName "K." ;
+  foaf:name "K. Cavanagh" ;
+.
+<http://id.crossref.org/contributor/kevin-connolly-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Connolly" ;
+  foaf:givenName "Kevin" ;
+  foaf:name "Kevin Connolly" ;
+.
+<http://id.crossref.org/contributor/lesley-a-duncan-3ohtadx53uka0>
+  rdf:type <foaf:Person> ;
+  foaf:familyName "Duncan" ;
+  foaf:givenName "Lesley A." ;
+  foaf:name "Lesley A. Duncan" ;
+.
+<http://id.crossref.org/contributor/m-l-peters-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "Peters" ;
+  foaf:givenName "M.L." ;
+  foaf:name "M.L. Peters" ;
+.
+<http://id.crossref.org/contributor/p-j-de-jong-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "de Jong" ;
+  foaf:givenName "P.J." ;
+  foaf:name "P.J. de Jong" ;
+.
+<http://id.crossref.org/contributor/w-j-m-van-overveld-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "van Overveld" ;
+  foaf:givenName "W.J.M." ;
+  foaf:name "W.J.M. van Overveld" ;
+.
+<http://id.crossref.org/issn/0191-8869>
+  rdf:type bibo:Journal ;
+  prism:issn "0191-8869" ;
+  dcterms:title "Personality and Individual Differences" ;
+  bibo:issn "0191-8869" ;
+  owl:sameAs "urn:issn:0191-8869" ;
+.
+<http://id.crossref.org/issn/0887-6185>
+  rdf:type bibo:Journal ;
+  prism:issn "0887-6185" ;
+  dcterms:title "Journal of Anxiety Disorders" ;
+  bibo:issn "0887-6185" ;
+  owl:sameAs "urn:issn:0887-6185" ;
+.
+owsom:
+  rdf:type owl:Ontology ;
+  owl:imports dc: ;
+  owl:imports <http://www.w3.org/2004/02/skos/core> ;
+  owl:versionInfo "Created with TopBraid Composer"^^xsd:string ;
+.
+owsom:Anchor
+  rdf:type owl:Class ;
+  rdfs:label "anchorName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:Brief
+  rdf:type owsom:ScaleOriginality ;
+  rdfs:label "Brief"^^xsd:string ;
+.
+owsom:CFA
+  rdf:type owsom:FactorAnalysisType ;
+  rdfs:label "Confirmatory factor analysis (CFA)"^^xsd:string ;
+.
+owsom:CoVariance
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:Concept
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:DPSS
+  rdf:type owsom:LikertScale ;
+  owsom:hasConcept owsom:DPSS_Concept ;
+  owsom:hasDefinition "Disgust propensity is defined as how easily people are disgusted. / Disgust sensitivity is defined as how unpleasant the experience of disgust is to the individual."^^xsd:string ;
+  owsom:hasDimension owsom:DisgustProspensity_1 ;
+  owsom:hasDimension owsom:DisgustSensitivity_1 ;
+  owsom:hasHigherAnchor "always"^^xsd:string ;
+  owsom:hasLowerAnchor "never"^^xsd:string ;
+  owsom:hasOriginality owsom:Original ;
+  owsom:hasPoints 5 ;
+  rdfs:label "Disgust Propensity and Disgust Sensitivity (DPSS)" ;
+.
+owsom:DPSSR
+  rdf:type owsom:LikertScale ;
+  owsom:hasConcept owsom:DPSS_Concept ;
+  owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust. Disgust       sensitivity is defined as the emotional impact of those symptoms."^^xsd:string ;
+  owsom:hasDimension owsom:DisgustProspensity ;
+  owsom:hasDimension owsom:DisgustSensitivity ;
+  owsom:hasHigherAnchor "always"^^xsd:string ;
+  owsom:hasLowerAnchor "never"^^xsd:string ;
+  owsom:hasOriginality owsom:Revised ;
+  owsom:hasPoints 5 ;
+  owsom:hasScaleReliability ".90"^^xsd:float ;
+  rdfs:label "Disgust Propensity and Sensitivity Scale-Revised (DPSS-R)"^^xsd:string ;
+.
+owsom:DPSSRStudy
+  rdf:type owsom:Study ;
+  owsom:describedIn <http://dx.doi.org/10.1016/j.janxdis.2006.12.005> ;
+  owsom:femalePercentage "50%"^^xsd:string ;
+  owsom:hasCountryOfConduct "U.S.A."^^xsd:string ;
+  owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust. / Disgust Sensitivity is defined as the emotional impact of those symptoms."^^xsd:string ;
+  owsom:hasFactorAnalysisType owsom:PCA ;
+  owsom:hasMeanAge "19.17"^^xsd:float ;
+  owsom:hasSampleSize 340 ;
+  owsom:hasScale owsom:DPSSR ;
+  rdfs:label "Disgust Propensity and Sensitivity Scale-Revised Study"^^xsd:string ;
+.
+owsom:DPSSStudy
+  rdf:type owsom:Study ;
+  owsom:describedIn <http://dx.doi.org/10.1016/j.paid.2006.04.021> ;
+  owsom:hasCountryOfConduct "Netherlands"^^xsd:string ;
+  owsom:hasFactorAnalysisType owsom:PCA ;
+  owsom:hasSampleSize 487 ;
+  owsom:hasScale owsom:DPSS ;
+  rdfs:label "Disgust Propensity and Sensitivity Study"^^xsd:string ;
+.
+owsom:DPSS_Concept
+  rdf:type owsom:Concept ;
+  rdfs:label "Disgust Propensity and Sensitivity"@en ;
+.
+owsom:Dimension
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:DiseaseSusceptibility
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".81"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "In general, I am very susceptible to colds, flu and other infectious diseases."^^xsd:string ;
+.
+owsom:DisgustAvoidance
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".57"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I avoid disgusting things"^^xsd:string ;
+.
+owsom:DisgustAvoidance_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".45"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I avoid disgusting things"^^xsd:string ;
+.
+owsom:DisgustEmbarrassement
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".70"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "It embarrasses me when I feel disgusted"^^xsd:string ;
+.
+owsom:DisgustEmbarrassement_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".50"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "It embarrasses me when I feel disgusted"^^xsd:string ;
+.
+owsom:DisgustProspensity
+  rdf:type owsom:Dimension ;
+  owsom:chronbachAlpha ".84"^^xsd:float ;
+  owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust"^^xsd:string ;
+  owsom:hasItem owsom:DisgustAvoidance ;
+  owsom:hasItem owsom:ExperienceDisgust ;
+  owsom:hasItem owsom:FaceScrewup ;
+  owsom:hasItem owsom:IllnessCausing ;
+  owsom:hasItem owsom:Repulsed ;
+  owsom:hasItem owsom:SomethingDisgusting ;
+  owsom:hasItem owsom:StomachTurn ;
+  owsom:hasItem owsom:SwallowThing ;
+  rdfs:label "Disgust Propensity"^^xsd:string ;
+.
+owsom:DisgustProspensity_1
+  rdf:type owsom:Dimension ;
+  owsom:chronbachAlpha ".77"^^xsd:float ;
+  owsom:hasDefinition "Disgust propensity is defined as the frequency of experiencing disgust"^^xsd:string ;
+  owsom:hasItem owsom:DisgustAvoidance_1 ;
+  owsom:hasItem owsom:DisgustedEasily_1 ;
+  owsom:hasItem owsom:ExperienceDisgust_1 ;
+  owsom:hasItem owsom:FaceScrewup_1 ;
+  owsom:hasItem owsom:IntenseDisgustFeeling_1 ;
+  owsom:hasItem owsom:Repulsed_1 ;
+  owsom:hasItem owsom:SomethingDisgusting_1 ;
+  owsom:hasItem owsom:StomachTurn_1 ;
+  rdfs:label "Disgust Propensity"^^xsd:string ;
+.
+owsom:DisgustSensitivity
+  rdf:type owsom:Dimension ;
+  owsom:chronbachAlpha ".83"^^xsd:float ;
+  owsom:hasDefinition "Disgust Sensitivity is defined as the emotional impact of those symptoms"^^xsd:string ;
+  owsom:hasItem owsom:DisgustEmbarrassement ;
+  owsom:hasItem owsom:DisgustedEasily ;
+  owsom:hasItem owsom:FaintScare ;
+  owsom:hasItem owsom:FeelingDisgust ;
+  owsom:hasItem owsom:IntenseDisgustFeeling ;
+  owsom:hasItem owsom:NauseousScare ;
+  owsom:hasItem owsom:PassOutWorry ;
+  owsom:hasItem owsom:VomitWorry ;
+  rdfs:label "Disgust Sensitivity"^^xsd:string ;
+.
+owsom:DisgustSensitivity_1
+  rdf:type owsom:Dimension ;
+  owsom:hasDefinition "Disgust Sensitivity is defined as the emotional impact of those symptoms"^^xsd:string ;
+  owsom:hasItem owsom:DisgustEmbarrassement_1 ;
+  owsom:hasItem owsom:FaintScare_1 ;
+  owsom:hasItem owsom:FeelingDisgust_1 ;
+  owsom:hasItem owsom:IllnessCausing_1 ;
+  owsom:hasItem owsom:NauseousScare_1 ;
+  owsom:hasItem owsom:PassOutWorry_1 ;
+  owsom:hasItem owsom:SwallowThing_1 ;
+  owsom:hasItem owsom:VomitWorry_1 ;
+  rdfs:label "Disgust Sensitivity"^^xsd:string ;
+.
+owsom:DisgustedEasily
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".63"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I become disgusted more easily than other people"^^xsd:string ;
+.
+owsom:DisgustedEasily_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".49"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I become disgusted more easily than other people"^^xsd:string ;
+.
+owsom:EFA
+  rdf:type owsom:FactorAnalysisType ;
+  rdfs:label "Exploratory factor analysis (EFA)"^^xsd:string ;
+.
+owsom:EFACFA
+  rdf:type owsom:FactorAnalysisType ;
+  rdfs:label "Confirmatory factor analysis (CFA)"^^xsd:string ;
+.
+owsom:ExperienceDisgust
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".77"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I experience disgust"^^xsd:string ;
+.
+owsom:ExperienceDisgust_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".66"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I experience disgust"^^xsd:string ;
+.
+owsom:FaceScrewup
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".65"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I screw up my face in disgust"^^xsd:string ;
+.
+owsom:FaceScrewup_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".71"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I screw up my face in disgust"^^xsd:string ;
+.
+owsom:Facet
+  rdf:type owl:Class ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:FactorAnalysisType
+  rdf:type owl:Class ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:FactorLoading
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:FaintScare
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".59"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "It scares me when I faint"^^xsd:string ;
+.
+owsom:FaintScare_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".68"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "It scares me when I faint"^^xsd:string ;
+.
+owsom:FeelingDisgust
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".84"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I think feeling disgust is bad for me"^^xsd:string ;
+.
+owsom:FeelingDisgust_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".57"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I think feeling disgust is bad for me"^^xsd:string ;
+.
+owsom:GermAversion
+  rdf:type owsom:Dimension ;
+  owsom:chronbachAlpha ".74"^^xsd:float ;
+  owsom:hasItem owsom:chewedPencil ;
+  owsom:hasItem owsom:coverMouth ;
+  owsom:hasItem owsom:publicPhoneAvoidance ;
+  owsom:hasItem owsom:sharingWaterBottle ;
+  owsom:hasItem owsom:sickPeopleAnxiety ;
+  owsom:hasItem owsom:touchingMoney ;
+  owsom:hasItem owsom:usedClothesDislike ;
+  owsom:hasItem owsom:washHandsAfterShake ;
+  rdfs:label "Germ Aversion"^^xsd:string ;
+.
+owsom:GuttmanScale
+  rdf:type owl:Class ;
+  rdfs:label "Guttman scales"^^xsd:string ;
+  rdfs:subClassOf owsom:Scale ;
+.
+owsom:IllnessCausing
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".53"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I think disgusting items could cause me illness/infection"^^xsd:string ;
+.
+owsom:IllnessCausing_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".53"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I think disgusting items could cause me illness/infection"^^xsd:string ;
+.
+owsom:IllnessLikelihood
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".72"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "If an ilness is 'going around', I will get it."^^xsd:string ;
+.
+owsom:IllnessUnlikelihood
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading "-.74"^^xsd:float ;
+  owsom:isReversed "true"^^xsd:boolean ;
+  rdfs:label "I am unlikely to catch a cold, flu or other illness, even if it is 'going around'"^^xsd:string ;
+.
+owsom:Instruction
+  rdf:type owl:Class ;
+  dc:description "instructionText"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:IntenseDisgustFeeling
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".48"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "When I experience disgust, it is an intense feeling"^^xsd:string ;
+.
+owsom:IntenseDisgustFeeling_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".52"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "When I experience disgust, it is an intense feeling"^^xsd:string ;
+.
+owsom:Item
+  rdf:type owl:Class ;
+  rdfs:label "itemName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:LikertScale
+  rdf:type owl:Class ;
+  rdfs:label "Likert scale"^^xsd:string ;
+  rdfs:subClassOf owsom:Scale ;
+.
+owsom:NauseousScare
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".59"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "It scares me when I feel nauseous"^^xsd:string ;
+.
+owsom:NauseousScare_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".68"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "It scares me when I feel nauseous"^^xsd:string ;
+.
+owsom:Original
+  rdf:type owsom:ScaleOriginality ;
+  rdfs:label "Original"^^xsd:string ;
+.
+owsom:PCA
+  rdf:type owsom:FactorAnalysisType ;
+  rdfs:label "Principal factor analysis (PCA)"^^xsd:string ;
+.
+owsom:PVD
+  rdf:type owsom:LikertScale ;
+  owsom:hasConcept owsom:PVD_Concept ;
+  owsom:hasDefinition "￼This measure assesses beliefs about personal susceptibility to the transmission of infectious diseases and emotional discomfort in the presence of potential disease transmission."^^xsd:string ;
+  owsom:hasDimension owsom:GermAversion ;
+  owsom:hasDimension owsom:PerceivedInfectability ;
+  owsom:hasHigherAnchor "stronglyAgree"^^xsd:string ;
+  owsom:hasLowerAnchor "stronglyDisagree"^^xsd:string ;
+  owsom:hasOriginality owsom:Original ;
+  owsom:hasPoints 5 ;
+  owsom:hasScaleReliability ".82"^^xsd:float ;
+  rdfs:label "Perceived vulnerability to disease (PVD)"^^xsd:string ;
+.
+owsom:PVDStudy
+  rdf:type owsom:Study ;
+  owsom:describedIn <http://dx.doi.org/10.1016/j.paid.2009.05.001> ;
+  owsom:hasCountryOfConduct "Various"^^xsd:string ;
+  owsom:hasFactorAnalysisType owsom:EFA ;
+  owsom:hasSampleSize 1539 ;
+  owsom:hasScale owsom:PVD ;
+  rdfs:label "Perceived vulnerability to disease: Development and validation of a 15-item self-report instrument"^^xsd:string ;
+.
+owsom:PVD_Concept
+  rdf:type owsom:Concept ;
+  rdfs:label "Perceived Vulnerability to Disease"@en ;
+.
+owsom:Paper
+  rdf:type owl:Class ;
+  rdfs:label "Paper"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:PassOutWorry
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".57"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "When I feel disgusted, I worry that I might pass out"^^xsd:string ;
+.
+owsom:PassOutWorry_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".62"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "When I feel disgusted, I worry that I might pass out"^^xsd:string ;
+.
+owsom:PerceivedInfectability
+  rdf:type owsom:Dimension ;
+  owsom:chronbachAlpha ".87"^^xsd:float ;
+  owsom:hasItem owsom:DiseaseSusceptibility ;
+  owsom:hasItem owsom:IllnessLikelihood ;
+  owsom:hasItem owsom:IllnessUnlikelihood ;
+  owsom:hasItem owsom:SusceptibilityHistory ;
+  owsom:hasItem owsom:moreLikelyInfection ;
+  owsom:hasItem owsom:notLikelySickness ;
+  owsom:hasItem owsom:protectiveImmuneSystem ;
+  rdfs:label "Perceived Infectability"^^xsd:string ;
+.
+owsom:Repulsed
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".68"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I feel repulsed"^^xsd:string ;
+.
+owsom:Repulsed_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".64"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I feel repulsed"^^xsd:string ;
+.
+owsom:Revised
+  rdf:type owsom:ScaleOriginality ;
+  rdfs:label "Revised"^^xsd:string ;
+.
+owsom:Scale
+  rdf:type owl:Class ;
+  rdfs:label "scaleName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:ScaleOriginality
+  rdf:type owl:Class ;
+  rdfs:label "scaleTypeName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:SemanticDifferentialScale
+  rdf:type owl:Class ;
+  rdfs:label "Semantic differential scale"^^xsd:string ;
+  rdfs:subClassOf owsom:Scale ;
+.
+owsom:SomethingDisgusting
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".72"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I find something disgusting"^^xsd:string ;
+.
+owsom:SomethingDisgusting_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".65"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I find something disgusting"^^xsd:string ;
+.
+owsom:StomachTurn
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".58"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "Disgusting things make my stomach turn"^^xsd:string ;
+.
+owsom:StomachTurn_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".68"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "Disgusting things make my stomach turn"^^xsd:string ;
+.
+owsom:Study
+  rdf:type owl:Class ;
+  rdfs:label "studyName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:SusceptibilityHistory
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".57"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I have a history of susceptibility to infectious disease."^^xsd:string ;
+.
+owsom:SwallowThing
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".41"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I worry that I might swallow a disgusting thing"^^xsd:string ;
+.
+owsom:SwallowThing_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".50"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I worry that I might swallow a disgusting thing"^^xsd:string ;
+.
+owsom:VomitWorry
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".45"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "When I notice that I feel nauseous, I worry about vomitting"^^xsd:string ;
+.
+owsom:VomitWorry_1
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".34"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "When I notice that I feel nauseous, I worry about vomitting"^^xsd:string ;
+.
+owsom:always
+  rdf:type owsom:Anchor ;
+  rdfs:label "always"^^xsd:string ;
+.
+owsom:bookISBN
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:bookTitle
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:chewedPencil
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".55"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I do not like to write with a pencil someone else has obviously chewed on."^^xsd:string ;
+.
+owsom:chronbachAlpha
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:label "extremely uncharacterized"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:consistsOfItems
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:CoVariance ;
+  rdfs:range owsom:Item ;
+.
+owsom:coverMouth
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".47"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "It really bothers me when people sneeze without covering their mouths."^^xsd:string ;
+.
+owsom:definedIn
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Paper ;
+.
+owsom:describedIn
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range owsom:Paper ;
+.
+owsom:facetDefinition
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Facet ;
+.
+owsom:femalePercentage
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range xsd:string ;
+.
+owsom:hasAgeGroup
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:label "641"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+owsom:hasAuthor
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:label "Buss & Perry"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+owsom:hasCoVariance
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:range owsom:CoVariance ;
+.
+owsom:hasCoVarianceValue
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:CoVariance ;
+  rdfs:label "value"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:hasConcept
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Concept ;
+.
+owsom:hasCountryOfConduct
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range xsd:string ;
+.
+owsom:hasDefinition
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain [
+      rdf:type owl:Class ;
+      owl:unionOf (
+          owsom:Dimension
+          owsom:Study
+          owsom:Scale
+        ) ;
+    ] ;
+  rdfs:range xsd:string ;
+.
+owsom:hasDimension
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Dimension ;
+.
+owsom:hasFacet
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:range owsom:Facet ;
+.
+owsom:hasFactorAnalysisType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range owsom:FactorAnalysisType ;
+.
+owsom:hasFactorLoading
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Item ;
+  rdfs:range xsd:float ;
+.
+owsom:hasHigherAnchor
+  rdf:type rdf:Property ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:string ;
+.
+owsom:hasItem
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:range owsom:Item ;
+.
+owsom:hasJournalName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:hasLowerAnchor
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:string ;
+.
+owsom:hasMeanAge
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range xsd:float ;
+.
+owsom:hasOriginality
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:ScaleOriginality ;
+.
+owsom:hasPoints
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:integer ;
+.
+owsom:hasSampleSize
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+owsom:hasSampleType
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+owsom:hasScale
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range owsom:Scale ;
+.
+owsom:hasScaleReliability
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:float ;
+.
+owsom:hasStudy
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Instruction ;
+  rdfs:label "has study"^^xsd:string ;
+  rdfs:range owsom:Study ;
+.
+owsom:isReversed
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Item ;
+  rdfs:label "No"^^xsd:string ;
+  rdfs:range xsd:boolean ;
+.
+owsom:itemsBelongToFacet
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Facet ;
+  rdfs:range owsom:Item ;
+.
+owsom:itemsInPaper
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range owsom:Item ;
+.
+owsom:journalDOI
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:moreLikelyInfection
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".69"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I am more likely than the people around me to catch an infectious disease."^^xsd:string ;
+.
+owsom:never
+  rdf:type owsom:Anchor ;
+  rdfs:label "never"^^xsd:string ;
+.
+owsom:notLikelySickness
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading "-.65"^^xsd:float ;
+  owsom:isReversed "true"^^xsd:boolean ;
+  rdfs:label "My past experiences make me believe I am not likely to get sick even when my friends are sick."^^xsd:string ;
+.
+owsom:protectiveImmuneSystem
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading "-.71"^^xsd:float ;
+  owsom:isReversed "true"^^xsd:boolean ;
+  rdfs:label "My immune system protects me from most illnesses that other people get."^^xsd:string ;
+.
+owsom:publicPhoneAvoidance
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".58"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I avoid using public telephones because of the risk that I may catch something from the previous user."^^xsd:string ;
+.
+owsom:publicationTitle
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:publicationType
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:publicationYear
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:label "Buss & Perry"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+owsom:sharingWaterBottle
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading "-.51"^^xsd:float ;
+  owsom:isReversed "true"^^xsd:boolean ;
+  rdfs:label "I am comfortable sharing a water bottle with a friend."^^xsd:string ;
+.
+owsom:sickPeopleAnxiety
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading "-.45"^^xsd:float ;
+  owsom:isReversed "true"^^xsd:boolean ;
+  rdfs:label "It does make me anxious to be around sick people."^^xsd:string ;
+.
+owsom:stronglyAgree
+  rdf:type owsom:Anchor ;
+  rdfs:label "strongly agree"^^xsd:string ;
+.
+owsom:stronglyDisagree
+  rdf:type owsom:Anchor ;
+  rdfs:label "strongly disagree"^^xsd:string ;
+.
+owsom:touchingMoney
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading "-.44"^^xsd:float ;
+  owsom:isReversed "true"^^xsd:boolean ;
+  rdfs:label "My hands do not feel dirty after touching money."^^xsd:string ;
+.
+owsom:usedClothesDislike
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".51"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I dislike wearing used clothes because you do not know what the last person who wore it was like."^^xsd:string ;
+.
+owsom:usedIn
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Study ;
+.
+owsom:value1
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:FactorLoading ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:value2
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:FactorLoading ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:value3
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:FactorLoading ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:washHandsAfterShake
+  rdf:type owsom:Item ;
+  owsom:hasFactorLoading ".63"^^xsd:float ;
+  owsom:isReversed "false"^^xsd:boolean ;
+  rdfs:label "I prefer to wash my hands pretty soon after shaking someone's hand."^^xsd:string ;
+.

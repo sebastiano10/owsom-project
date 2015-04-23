@@ -1,0 +1,413 @@
+# baseURI: http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/
+# imports: http://purl.org/dc/elements/1.1/
+# imports: http://www.w3.org/2004/02/skos/core
+
+@prefix : <http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owsom: <http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://id.crossref.org/contributor/brett-j-deacon-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Deacon" ;
+  foaf:givenName "Brett J." ;
+  foaf:name "Brett J. Deacon" ;
+.
+<http://id.crossref.org/contributor/bunmi-o-olatunji-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Olatunji" ;
+  foaf:givenName "Bunmi O." ;
+  foaf:name "Bunmi O. Olatunji" ;
+.
+<http://id.crossref.org/contributor/g-c-l-davey-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "Davey" ;
+  foaf:givenName "G.C.L." ;
+  foaf:name "G.C.L. Davey" ;
+.
+<http://id.crossref.org/contributor/jeffrey-m-lohr-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Lohr" ;
+  foaf:givenName "Jeffrey M." ;
+  foaf:name "Jeffrey M. Lohr" ;
+.
+<http://id.crossref.org/contributor/josh-m-cisler-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Cisler" ;
+  foaf:givenName "Josh M." ;
+  foaf:name "Josh M. Cisler" ;
+.
+<http://id.crossref.org/contributor/justin-h-park-3ohtadx53uka0>
+  rdf:type <foaf:Person> ;
+  foaf:familyName "Park" ;
+  foaf:givenName "Justin H." ;
+  foaf:name "Justin H. Park" ;
+.
+<http://id.crossref.org/contributor/k-cavanagh-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "Cavanagh" ;
+  foaf:givenName "K." ;
+  foaf:name "K. Cavanagh" ;
+.
+<http://id.crossref.org/contributor/kevin-connolly-4c17av9rugey>
+  rdf:type foaf:Person ;
+  foaf:familyName "Connolly" ;
+  foaf:givenName "Kevin" ;
+  foaf:name "Kevin Connolly" ;
+.
+<http://id.crossref.org/contributor/lesley-a-duncan-3ohtadx53uka0>
+  rdf:type <foaf:Person> ;
+  foaf:familyName "Duncan" ;
+  foaf:givenName "Lesley A." ;
+  foaf:name "Lesley A. Duncan" ;
+.
+<http://id.crossref.org/contributor/m-l-peters-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "Peters" ;
+  foaf:givenName "M.L." ;
+  foaf:name "M.L. Peters" ;
+.
+<http://id.crossref.org/contributor/p-j-de-jong-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "de Jong" ;
+  foaf:givenName "P.J." ;
+  foaf:name "P.J. de Jong" ;
+.
+<http://id.crossref.org/contributor/w-j-m-van-overveld-24yysbvqkm7hs>
+  rdf:type foaf:Person ;
+  foaf:familyName "van Overveld" ;
+  foaf:givenName "W.J.M." ;
+  foaf:name "W.J.M. van Overveld" ;
+.
+<http://id.crossref.org/issn/0191-8869>
+  rdf:type bibo:Journal ;
+  prism:issn "0191-8869" ;
+  dcterms:title "Personality and Individual Differences" ;
+  bibo:issn "0191-8869" ;
+  owl:sameAs "urn:issn:0191-8869" ;
+.
+<http://id.crossref.org/issn/0887-6185>
+  rdf:type bibo:Journal ;
+  prism:issn "0887-6185" ;
+  dcterms:title "Journal of Anxiety Disorders" ;
+  bibo:issn "0887-6185" ;
+  owl:sameAs "urn:issn:0887-6185" ;
+.
+owsom:
+  rdf:type owl:Ontology ;
+  owl:imports dc: ;
+  owl:imports <http://www.w3.org/2004/02/skos/core> ;
+  owl:versionInfo "Created with TopBraid Composer"^^xsd:string ;
+.
+owsom:Anchor
+  rdf:type owl:Class ;
+  rdfs:label "anchorName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:CoVariance
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:Concept
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:Dimension
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:Facet
+  rdf:type owl:Class ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:FactorAnalysisType
+  rdf:type owl:Class ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:FactorLoading
+  rdf:type owl:Class ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:GuttmanScale
+  rdf:type owl:Class ;
+  rdfs:label "Guttman scales"^^xsd:string ;
+  rdfs:subClassOf owsom:Scale ;
+.
+owsom:Instruction
+  rdf:type owl:Class ;
+  dc:description "instructionText"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:Item
+  rdf:type owl:Class ;
+  rdfs:label "itemName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:LikertScale
+  rdf:type owl:Class ;
+  rdfs:label "Likert scale"^^xsd:string ;
+  rdfs:subClassOf owsom:Scale ;
+.
+owsom:Paper
+  rdf:type owl:Class ;
+  rdfs:label "Paper"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:Scale
+  rdf:type owl:Class ;
+  rdfs:label "scaleName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:ScaleOriginality
+  rdf:type owl:Class ;
+  rdfs:label "scaleTypeName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:SemanticDifferentialScale
+  rdf:type owl:Class ;
+  rdfs:label "Semantic differential scale"^^xsd:string ;
+  rdfs:subClassOf owsom:Scale ;
+.
+owsom:Study
+  rdf:type owl:Class ;
+  rdfs:label "studyName"^^xsd:string ;
+  rdfs:subClassOf owl:Thing ;
+.
+owsom:bookISBN
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:bookTitle
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:chronbachAlpha
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:label "extremely uncharacterized"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:consistsOfItems
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:CoVariance ;
+  rdfs:range owsom:Item ;
+.
+owsom:definedIn
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Paper ;
+.
+owsom:describedIn
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range owsom:Paper ;
+.
+owsom:facetDefinition
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Facet ;
+.
+owsom:femalePercentage
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range xsd:string ;
+.
+owsom:hasAgeGroup
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:label "641"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+owsom:hasAuthor
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:label "Buss & Perry"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+owsom:hasCoVariance
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:range owsom:CoVariance ;
+.
+owsom:hasCoVarianceValue
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:CoVariance ;
+  rdfs:label "value"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:hasConcept
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Concept ;
+.
+owsom:hasCountryOfConduct
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range xsd:string ;
+.
+owsom:hasDefinition
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain [
+      rdf:type owl:Class ;
+      owl:unionOf (
+          owsom:Dimension
+          owsom:Study
+          owsom:Scale
+        ) ;
+    ] ;
+  rdfs:range xsd:string ;
+.
+owsom:hasDimension
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Dimension ;
+.
+owsom:hasFacet
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:range owsom:Facet ;
+.
+owsom:hasFactorAnalysisType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range owsom:FactorAnalysisType ;
+.
+owsom:hasFactorLoading
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Item ;
+  rdfs:range xsd:float ;
+.
+owsom:hasHigherAnchor
+  rdf:type rdf:Property ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:string ;
+.
+owsom:hasItem
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Dimension ;
+  rdfs:range owsom:Item ;
+.
+owsom:hasJournalName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:hasLowerAnchor
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:string ;
+.
+owsom:hasMeanAge
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range xsd:float ;
+.
+owsom:hasOriginality
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:ScaleOriginality ;
+.
+owsom:hasPoints
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:integer ;
+.
+owsom:hasSampleSize
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+owsom:hasSampleType
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+owsom:hasScale
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Study ;
+  rdfs:range owsom:Scale ;
+.
+owsom:hasScaleReliability
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range xsd:float ;
+.
+owsom:hasStudy
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Instruction ;
+  rdfs:label "has study"^^xsd:string ;
+  rdfs:range owsom:Study ;
+.
+owsom:isReversed
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Item ;
+  rdfs:label "No"^^xsd:string ;
+  rdfs:range xsd:boolean ;
+.
+owsom:itemsBelongToFacet
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Facet ;
+  rdfs:range owsom:Item ;
+.
+owsom:itemsInPaper
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range owsom:Item ;
+.
+owsom:journalDOI
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:publicationTitle
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:publicationType
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:range xsd:string ;
+.
+owsom:publicationYear
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:Paper ;
+  rdfs:label "Buss & Perry"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+owsom:usedIn
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain owsom:Scale ;
+  rdfs:range owsom:Study ;
+.
+owsom:value1
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:FactorLoading ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:value2
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:FactorLoading ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
+owsom:value3
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain owsom:FactorLoading ;
+  rdfs:label "Name"^^xsd:string ;
+  rdfs:range xsd:float ;
+.
