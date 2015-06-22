@@ -3,6 +3,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 from app import app
 import requests
 import json
+import util
 from collections import defaultdict
 
 from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef, Literal, BNode, XSD
@@ -52,6 +53,16 @@ def index():
 #
 #     return str(response.status_code)
 
+
+@app.route('/inspector')
+def inspector():
+    return render_template('inspector.html')
+
+
+@app.route('/inspect')
+def inspect():
+    data = util.inspector.update()
+    return jsonify(data)
 
 
 
