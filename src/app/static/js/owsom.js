@@ -64,16 +64,15 @@ $(function(){
 
             selectize.addOption(paper_studies);
           }
-          
+
         });
-      }      
+      }
     });
-    
+
     $('#studyName').selectize({
       valueField: 'study',
       labelField: 'label',
       searchField: 'label',
-      create: true,
       maxItems: 1,
       options: studies,
       render: {
@@ -91,17 +90,17 @@ $(function(){
       },
       onChange: function(value){
         console.log('Selected study value: ' + value);
-        
+
         // Remove all data entered
         $('.data.secondary').val('');
         $("input[type='radio']").removeAttr('checked');
         $('#dimension-list').empty();
-        
+
         get_study_details(value);
         $('#study-details').show();
       }
     });
-    
+
     $('#show-all-studies-button').on('click',function(){
       var selectize = $('#studyName')[0].selectize;
 
@@ -270,7 +269,7 @@ $(function(){
       
       $.post('save', JSON.stringify(data), function(d){
         console.log(d);
-        alert('The server responded:\n'+d['status']);
+        alert('The server responded:\n'+d.status+'\n'+d.message);
       }, "json");
       
     });
