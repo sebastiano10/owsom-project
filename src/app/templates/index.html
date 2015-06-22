@@ -1,4 +1,9 @@
 {% extends "bootstrap/base.html" %}
+{% block head %}
+{{ super() }}
+<meta name="google-signin-client_id" content="1021792134778-du7jfj9peosqfcu37sqhmpedp7vne60a.apps.googleusercontent.com">
+{% endblock %}
+
 {% block title %}OWSOM{% endblock %}
 
 {% block navbar %}
@@ -13,11 +18,11 @@
         </button>
         <a class="navbar-brand title" href="/">OWSOM</a>
     </div>
-    <!-- <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/store">Data Entry</a></li>
+        <li id='signin-listitem'><div class="g-signin2" data-onsuccess="onSignIn"></div></li>
       </ul>
-    </div> -->
+    </div>
   </div>
 </div>
 {% endblock %}
@@ -48,6 +53,7 @@
 {{super()}}
 <script src="{{url_for('.static', filename='js/selectize.js')}}"></script>
 <script src="{{url_for('.static', filename='js/jquery.storageapi.min.js')}}"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 {% endblock %}
 
 {% block styles %}
@@ -68,5 +74,5 @@
 {% endblock %}
 
 {% block bootstrap_js_bottom %}
-    
+
 {% endblock %}
