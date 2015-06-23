@@ -1,8 +1,8 @@
 {{PREFIXES}}
 
 SELECT DISTINCT ?paper ?concept ?label WHERE {
- GRAPH ?paper { ?concept a owsom:Concept ;
-    rdfs:label ?label .}
+ GRAPH ?g {
+    ?paper a owsom:Paper .
+    ?concept a owsom:Concept ;
+      rdfs:label ?label .}
 }
-
-

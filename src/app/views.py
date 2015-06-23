@@ -262,8 +262,6 @@ def dimension_details():
 #
 #     return jsonify({'result': papers_with_authors})
 
-
-
 @app.route('/save', methods=['POST'])
 def save():
     data = request.get_json(force=True)
@@ -274,13 +272,27 @@ def save():
     g.bind('owsom', OWSOM)
     DCT = Namespace('http://purl.org/dc/terms/')
     g.bind('dct', DCT)
-
-    print data['publication']
+    FOAF = Namespace('http://xmlns.com/foaf/0.1')
+    g.bind('foaf',FOAF)
+    PROV = Namespace('http://www.w3.org/ns/prov#')
+    g.bind('prov',PROV)
 
     pub_uri = URIRef(data['doi-input']['uri'].replace(' ', '_'))
     study_uri = URIRef(data['studyName']['uri'].replace(' ', '_'))
     scale_uri = URIRef(data['scaleName']['uri'].replace(' ', '_'))
     concept_uri = URIRef(data['concept']['uri'].replace(' ', '_'))
+    person_uri = OWSOM['person/'+data['profile']['email']]
+
+    # TODO make this a user-specific URI (has implications for the way in which data is retrieved in other places)
+    # graph_uri = OWSOM['annotation/'+data['doi-input']['uri'].replace('http://dx.doi.org/','')+'/'+data['profile']['email']]
+    graph_uri = URIRef(data['doi-input']['uri'])
+
+    # Person
+    g.add((person_uri, RDF.type, FOAF['Person']))
+    g.add((person_uri, FOAF['name'], Literal(data['profile']['name'])))
+    g.add((person_uri, FOAF['depiction'], URIRef(data['profile']['image'])))
+
+    g.add((graph_uri, PROV['wasAttributedTo'], person_uri))
 
     # Publication
     g.add((pub_uri, RDF.type, OWSOM['Paper']))
@@ -423,7 +435,7 @@ def save():
     # response = sparql_update(update)
 
     response = stardog_add(g.serialize(format='turtle'),
-                           graph_uri=data['doi-input']['uri'])
+                           graph_uri=graph_uri)
 
     return jsonify({'status': 'success', 'message': response})
 

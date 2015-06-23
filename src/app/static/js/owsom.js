@@ -279,6 +279,7 @@ $(function(){
       data['publication'] = $.localStorage.get('publication');
       data.profile.name = profile.getName();
       data.profile.email = profile.getEmail();
+      data.profile.image = profile.getImageUrl();
 
       console.log(data);
 

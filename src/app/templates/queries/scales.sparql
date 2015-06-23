@@ -1,7 +1,8 @@
 {{PREFIXES}}
 
 SELECT DISTINCT ?paper ?scale ?label ?type ?type_label WHERE {
-  GRAPH ?paper {
+  GRAPH ?g {
+    ?paper a owsom:Paper .
     ?scale rdfs:label ?label .
    {
      ?scale a owsom:LikertScale .
@@ -18,5 +19,3 @@ SELECT DISTINCT ?paper ?scale ?label ?type ?type_label WHERE {
    }
  }
 }
-
-
