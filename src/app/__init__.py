@@ -1,12 +1,15 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 
+
+ENDPOINT_URI = 'http://localhost:5820/owsom/query'
+
 BEHIND_PROXY = False
 
 class ReverseProxied(object):
-    '''Wrap the application in this middleware and configure the 
-    front-end server to add these headers, to let you quietly bind 
-    this to a URL other than / and to an HTTP scheme that is 
+    '''Wrap the application in this middleware and configure the
+    front-end server to add these headers, to let you quietly bind
+    this to a URL other than / and to an HTTP scheme that is
     different than what is used locally.
     In nginx:
     location /myprefix {
@@ -33,7 +36,7 @@ class ReverseProxied(object):
         if scheme:
             environ['wsgi.url_scheme'] = scheme
         return self.app(environ, start_response)
-        
+
 
 app = Flask(__name__)
 Bootstrap(app)

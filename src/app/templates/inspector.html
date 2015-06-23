@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 
 {% block navbar %}
 {% endblock %}
@@ -9,10 +9,6 @@
   <div class="col-lg-3">
     <div class='well'>
       <h4>Legend</h4>
-      <table class='table'>
-        <tr><th>Inner circle</th><td>dataset</td></tr>
-        <tr><th>Outer circle</th><td>resource type</td></tr>
-      </table>
       <div id='legend'>
       </div>
     </div>
@@ -176,20 +172,20 @@
       typelist.append(ul);
       $('#legend').append(typelist);
 
-      var originlist = $('<div></div>');
-
-      originlist.append('<h5>Datasets<h5>');
-      var ul = $('<ul class="list-group"></ul>');
-
-
-      origins.forEach(function(elem){
-        console.log(elem);
-        ul.append('<li class="list-group-item" style="overflow: auto;"><span style="font-weight: bold; color: '+ originmap[elem] +';">'+ elem.replace('http://data.socialhistory.org/resource/','csdh:') +'</span></li>');
-
-      });
-
-      originlist.append(ul);
-      $('#legend').append(originlist);
+      // var originlist = $('<div></div>');
+      //
+      // originlist.append('<h5>Datasets<h5>');
+      // var ul = $('<ul class="list-group"></ul>');
+      //
+      //
+      // origins.forEach(function(elem){
+      //   console.log(elem);
+      //   ul.append('<li class="list-group-item" style="overflow: auto;"><span style="font-weight: bold; color: '+ originmap[elem] +';">'+ elem.replace('http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/resource/','owsom:') +'</span></li>');
+      //
+      // });
+      //
+      // originlist.append(ul);
+      // $('#legend').append(originlist);
 
     }
 
@@ -199,9 +195,9 @@
           height = 600;
 
       // var color = d3.scale.category20b();
-      var color2 = d3.scale.ordinal().range(colorbrewer.Set3[12]);
+      var color2 = d3.scale.ordinal().range(colorbrewer.Set3[4]);
 
-      var color = d3.scale.ordinal().range(colorbrewer.Paired[3]);
+      // var color = d3.scale.ordinal().range(colorbrewer.Paired[3]);
 
       var force = d3.layout.force()
           .charge(-120)
@@ -216,14 +212,8 @@
         .attr('class', 'd3-tip')
         .offset([-10, 0])
         .html(function(d) {
-          if (d.type == 'person'){
-            var content = "<h5>" + d.label + "</h5>"+
-                   "<img src='"+ d.image +"'></img>";
-          } else {
-            var content = "<h5>" + d.name.replace('http://data.socialhistory.org/resource/','csdh:') + "</h5>"+
-                   "<strong>Type:</strong> <span style='color: "+ color(d.type) +";'>" + d.type + "</span><br/>" +
-                   "<strong>Origin:</strong> <span style='color: "+ color2(d.origin) +";'>" + d.origin.replace('http://data.socialhistory.org/resource/','csdh:') + "</span>";
-          }
+          var content = "<h5>" + d.name.replace('http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/resource/','owsom:') + "</h5>"+
+                 "<strong>Type:</strong> <span style='color: "+ color2(d.type) +";'>" + d.type + "</span>";
           return content
         });
 
@@ -250,15 +240,15 @@
           .on('mouseover', tip.show)
           .on('mouseout', tip.hide)
           .on('click', function(d){
-            window.open(d.name);
+            window.open(d.id);
           });
 
       node.append("title")
-          .text(function(d) { return d.name.replace('http://data.socialhistory.org/resource/','csdh:'); });
+          .text(function(d) { return d.name.replace('http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/resource/','csdh:'); });
 
       node.append("circle")
           .attr("r", function(d) {
-                          if (d.type == 'dataset') {
+                          if (d.type == 'scale') {
                             return 15;
                           } else {
                             return 5;
@@ -268,26 +258,22 @@
                           if (d.type == 'person') {
                             return "#000";
                           } else {
-                            origins.add(d.origin); originmap[d.origin] = color2(d.origin); return color2(d.origin);
+                            types.add(d.type);
+                            typemap[d.type] = color2(d.type);
+                            return color2(d.type);
                           }
                           });
 
       node.append("circle")
           .attr("r", function(d) {
-                          if (d.type == 'person') {
-                            return 7;
-                          } else if (d.type == 'dataset') { return 18; } else { return 8;}
+                          if (d.type == 'scale') {
+                            return 15;
+                          } else {
+                            return 5;
+                          }
                      })
           .attr("class", "outer-circle")
-          .style("stroke", function(d) {
-                          types.add(d.type);
-                          if (d.type == 'person') {
-                            typemap[d.type] = '#000';
-                          } else {
-
-                            typemap[d.type] = color(d.type);
-                            return color(d.type);
-                          }});
+          .style("stroke", '#000');
 
 
 

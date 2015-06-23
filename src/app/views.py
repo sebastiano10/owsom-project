@@ -1,9 +1,9 @@
 from flask import Flask, render_template, url_for, jsonify, request
 from SPARQLWrapper import SPARQLWrapper, JSON
-from app import app
+from app import app, ENDPOINT_URI
 import requests
 import json
-import util
+import util.inspector
 from collections import defaultdict
 
 from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef, Literal, BNode, XSD
@@ -22,7 +22,7 @@ PREFIXES = """
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         """
 
-ENDPOINT_URI = 'http://localhost:5820/owsom/query'
+
 UPDATE_URI = 'http://localhost:5820/owsom/update'
 TRANSACTION_BASE = 'http://localhost:5820/owsom/'
 
@@ -63,7 +63,6 @@ def inspector():
 def inspect():
     data = util.inspector.update()
     return jsonify(data)
-
 
 
 @app.route('/data')
