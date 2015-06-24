@@ -18,16 +18,23 @@ function onSignIn(googleUser) {
 
   $('#signin-listitem').hide();
   $('#signin-listitem').parent().append(profile_listitem);
+
+  $('#owsom-content').show();
 }
 
 $(function(){
+  $('#owsom-content').hide();
+
   // This is called when the page is fully loaded
   $('#study-details').hide();
   $('#scale-details').hide();
 
 
+
+
   // Retrieve the data for filling in the forms
   $.get('data', function(data){
+    console.log(data);
     papers = data.papers;
     concepts = data.concepts;
     studies = data.studies;
@@ -41,7 +48,6 @@ $(function(){
       valueField: 'paper',
       labelField: 'label',
       searchField: 'label',
-      create: true,
       maxItems: 1,
       options: papers,
       render: {
@@ -54,17 +60,18 @@ $(function(){
 
         var paper = {
           label: input,
-          paper: 'http://dx.doi.org/' + input
+          paper: 'http://dx.doi.org/' + input,
         };
         papers.push(paper);
         return paper;
       },
       onChange: function(value){
-
+        console.log(value);
         retrieve_doi_details(value);
 
         $.getJSON('paper/details', {'uri': value}, function(data){
-          var paper_studies = data['studies'];
+          console.log(data)
+          var paper_studies = data.studies;
 
           if (paper_studies.length >0){
 
@@ -72,8 +79,8 @@ $(function(){
 
             selectize.clear();
             selectize.clearOptions();
-            selectize.renderCache['option'] = {};
-            selectize.renderCache['item'] = {};
+            selectize.renderCache.option = {};
+            selectize.renderCache.item = {};
 
             selectize.addOption(paper_studies);
           }
@@ -90,19 +97,27 @@ $(function(){
       options: studies,
       render: {
               option: function(item, escape) {
-                return '<div>' + escape(item.label) + '<br/><small>' + escape(item.paper) + '</small></div>';
+                return '<div>' + escape(item.label) + ' <small>('+ escape(item.person_name) +')</small><br/><small>' + escape(item.paper) + '</small></div>';
               }
           },
       create: function(input){
+
+        var doi = $.localStorage.get('paper').DOI;
+        var email = profile.getEmail();
+
+        var study_uri = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/resource/study/'+doi+'/'+email;
+        $.localStorage.set('study_uri',study_uri);
+
         var study = {
           label: input,
-          study: 'http://example.com/study/'+input
+          study: study_uri
         };
         studies.push(study);
         return study;
       },
       onChange: function(value){
         console.log('Selected study value: ' + value);
+        $.localStorage.set('study_uri',value);
 
         // Remove all data entered
         $('.data.secondary').val('');
@@ -133,7 +148,6 @@ $(function(){
       valueField: 'scale',
       labelField: 'label',
       searchField: 'label',
-      create: true,
       maxItems: 1,
       options: scales,
       render: {
@@ -144,7 +158,7 @@ $(function(){
       create: function(input){
         var scale = {
           label: input,
-          scale: 'http://example.com/scale/'+input
+          scale: 'http://onlinesocialmeasures.hoekstra.org/resource/scale/'+input
         };
         scales.push(scale);
         return scale;
@@ -166,7 +180,6 @@ $(function(){
       valueField: 'concept',
       labelField: 'label',
       searchField: 'label',
-      create: true,
       maxItems: 1,
       options: concepts,
       render: {
@@ -177,7 +190,7 @@ $(function(){
       create: function(input){
         var concept = {
           label: input,
-          concept: 'http://example.com/concept/'+input
+          concept: 'http://onlinesocialmeasures.hoekstra.org/resource/concept/'+input
         };
         concepts.push(concept);
         return concept;
@@ -191,7 +204,7 @@ $(function(){
       create: true,
       maxItems: 1,
       options: analyses
-    })
+    });
 
     $('#toggle-scale-details').on('click',function(){
       $('#scale-details').toggle();
@@ -271,12 +284,14 @@ $(function(){
 
       });
 
-      data['items'] = items;
-      data['dimensions'] = dimensions;
-      data['reliabilities'] = reliabilities;
-      data['reverseds'] = reverseds;
-      data['loadings'] = loadings;
-      data['publication'] = $.localStorage.get('publication');
+      data.items = items;
+      data.dimensions = dimensions;
+      data.reliabilities = reliabilities;
+      data.reverseds = reverseds;
+      data.loadings = loadings;
+      data.publication = $.localStorage.get('publication');
+      data.graph_uri = $.localStorage.get('study_uri');
+      data.profile = {};
       data.profile.name = profile.getName();
       data.profile.email = profile.getEmail();
       data.profile.image = profile.getImageUrl();
@@ -291,21 +306,6 @@ $(function(){
     });
 
 
-    // TESTING
-    // var dims = [{
-    //   'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/DisgustSensitivity_1',
-    //   'items': [{'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/NauseousScare'}],
-    //   'subdimensions': [
-    //     {'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/DisgustSensitivity_1',
-    //      'items': [{'uri': 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/NauseousScare'}]
-    //     }
-    //   ]
-    // }]
-
-
-
-
-
   });
 
 
@@ -317,7 +317,7 @@ $(function(){
           return (c=='x' ? r : (r&0x3|0x8)).toString(16);
       });
       return uuid;
-  };
+  }
 
   function add_dimension(parent, parent_uri, sub, data){
     sub = typeof sub !== 'undefined' ? sub : false;
@@ -412,29 +412,29 @@ $(function(){
       create: function(input){
         var dim = {
           label: input,
-          dimension: 'http://example.com/dimension/'+input
+          dimension: 'http://onlinesocialmeasures.hoekstra.org/resource/dimension/'+input
         }
         dimensions.push(dim);
         return dim
       }
     });
 
-    if (data['uri']){
-      diminput[0].selectize.setValue(data['uri']);
+    if (data.uri){
+      diminput[0].selectize.setValue(data.uri);
 
-      if (data['reliability']){
-        dimreliability.val(data['reliability']);
+      if (data.reliability){
+        dimreliability.val(data.reliability);
       }
 
 
-      if (data['items']){
-        for (n in data['items']) {
-          add_item(dimli, '#'+dimensioninputid, data['items'][n]);
+      if (data.items){
+        for (n in data.items) {
+          add_item(dimli, '#'+dimensioninputid, data.items[n]);
         }
       }
-      if (data['subdimensions']){
-        for (n in data['subdimensions']) {
-          add_dimension(dimli, '#'+dimensioninputid, true, data['subdimensions'][n]);
+      if (data.subdimensions){
+        for (n in data.subdimensions) {
+          add_dimension(dimli, '#'+dimensioninputid, true, data.subdimensions[n]);
         }
       }
     }
@@ -500,29 +500,28 @@ $(function(){
       valueField: 'item',
       labelField: 'label',
       searchField: 'label',
-      create: true,
       maxItems: 1,
       options: items,
       create: function(input){
         var item = {
           label: input,
-          item: 'http://example.com/item/'+input
+          item: 'http://onlinesocialmeasures.hoekstra.org/resource/item/'+input
         }
         items.push(item);
         return item
       }
     });
 
-    if (data['uri']){
-      iteminput[0].selectize.setValue(data['uri']);
+    if (data.uri){
+      iteminput[0].selectize.setValue(data.uri);
 
-      if (data['reversed']){
-        if (data['reversed'] == 'true') {
+      if (data.reversed){
+        if (data.reversed == 'true') {
           itemreversed.attr('checked',true);
         }
       }
-      if (data['factorloading']){
-        itemfactorloading.val(data['factorloading'])
+      if (data.factorloading){
+        itemfactorloading.val(data.factorloading)
       }
     }
 
@@ -537,13 +536,9 @@ $(function(){
 
 
 
-function get_study_details(value){
-  var publication = $.localStorage.get('publication')['URL'];
-
-  console.log(publication);
-
+function get_study_details(study_uri){
   // Get study details
-  $.get('study/details', {'uri': value, 'graph': publication}, function(data){
+  $.get('study/details', {'uri': study_uri, 'graph': study_uri}, function(data){
     console.log(data);
 
     var study = data;
@@ -560,12 +555,12 @@ function get_study_details(value){
 
         // fill female participants field
     if(study.female) {
-      $("#femPercentage").val(study.female)
+      $("#femPercentage").val(study.female);
     }
 
     // fill mean participants age field
     if(study.age) {
-      $("#meanAge").val(study.age)
+      $("#meanAge").val(study.age);
     }
 
         // fill country of conduct field
@@ -574,7 +569,7 @@ function get_study_details(value){
     }
 
     // fill factor analysis fields
-    console.log(study.analysis)
+    console.log(study.analysis);
     if(study.analysis) {
       $('#factor-analysis-type')[0].selectize.setValue(study.analysis);
     }
@@ -582,30 +577,27 @@ function get_study_details(value){
 }
 
 function get_scale_details(value){
-
-  var publication = $.localStorage.get('publication')['URL'];
-
-  console.log(publication);
+  var study_uri = $.localStorage.get('study_uri');
 
   // Get scale details
-  $.get('scale/details', {'uri': value, 'graph': publication}, function(data){
+  $.get('scale/details', {'uri': value, 'graph': study_uri}, function(data){
     var scale = data.scale;
     var dimensions = data.dimensions;
 
 	  // fill scale type field
-	  if (scale.originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/Original')
+	  if (scale.originality == 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/Original')
 		  $("#scaleType1").prop("checked", true);
-	  else if (scale.originality = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/Revised')
+	  else if (scale.originality == 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/Revised')
 		  $("#scaleType2").prop("checked", true);
 	  else
 		  $("#scaleType3").prop("checked", true);
 
 	  // fill scale measure type field
-	  if (scale.type = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/LikertScale')
+	  if (scale.type == 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/LikertScale')
 		  $("#measureType1").prop("checked", true);
-	  else if(scale.type = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/GuttmanScale')
+	  else if(scale.type == 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/GuttmanScale')
 		  $("#measureType2").prop("checked", true);
-	  else if(scale.type = 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/SemanticDifferentialScale')
+	  else if(scale.type == 'http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/SemanticDifferentialScale')
 		  $("#measureType3").prop("checked", true);
 	  else
 		  $("#measureType4").prop("checked", true);
@@ -636,17 +628,15 @@ function get_scale_details(value){
     $("#subscales").val(dimensions.length);
 
     // Make sure we also pass the graph, to only retrieve eventual factor loadings as reported in the selected study
-    var publication = $.localStorage.get('publication')['URL'];
+    var graph_uri = $.localStorage.get('graph_uri');
 
-    for (n in dimensions){
+    for (var n in dimensions){
 
-      $.getJSON('/dimension/details', {'uri': dimensions[n]['dimension'], 'graph': publication}, function(data){
-        var dim = data['dimensions'];
+      $.getJSON('/dimension/details', {'uri': dimensions[n].dimension, 'graph': graph_uri}, function(data){
+        var dim = data.dimensions;
 
         add_dimension($('#dimension-list'),null, false, dim);
-
-
-      })
+      });
 
 
     }
@@ -714,22 +704,21 @@ function retrieve_doi_details(doi){
     console.log(doi);
   }
 
-
   // First get the JSON description from the Crossref service (we'll worry about RDF later)
   $.getJSON('/doi',{'uri': 'http://dx.doi.org/'+doi}, function(data){
     console.log("Got a response!");
     console.log(data);
 
     // Add the publication to the HTML5 local storage, for future reference.
-    $.localStorage.set('publication',data);
+    $.localStorage.set('publication', data);
 
     // Show the publication in a table
     show_publication(data);
 
 
-
   }).fail(function(){
     console.log("Error: DOI does not exist");
+    $.localStorage.set('publication', None);
     alert("DOI cannot be found through Crossref.org");
   });
 }

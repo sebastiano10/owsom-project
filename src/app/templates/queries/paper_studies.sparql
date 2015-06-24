@@ -1,8 +1,13 @@
 {{ PREFIXES }}
 
-SELECT DISTINCT ?study ?label WHERE {
-  GRAPH ?g { 
+SELECT DISTINCT ?graph ?paper ?study ?label ?person_name WHERE {
+  GRAPH ?graph {
     ?study  owsom:describedIn <{{ uri }}> .
-    ?study  rdfs:label ?label . 
+    ?study  rdfs:label ?label .
+    OPTIONAL {
+      ?study  prov:wasAttributedTo ?person .
+      ?person foaf:name ?person_name .
+    }
   }
+  BIND(<{{ uri }}> as ?paper)
 }

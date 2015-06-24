@@ -1,12 +1,11 @@
-from flask import Flask, render_template, url_for, jsonify, request
-from SPARQLWrapper import SPARQLWrapper, JSON
+from flask import render_template, url_for, jsonify, request
 from app import app, ENDPOINT_URI
 import requests
 import json
 import util.inspector
 from collections import defaultdict
 
-from rdflib import Graph, Namespace, RDF, RDFS, OWL, URIRef, Literal, BNode, XSD
+from rdflib import Graph, Namespace, RDF, RDFS, URIRef, Literal, XSD
 
 
 PREFIXES = """
@@ -25,6 +24,7 @@ PREFIXES = """
 
 UPDATE_URI = 'http://localhost:5820/owsom/update'
 TRANSACTION_BASE = 'http://localhost:5820/owsom/'
+
 
 @app.route('/')
 def index():
@@ -97,7 +97,6 @@ def data():
     print analyses_query
     analyses = query(analyses_query)
 
-
     response = {
         'papers': papers,
         'studies': studies,
@@ -123,6 +122,7 @@ def paper_details():
 
     return jsonify({'results': 'error'})
 
+
 @app.route('/study/details', methods=['GET'])
 def study_details():
     uri = request.args.get('uri', False)
@@ -130,7 +130,7 @@ def study_details():
     print uri
 
     if uri and graph:
-        study_details_query = render_template('queries/study_details.sparql',PREFIXES=PREFIXES, uri=uri, graph=graph)
+        study_details_query = render_template('queries/study_details.sparql', PREFIXES=PREFIXES, uri=uri, graph=graph)
         study_details = query(study_details_query)
 
         # return json
@@ -262,6 +262,7 @@ def dimension_details():
 #
 #     return jsonify({'result': papers_with_authors})
 
+
 @app.route('/save', methods=['POST'])
 def save():
     data = request.get_json(force=True)
@@ -270,29 +271,33 @@ def save():
 
     OWSOM = Namespace('http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/vocab/')
     g.bind('owsom', OWSOM)
+    OWSOMR = Namespace('http://onlinesocialmeasures.hoekstra.ops.few.vu.nl/resource/')
+    g.bind('owsomr', OWSOM)
     DCT = Namespace('http://purl.org/dc/terms/')
     g.bind('dct', DCT)
     FOAF = Namespace('http://xmlns.com/foaf/0.1')
-    g.bind('foaf',FOAF)
+    g.bind('foaf', FOAF)
     PROV = Namespace('http://www.w3.org/ns/prov#')
-    g.bind('prov',PROV)
+    g.bind('prov', PROV)
+
+    # If we're the same user, we update the study, otherwise we create a new one!
+    if data['profile']['email'] in data['graph_uri']:
+        graph_uri = data['graph_uri']
+    else:
+        graph_uri = OWSOMR['study/{}/{}'.format(data['publication']['DOI'], data['profile']['email'])]
 
     pub_uri = URIRef(data['doi-input']['uri'].replace(' ', '_'))
-    study_uri = URIRef(data['studyName']['uri'].replace(' ', '_'))
+    study_uri = URIRef(graph_uri)
     scale_uri = URIRef(data['scaleName']['uri'].replace(' ', '_'))
     concept_uri = URIRef(data['concept']['uri'].replace(' ', '_'))
-    person_uri = OWSOM['person/'+data['profile']['email']]
-
-    # TODO make this a user-specific URI (has implications for the way in which data is retrieved in other places)
-    # graph_uri = OWSOM['annotation/'+data['doi-input']['uri'].replace('http://dx.doi.org/','')+'/'+data['profile']['email']]
-    graph_uri = URIRef(data['doi-input']['uri'])
+    person_uri = OWSOMR['person/' + data['profile']['email']]
 
     # Person
     g.add((person_uri, RDF.type, FOAF['Person']))
     g.add((person_uri, FOAF['name'], Literal(data['profile']['name'])))
     g.add((person_uri, FOAF['depiction'], URIRef(data['profile']['image'])))
 
-    g.add((graph_uri, PROV['wasAttributedTo'], person_uri))
+    g.add((study_uri, PROV['wasAttributedTo'], person_uri))
 
     # Publication
     g.add((pub_uri, RDF.type, OWSOM['Paper']))
@@ -376,23 +381,22 @@ def save():
 
     # Dimensions
     for dim in data['dimensions']:
-        dim_uri = URIRef(dim['dimension'].replace(' ','_'))
+        dim_uri = URIRef(dim['dimension'].replace(' ', '_'))
 
         g.add((dim_uri, RDF.type, OWSOM['Dimension']))
         g.add((dim_uri, RDFS.label, Literal(dim['label'])))
 
-        if not 'parent' in dim:
+        if 'parent' not in dim:
             g.add((scale_uri, OWSOM['hasDimension'], dim_uri))
-        else :
-            g.add((URIRef(dim['parent'].replace(' ','_')), OWSOM['hasDimension'], dim_uri))
+        else:
+            g.add((URIRef(dim['parent'].replace(' ', '_')), OWSOM['hasDimension'], dim_uri))
 
     for rel in data['reliabilities']:
-        if rel == '' or rel == None:
+        if rel == '' or rel is None:
             continue
-
         try:
             value = float(rel['value'])
-            g.add((URIRef(rel['dimension'].replace(' ','_')), OWSOM['chronbachAlpha'], Literal(value, datatype=XSD['float'])))
+            g.add((URIRef(rel['dimension'].replace(' ', '_')), OWSOM['chronbachAlpha'], Literal(value, datatype=XSD['float'])))
         except:
             app.logger.error('{} is not a valid float value'.format(rel['value']))
             return jsonify({'status': 'error', 'message': '{} is not a valid float'.format(rel['value'])})
@@ -407,10 +411,10 @@ def save():
         g.add((dim_uri, OWSOM['hasItem'], item_uri))
 
     for loading in data['loadings']:
-        if loading == '' or loading == None:
+        if loading['value'].strip() == '' or loading is None:
             continue
 
-        item_uri = URIRef(loading['item'].replace(' ','_'))
+        item_uri = URIRef(loading['item'].replace(' ', '_'))
 
         try:
             value = float(loading['value'])
@@ -420,7 +424,7 @@ def save():
             return jsonify({'status': 'error', 'message': '{} is not a valid float'.format(loading['value'])})
 
     for rev in data['reverseds']:
-        if rev == '' or rev == None:
+        if rev == '' or rev is None:
             continue
         item_uri = URIRef(rev['item'].replace(' ', '_'))
         try:
@@ -430,10 +434,7 @@ def save():
             app.logger.error('{} is not a valid boolean value'.format(rev['value']))
             return jsonify({'status': 'error', 'message': '{} is not a valid bool'.format(rev['value'])})
 
-    # update = make_update(g, graph_uri=data['doi-input']['uri'])
-
-    # response = sparql_update(update)
-
+    # We use the study as grouper of the user-specific annotations.
     response = stardog_add(g.serialize(format='turtle'),
                            graph_uri=graph_uri)
 
@@ -450,73 +451,9 @@ def doi():
         r = requests.get(uri, headers=headers)
 
         return jsonify(r.json())
-    else :
+    else:
         return jsonify({'status': 'error'})
 
-
-# @app.route('/dimension/details', methods=['GET'])
-# def dimension_details():
-#     uri = request.args.get('uri', False)
-#
-#     print uri
-#
-#     if uri:
-#         app.logger.debug(uri)
-#
-#         # Get the dimension details to fill the dimension and item fields
-#         param="<"+uri+">"
-#         query = PREFIXES + """
-#         SELECT DISTINCT ?label ?type ?def ?alpha ?item ?factor ?itemlabel ?reversed
-#         WHERE {{
-#             {0} rdfs:label ?label .
-#             {0} rdf:type owsom:Dimension
-#             OPTIONAL {{ {0} owsom:hasDefinition ?def }}
-#             OPTIONAL {{ {0} owsom:chronbachAlpha ?alpha }}
-#             OPTIONAL {{ {0} owsom:hasItem ?item }}
-#             OPTIONAL {{ ?item owsom:hasFactorLoading ?factor }}
-#             OPTIONAL {{ ?item rdfs:label ?itemlabel }}
-#             OPTIONAL {{ ?item owsom:isReversed ?reversed }}
-#         }}""".format(param)
-#
-#         headers = {'Accept': 'application/sparql-results+json'}
-#         response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-#         results = json.loads(response.content)
-#
-#         # Flatten the results returned
-#         dimension = dictize(results)
-#
-#         # return json
-#         return jsonify({'results': dimension})
-#
-#     return jsonify({'results': 'error'})
-
-# ------
-# Legacy stuff: THIS IS NO LONGER CALLED
-# ------
-@app.route('/match/scale/<search>')
-def match_scale(search):
-    print "Searching for", search
-
-    # LikertScale needs to be adjusted when other scale types are implemented
-    query = PREFIXES + """
-        SELECT DISTINCT ?scale ?label ?score
-        WHERE {{
-            ?scale rdfs:label ?label.
-            ?scale rdf:type owsom:LikertScale .
-            ( ?label ?score ) <http://jena.hpl.hp.com/ARQ/property#textMatch> '{}'.
-        }}""".format(search)
-
-
-
-    headers = {'Accept': 'application/sparql-results+json'}
-    response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-    results = json.loads(response.content)
-
-    # Flatten the results returned
-    scales = dictize(results)
-    result = {'result': scales}
-
-    return jsonify(result)
 
 def dictize(sparql_results):
     # If the results are a dict, just return the list of bindings
@@ -524,9 +461,9 @@ def dictize(sparql_results):
         sparql_results = sparql_results['results']['bindings']
 
     results = []
-    for r in sparql_results :
+    for r in sparql_results:
         result = {}
-        for k,v in r.items():
+        for k, v in r.items():
             result[k] = v['value']
 
         results.append(result)
@@ -534,14 +471,12 @@ def dictize(sparql_results):
     return results
 
 
-
-
 def query(query, inferencing=False):
     headers = {'Accept': 'application/sparql-results+json'}
     if not inferencing:
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query})
-    else :
-        response = requests.get(ENDPOINT_URI,headers=headers,params={'query': query, 'reasoning': 'RDFS'})
+        response = requests.get(ENDPOINT_URI, headers=headers, params={'query': query})
+    else:
+        response = requests.get(ENDPOINT_URI, headers=headers, params={'query': query, 'reasoning': 'RDFS'})
 
     app.logger.debug(response.content)
     results = json.loads(response.content)
@@ -552,11 +487,11 @@ def query(query, inferencing=False):
     return flattened_results
 
 
-def make_update(graph, graph_uri = None):
-    if graph_uri == None:
+def make_update(graph, graph_uri=None):
+    if graph_uri is None:
         template = "INSERT DATA {{ {} }}"
         query = template.format(graph.serialize(format='nt'))
-    else :
+    else:
         template = "INSERT DATA {{ GRAPH <{}> {{ {} }} }}"
         query = template.format(graph_uri, graph.serialize(format='nt'))
 
@@ -565,7 +500,7 @@ def make_update(graph, graph_uri = None):
     return query
 
 
-def sparql_update(query, endpoint_url = UPDATE_URI):
+def sparql_update(query, endpoint_url=UPDATE_URI):
     UPDATE_HEADERS = {
         'Content-Type': 'application/sparql-update'
     }
@@ -573,7 +508,7 @@ def sparql_update(query, endpoint_url = UPDATE_URI):
     return result.content
 
 
-def stardog_add(data, graph_uri = None):
+def stardog_add(data, graph_uri=None):
     app.logger.debug('Posting data to Stardog')
 
     app.logger.debug('Assuming your data is Turtle!!')
@@ -597,7 +532,6 @@ def stardog_add(data, graph_uri = None):
     headers = {'content-type': 'application/x-turtle', 'accept': 'text/plain'}
     response = requests.post(post_url, data=data, headers=headers)
     app.logger.debug(response.status_code)
-
 
     # Close the transaction
     app.logger.debug('Committing the transaction')
